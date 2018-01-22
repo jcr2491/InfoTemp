@@ -2,14 +2,15 @@ CREATE PROCEDURE [Comisiones].[AddCabeceraCarga]
 	@TipoArchivo CHAR(2),
 	@FechaArchivo DATETIME,
 	@FechaCargaIni DATETIME,
-	@EstadoCarga INT
+	@EstadoCarga INT,
+	@FechaModificacionArchivo DATETIME
 AS    
 BEGIN
 	DECLARE @OutputTbl TABLE (Id INT)
 
-	INSERT INTO Comisiones.CabeceraCarga (TipoArchivo, FechaArchivo, FechaCargaIni, EstadoCarga)
+	INSERT INTO Comisiones.CabeceraCarga (TipoArchivo, FechaArchivo, FechaModificacionArchivo, FechaCargaIni, EstadoCarga)
 	OUTPUT INSERTED.Id INTO @OutputTbl(Id)
-	VALUES(@TipoArchivo, @FechaArchivo, @FechaCargaIni, @EstadoCarga);
+	VALUES(@TipoArchivo, @FechaArchivo, @FechaModificacionArchivo, @FechaCargaIni, @EstadoCarga);
 
 	SELECT Id FROM @OutputTbl;
 END
@@ -24,9 +25,10 @@ BEGIN
 		Id,
 		TipoArchivo,
 		FechaArchivo,
+		FechaModificacionArchivo,
 		FechaCargaIni,
 		FechaCargaFin,
-		EstadoCarga
+		EstadoCarga		
 	FROM Comisiones.CabeceraCarga	
 	WHERE TipoArchivo = @TipoArchivo 
 		AND FechaArchivo = @FechaArchivo
@@ -40,7 +42,7 @@ CREATE PROCEDURE [Comisiones].[UpdateCabeceraCarga]
 	@EstadoCarga INT
 AS    
 BEGIN
-	UPDATE Comisiones.CabeceraCarga 
+	UPDATE Comisiones.CabeceraCarga
 	SET EstadoCarga = @EstadoCarga, FechaCargaFin = @FechaCargaFin
 	WHERE Id = @Id
 END
@@ -57,7 +59,7 @@ BEGIN
 		eh.FilaIni,
 		eh.NombreHoja,
 		ehc.NombreCampo,
-		ehc.NombreCelda
+		ehc.PosicionColumna
 	FROM Comisiones.Excel e
 	INNER JOIN Comisiones.ExcelHoja eh ON eh.ExcelId = e.Id
 	INNER JOIN Comisiones.ExcelHojaCampo ehc ON ehc.ExcelId = e.Id and eh.TipoArchivo = ehc.TipoArchivo
@@ -65,8 +67,8 @@ END
 GO
 
 /***
-	Descripción: Agrega "Id" del empleado a la tabla pasada por parametro
-	Parámetros:  - @NombreTabla, nombre de la tabla actualizar
+	DescripciÃ³n: Agrega "Id" del empleado a la tabla pasada por parametro
+	ParÃ¡metros:  - @NombreTabla, nombre de la tabla actualizar
 				 - @CampoComparar, nombre del campo a comparar con el nombre del empleado
 				 - @CampoActualizar, nombre del campo actualizar
 ***/
@@ -91,8 +93,8 @@ END
 GO
 
 /***
-	Descripción: Agrega "Id" del grupo a la tabla pasada por parametro
-	Parámetros:  - @NombreTabla, nombre de la tabla actualizar
+	DescripciÃ³n: Agrega "Id" del grupo a la tabla pasada por parametro
+	ParÃ¡metros:  - @NombreTabla, nombre de la tabla actualizar
 ***/
 CREATE PROCEDURE [Comisiones].[AgregarGrupoId]
 	@NombreTabla VARCHAR(20)
