@@ -11,9 +11,10 @@ CREATE TABLE [Comisiones].[CabeceraCarga](
 	[Id] int IDENTITY(1,1) NOT NULL,
 	[TipoArchivo] varchar(2) NOT NULL,
 	[FechaArchivo] datetime NOT NULL,
+	[FechaModificacionArchivo] datetime NOT NULL,
 	[FechaCargaIni] datetime NOT NULL,
-	[FechaCargaFin] datetime NULL,
-	[EstadoCarga] int NOT NULL,
+	[FechaCargaFin] datetime NULL,	
+	[EstadoCarga] int NOT NULL,	
  CONSTRAINT [PK_CabeceraCarga] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -52,15 +53,14 @@ ALTER TABLE [Comisiones].[ExcelHoja] CHECK CONSTRAINT [FK_ExcelHoja_Excel]
 GO
 
 CREATE TABLE [Comisiones].[ExcelHojaCampo](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[ExcelId] [int] NOT NULL,
 	[TipoArchivo] varchar(2) NOT NULL,
 	[NombreCampo] [varchar](50) NOT NULL,
-	[NombreCelda] [nvarchar](100) NOT NULL,
+	[PosicionColumna] [nvarchar](4) NOT NULL,
  CONSTRAINT [PK_ExcelHojaCampo] PRIMARY KEY CLUSTERED 
 (
-	[ExcelId] ASC,
-	[TipoArchivo] ASC,
-	[NombreCampo] ASC
+	[Id] ASC
 )) ON [PRIMARY]
 GO
 
@@ -83,6 +83,8 @@ CREATE TABLE [Comisiones].[Productividad](
 	DiasAsistencia int NOT NULL,
 	TotalProductividad int NOT NULL,
 	Logro int NOT NULL,
+	MetaDiaria decimal(8,2) NULL,
+	MetaReal decimal(8,2) NULL,
  CONSTRAINT [PK_Productividad] PRIMARY KEY CLUSTERED 
 (
 	[CargaId] ASC,
@@ -170,9 +172,16 @@ CREATE TABLE [Comisiones].[Empleado](
 )) ON [PRIMARY]
 GO
 
+ALTER TABLE [Comisiones].[Empleado]  WITH CHECK ADD  CONSTRAINT [FK_Empleado_Cargo] FOREIGN KEY([CargoId])
+REFERENCES [Comisiones].[Cargo] ([Id])
+GO
+ALTER TABLE [Comisiones].[Empleado] CHECK CONSTRAINT [FK_Empleado_Cargo]
+GO
+
 CREATE TABLE [Comisiones].[Cargo](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Nombre] [varchar](100) NOT NULL,
+	[TipoComision] int NOT NULL,
  CONSTRAINT [PK_Cargo] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -205,15 +214,156 @@ CREATE TABLE [Comisiones].[Homologacion](
 )) ON [PRIMARY]
 GO
 
-CREATE TABLE [Comisiones].[Indicador](
+CREATE TABLE [Comisiones].[Kpi](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Nombre] [varchar](50) NOT NULL,
 	[TipoComision] int NOT NULL,
+	[PesoTotal] decimal(5,2) NULL,
+	[TipoKpi] INT NULL, --Individual/Grupal
+ CONSTRAINT [PK_Kpi] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)) ON [PRIMARY]
+GO
+
+CREATE TABLE [Comisiones].[IndicadorKpi](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[KpiId] [int] NOT NULL,
+	[Nombre] [varchar](50) NOT NULL,	
 	[CargoId] [int] NOT NULL,
-	[RangoIni] decimal(5,2) NULL,
-	[RangoFin] decimal(5,2) NULL,
-	[Monto] decimal(10,2) NULL,
- CONSTRAINT [PK_Indicador] PRIMARY KEY CLUSTERED 
+	[Peso] decimal(5,2) NULL,
+ CONSTRAINT [PK_IndicadorKpi] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)) ON [PRIMARY]
+GO
+
+ALTER TABLE [Comisiones].[IndicadorKpi]  WITH CHECK ADD  CONSTRAINT [FK_IndicadorKpi_Kpi] FOREIGN KEY([KpiId])
+REFERENCES [Comisiones].[Kpi] ([Id])
+GO
+ALTER TABLE [Comisiones].[IndicadorKpi] CHECK CONSTRAINT [FK_IndicadorKpi_Kpi]
+GO
+
+ALTER TABLE [Comisiones].[IndicadorKpi]  WITH CHECK ADD  CONSTRAINT [FK_IndicadorKpi_Cargo] FOREIGN KEY([CargoId])
+REFERENCES [Comisiones].[Cargo] ([Id])
+GO
+ALTER TABLE [Comisiones].[IndicadorKpi] CHECK CONSTRAINT [FK_IndicadorKpi_Cargo]
+GO
+
+CREATE TABLE [Comisiones].[PuntajeKpi](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[KpiId] [int] NOT NULL,
+	[CargoId] [int] NOT NULL,
+	[CumplimientoIni] decimal (5,2) NULL,	
+	[CumplimientoFin] decimal (5,2) NULL,
+	[Puntaje] decimal(5,2) NULL,
+	[Comision] decimal(5,2) NULL,
+ CONSTRAINT [PK_PuntajeKpi] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)) ON [PRIMARY]
+GO
+
+ALTER TABLE [Comisiones].[PuntajeKpi]  WITH CHECK ADD  CONSTRAINT [FK_PuntajeKpi_Kpi] FOREIGN KEY([KpiId])
+REFERENCES [Comisiones].[Kpi] ([Id])
+GO
+ALTER TABLE [Comisiones].[PuntajeKpi] CHECK CONSTRAINT [FK_PuntajeKpi_Kpi]
+GO
+
+ALTER TABLE [Comisiones].[PuntajeKpi]  WITH CHECK ADD  CONSTRAINT [FK_PuntajeKpi_Cargo] FOREIGN KEY([CargoId])
+REFERENCES [Comisiones].[Cargo] ([Id])
+GO
+ALTER TABLE [Comisiones].[PuntajeKpi] CHECK CONSTRAINT [FK_PuntajeKpi_Cargo]
+GO
+
+CREATE TABLE [Comisiones].[Bono](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CargoId] [int] NOT NULL,
+	[Monto] decimal(8,2) NOT NULL,
+	[MontoMaximo] decimal(8,2) NULL,
+ CONSTRAINT [PK_Bono] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)) ON [PRIMARY]
+GO
+
+ALTER TABLE [Comisiones].[Bono]  WITH CHECK ADD  CONSTRAINT [FK_Bono_Cargo] FOREIGN KEY([CargoId])
+REFERENCES [Comisiones].[Cargo] ([Id])
+GO
+ALTER TABLE [Comisiones].[Bono] CHECK CONSTRAINT [FK_Bono_Cargo]
+GO
+
+CREATE TABLE [Comisiones].[ColumnaKpi](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[KpiId] [int] NOT NULL,
+	[CampoMeta] [int] NULL,
+	[CampoAcumulado] [int] NOT NULL,
+ CONSTRAINT [PK_ColumnaKpi] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)) ON [PRIMARY]
+GO
+
+ALTER TABLE [Comisiones].[ColumnaKpi]  WITH CHECK ADD  CONSTRAINT [FK_ColumnaKpi_ExcelHojaCampo] FOREIGN KEY([CampoMeta])
+REFERENCES [Comisiones].[ExcelHojaCampo] ([Id])
+GO
+ALTER TABLE [Comisiones].[ColumnaKpi] CHECK CONSTRAINT [FK_ColumnaKpi_ExcelHojaCampo]
+GO
+
+ALTER TABLE [Comisiones].[ColumnaKpi]  WITH CHECK ADD  CONSTRAINT [FK_ColumnaKpi_ExcelHojaCampo] FOREIGN KEY([CampoAcumulado])
+REFERENCES [Comisiones].[ExcelHojaCampo] ([Id])
+GO
+ALTER TABLE [Comisiones].[ColumnaKpi] CHECK CONSTRAINT [FK_ColumnaKpi_ExcelHojaCampo]
+GO
+
+ALTER TABLE [Comisiones].[ColumnaKpi]  WITH CHECK ADD  CONSTRAINT [FK_ColumnaKpi_Kpi] FOREIGN KEY([KpiId])
+REFERENCES [Comisiones].[Kpi] ([Id])
+GO
+ALTER TABLE [Comisiones].[ColumnaKpi] CHECK CONSTRAINT [FK_ColumnaKpi_Kpi]
+GO
+
+--CREATE TABLE [Comisiones].[Indicador](
+--	[Id] [int] IDENTITY(1,1) NOT NULL,
+--	[Nombre] [varchar](50) NOT NULL,
+--	[TipoComision] int NOT NULL,
+--	[CargoId] [int] NOT NULL,
+--	[RangoIni] decimal(5,2) NULL,
+--	[RangoFin] decimal(5,2) NULL,
+--	[Monto] decimal(10,2) NULL,
+-- CONSTRAINT [PK_Indicador] PRIMARY KEY CLUSTERED 
+--(
+--	[Id] ASC
+--)) ON [PRIMARY]
+--GO
+
+create table Comisiones.CCFF
+(
+Id int primary key,
+CCFF nvarchar(100) null,
+Formato char(3)  null,
+GerenteOJefeCCFF nvarchar(100)  null,
+Cargo nvarchar(100)  null,
+Caja bit null,
+Direccion nvarchar(max)  null,
+Departamento  nvarchar(100)  null,
+Provincia nvarchar(100)  null,
+Distrito nvarchar(100)  null
+)
+go
+
+CREATE TABLE [Comisiones].[Parametros](
+	[Id] [int] NOT NULL,
+	[TipoComision] [int] NOT NULL,
+	[Codigo] [nvarchar](50) NOT NULL,
+	[FechaVigencia] [datetime] NOT NULL,
+	[Estado] [bit] NOT NULL,
+	[Descripcion] [nvarchar](200) NULL,
+	[ValorNumerico] [int] NULL,
+	[ValorTexto] [nvarchar](250) NULL,
+	[ValorDecimal] [decimal](18, 3) NULL,
+	[ValorBoleano] [bit] NULL,
+	[ValorFecha] [datetime] NULL,
+ CONSTRAINT [PK_Parametros] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )) ON [PRIMARY]

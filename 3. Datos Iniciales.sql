@@ -1,29 +1,61 @@
 ﻿-- DATOS EXCEL --
-SET IDENTITY_INSERT [Comisiones].[Excel] ON 
+DECLARE @OutputTbl TABLE (Id INT)
+DECLARE @Id INT
 
-INSERT [Comisiones].[Excel] ([Id], [Nombre], [Descripcion], [Ruta]) VALUES (1, N'Productividad.xlsx', N'Reporte de Productividad', N'D:\TEMP\Comisiones\')
-GO
+INSERT [Comisiones].[Excel] ([Nombre], [Descripcion], [Ruta])
+OUTPUT INSERTED.Id INTO @OutputTbl(Id)
+VALUES (N'Productividad.xlsx', N'Reporte de Productividad', N'D:\TEMP\Comisiones\')
 
-SET IDENTITY_INSERT [Comisiones].[Excel] OFF
+SET @Id = (SELECT Id FROM @OutputTbl)
+-- DATOS EXCELHOJA --
+INSERT [Comisiones].[ExcelHoja] ([ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (@Id, N'1', 7, N'Productividad', NULL)
+INSERT [Comisiones].[ExcelHoja] ([ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (@Id, N'5', 7, N'SLA', NULL)
+
+-- DATOS EXCELHOJACAMPO --
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'DiasAsistencia', N'G')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'Empleado', N'C')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'Grupo', N'B')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'Logro', N'I')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'Supervisor', N'A')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'TotalProductividad', N'D')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'MetaDiaria', N'F')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'MetaReal', N'K')
+
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'5', N'DentroPlazo', N'E')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'5', N'Empleado', N'C')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'5', N'FueraPlazo', N'D')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'5', N'Grupo', N'B')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'5', N'Supervisor', N'A')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'5', N'TotalGeneral', N'F')
+
+DELETE FROM @OutputTbl
+-- DATOS EXCEL --
+INSERT [Comisiones].[Excel] ([Nombre], [Descripcion], [Ruta])
+OUTPUT INSERTED.Id INTO @OutputTbl(Id)
+VALUES (N'AUT_REPORTE_EMPLEADO.csv', N'Empleados de los Centros Financieros', N'D:\TEMP\Comisiones\')
+
+SET @Id = (SELECT Id FROM @OutputTbl)
 
 -- DATOS EXCELHOJA --
-INSERT [Comisiones].[ExcelHoja] ([ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (1, N'1', 7, N'Productividad', NULL)
-INSERT [Comisiones].[ExcelHoja] ([ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (1, N'5', 7, N'SLA', NULL)
-GO
+INSERT [Comisiones].[ExcelHoja] ([ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (@Id, N'29', 1, N'AUT_REPORTE_EMPLEADO', NULL)
+
 -- DATOS EXCELHOJACAMPO --
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [NombreCelda]) VALUES (1, N'1', N'DiasAsistencia', N'G')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [NombreCelda]) VALUES (1, N'1', N'Empleado', N'C')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [NombreCelda]) VALUES (1, N'1', N'Grupo', N'B')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [NombreCelda]) VALUES (1, N'1', N'Logro', N'I')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [NombreCelda]) VALUES (1, N'1', N'Supervisor', N'A')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [NombreCelda]) VALUES (1, N'1', N'TotalProductividad', N'D')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [NombreCelda]) VALUES (1, N'5', N'DentroPlazo', N'E')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [NombreCelda]) VALUES (1, N'5', N'Empleado', N'C')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [NombreCelda]) VALUES (1, N'5', N'FueraPlazo', N'D')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [NombreCelda]) VALUES (1, N'5', N'Grupo', N'B')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [NombreCelda]) VALUES (1, N'5', N'Supervisor', N'A')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [NombreCelda]) VALUES (1, N'5', N'TotalGeneral', N'F')
-GO
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'CodigoEmpleado', N'0')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'PrimerNombre', N'7')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'SegundoNombre', N'8')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'ApellidoPaterno', N'12')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'ApellidoMaterno', N'13')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'CargoId', N'1')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'Cargo', N'2')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'SucursalId', N'3')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'Sucursal', N'4')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'ZonaId', N'5')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'Zona', N'6')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'FechaIngreso', N'14')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'FechaCese', N'15')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'Estado', N'16')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'SubEstadoId', N'19')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'SubEstado', N'20')
 
 --DATOS CARGO
 SET IDENTITY_INSERT [Comisiones].[Cargo] ON 
@@ -193,4 +225,60 @@ GO
 INSERT [Comisiones].[Empleado] ([Id], [Nombres], [ApellidoPaterno], [ApellidoMaterno], [Codigo], [CargoId]) VALUES (73, N'ELKA PAOLA', N'MENDOZA', N'REATEGUI', N'50098078', 4)
 GO
 SET IDENTITY_INSERT [Comisiones].[Empleado] OFF
+GO
+
+
+/*** DATOS KPI ***/
+SET IDENTITY_INSERT [Comisiones].[Kpi] ON 
+
+GO
+INSERT [Comisiones].[Kpi] ([Id], [Nombre], [TipoComision], [PesoTotal], [Tipo]) VALUES (1, N'Producción mes individual', 1, 50, 1)
+GO
+INSERT [Comisiones].[Kpi] ([Id], [Nombre], [TipoComision], [PesoTotal], [Tipo]) VALUES (2, N'Casos resueltos dentro de SLA (Según Tipología)', 1, 50, 1)
+GO
+SET IDENTITY_INSERT [Comisiones].[Kpi] OFF
+GO
+SET IDENTITY_INSERT [Comisiones].[IndicadorKpi] ON 
+
+GO
+INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (1, 1, N'CASOS RESUELTOS', 2, 50)
+GO
+INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (2, 1, N'CASOS RESUELTOS', 3, 50)
+GO
+INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (3, 1, N'CASOS RESUELTOS', 1, 50)
+GO
+INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (4, 2, N'SLA POR TIPOLOGÍA', 1, 50)
+GO
+INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (5, 2, N'SLA POR TIPOLOGÍA', 2, 50)
+GO
+INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (7, 2, N'SLA POR TIPOLOGÍA', 3, 50)
+GO
+SET IDENTITY_INSERT [Comisiones].[IndicadorKpi] OFF
+GO
+SET IDENTITY_INSERT [Comisiones].[PuntajeKpi] ON 
+
+GO
+INSERT [Comisiones].[PuntajeKpi] ([Id], [KpiId], [CargoId], [CumplimientoIni], [CumplimientoFin], [Puntaje], [Comision]) VALUES (1, 1, 1, NULL, 60, 0, NULL)
+GO
+INSERT [Comisiones].[PuntajeKpi] ([Id], [KpiId], [CargoId], [CumplimientoIni], [CumplimientoFin], [Puntaje], [Comision]) VALUES (2, 1, 1, 60, 79, 60, NULL)
+GO
+INSERT [Comisiones].[PuntajeKpi] ([Id], [KpiId], [CargoId], [CumplimientoIni], [CumplimientoFin], [Puntaje], [Comision]) VALUES (3, 1, 1, 80, 84, 70, NULL)
+GO
+INSERT [Comisiones].[PuntajeKpi] ([Id], [KpiId], [CargoId], [CumplimientoIni], [CumplimientoFin], [Puntaje], [Comision]) VALUES (4, 1, 1, 85, 89, 80, NULL)
+GO
+SET IDENTITY_INSERT [Comisiones].[PuntajeKpi] OFF
+GO
+SET IDENTITY_INSERT [Comisiones].[ColumnaKpi] ON 
+
+GO
+INSERT [Comisiones].[ColumnaKpi] ([Id], [CampoMeta], [CampoAcumulado], [KpiId]) VALUES (1, 6, 8, 1)
+GO
+SET IDENTITY_INSERT [Comisiones].[ColumnaKpi] OFF
+GO
+SET IDENTITY_INSERT [Comisiones].[Bono] ON 
+
+GO
+INSERT [Comisiones].[Bono] ([Id], [CargoId], [Monto], [MontoMaximo]) VALUES (1, 1, 300, 396)
+GO
+SET IDENTITY_INSERT [Comisiones].[Bono] OFF
 GO

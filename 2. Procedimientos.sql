@@ -2,18 +2,20 @@ CREATE PROCEDURE [Comisiones].[AddCabeceraCarga]
 	@TipoArchivo CHAR(2),
 	@FechaArchivo DATETIME,
 	@FechaCargaIni DATETIME,
-	@EstadoCarga INT
+	@EstadoCarga INT,
+	@FechaModificacionArchivo DATETIME
 AS    
 BEGIN
 	DECLARE @OutputTbl TABLE (Id INT)
 
-	INSERT INTO Comisiones.CabeceraCarga (TipoArchivo, FechaArchivo, FechaCargaIni, EstadoCarga)
+	INSERT INTO Comisiones.CabeceraCarga (TipoArchivo, FechaArchivo, FechaModificacionArchivo, FechaCargaIni, EstadoCarga)
 	OUTPUT INSERTED.Id INTO @OutputTbl(Id)
-	VALUES(@TipoArchivo, @FechaArchivo, @FechaCargaIni, @EstadoCarga);
+	VALUES(@TipoArchivo, @FechaArchivo, @FechaModificacionArchivo, @FechaCargaIni, @EstadoCarga);
 
 	SELECT Id FROM @OutputTbl;
 END
 GO
+
 
 CREATE PROCEDURE [Comisiones].[GetCabeceraCargaProcesado]
 	@TipoArchivo CHAR(2),
@@ -24,9 +26,10 @@ BEGIN
 		Id,
 		TipoArchivo,
 		FechaArchivo,
+		FechaModificacionArchivo,
 		FechaCargaIni,
 		FechaCargaFin,
-		EstadoCarga
+		EstadoCarga		
 	FROM Comisiones.CabeceraCarga	
 	WHERE TipoArchivo = @TipoArchivo 
 		AND FechaArchivo = @FechaArchivo
@@ -40,7 +43,25 @@ CREATE PROCEDURE [Comisiones].[UpdateCabeceraCarga]
 	@EstadoCarga INT
 AS    
 BEGIN
-	UPDATE Comisiones.CabeceraCarga 
+	DECLARE @FechaArchivo DATETIME
+	DECLARE @TipoArchivo VARCHAR(2)
+
+	--Actualizamos solo si el estado es Procesado = 1
+	IF(@EstadoCarga = 1)
+	BEGIN
+		SELECT @FechaArchivo = FechaArchivo, @TipoArchivo = TipoArchivo 
+		FROM Comisiones.CabeceraCarga 
+		WHERE Id = @Id
+
+		--Actualizamos el estado a Regularizado = 3 para los registros anteriores
+		UPDATE Comisiones.CabeceraCarga SET EstadoCarga = 3
+		WHERE FechaArchivo = @FechaArchivo
+			AND TipoArchivo = @TipoArchivo
+			AND EstadoCarga = 1
+	END
+	
+	--Actualizamos el estado de la carga actual
+	UPDATE Comisiones.CabeceraCarga
 	SET EstadoCarga = @EstadoCarga, FechaCargaFin = @FechaCargaFin
 	WHERE Id = @Id
 END
@@ -57,7 +78,7 @@ BEGIN
 		eh.FilaIni,
 		eh.NombreHoja,
 		ehc.NombreCampo,
-		ehc.NombreCelda
+		ehc.PosicionColumna
 	FROM Comisiones.Excel e
 	INNER JOIN Comisiones.ExcelHoja eh ON eh.ExcelId = e.Id
 	INNER JOIN Comisiones.ExcelHojaCampo ehc ON ehc.ExcelId = e.Id and eh.TipoArchivo = ehc.TipoArchivo
@@ -108,23 +129,5 @@ BEGIN
 		WHERE t.GrupoId IS NULL'
 
 	EXEC (@query);
-END
-GO
-
-CREATE PROCEDURE [Comisiones].[GetCabeceraCargaProcesado]
-	@FechaArchivo DATETIME
-AS    
-BEGIN
-	SELECT TOP 1
-		Id,
-		TipoArchivo,
-		FechaArchivo,
-		FechaCargaIni,
-		FechaCargaFin,
-		EstadoCarga
-	FROM Comisiones.CabeceraCarga	
-	WHERE TipoArchivo = @TipoArchivo 
-		AND FechaArchivo = @FechaArchivo
-		AND EstadoCarga = 1
 END
 GO
