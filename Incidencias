@@ -1,0 +1,143 @@
+paLstMesCTS la variable almacena diferentes tipos de valores 
+El procedimiento PROC_S_RHPDPRV_CTSAcumulado_AnioMes tiene los campos cTiDocI, cNuDocI no tiene el estandar correcto
+El procedimiento PROC_S_CLIDCON_EmpleadorContacto la descripcion y parametros no identados, campos ccodcli, ctipdoi ctidoci, cnudoci, cnumdoi sin estandares
+El procedimiento PROC_S_AHOMCTS_ClienteEmpleador Tiene el alias b en minusculas, no se necesita el codigo de cliente ya que el codigo de empleador es el codigo del cliente
+El procedimiento PROC_S_AHOMCTA_CuentaAhorroPorCliente tiene el cruce al climide
+El procedimiento PROC_S_AHOMCTA_CuentaAhorroPorCliente tiene el campo ccodcli sin estandares
+El procedimiento PROC_S_AHOMCTS_CuentasPorEmpleador tiene el parametro tcCodEmp Char(12)
+La tabla AHOPCTS tiene como tamaño de campo 65 para el campo cdocref
+El procedimiento PROC_S_AHOPCTS_AbonoEmpleados el parametro @tcCodEmp es char (12) cuando deberia ser 10 la tabla systvar  el campo cnomvar sin estandares la palabra clave day sin estandares
+El procedimiento PROC_U_AHOPCTS en la descripcion de los parametros tiene el igual cuando deberia ser :
+El procedimiento PROC_I_AHOPCTS tiene ifual cuando deberia ser : en la descripcion de parametros
+El procedimiento PROC_S_AHOPCTS_AbonoProvisionEmpleados tiene igual cuando deberia tener : en la descripcion de parametros
+El procedimiento PROC_S_AHOMCTS_CuentasCreadas tiene campos descriptivos como descripcion del tipo de documento y la moneda si el procedimiento no es usado para un reporte estos campos deben ser obtenidos a traves de las tablas locales
+El procedimiento PROC_S_AHOMCTS_CuentasCreadas tiene el campo tcCodEmp con char de 12 cuando deberia ser char 10
+El procedimiento PROC_S_AHOMCTS_CuentasAbonadas tiene campos descriptivos como descripcion del tipo de documento y la moneda si el procedimiento no es usado para un reporte estos campos deben ser obtenidos a traves de las tablas locales
+El procedimiento PROC_S_AHOPCTS_EmpleadorFechatiene el parametro tcCodEmp char de 12 cuando es de 10
+El procedimiento PROC_S_AHOPCTS_EmpleadorFecha tiene el systvar y cnomvar sin estandares y la Palabra day en minusculas
+El procedinmiento PROC_S_TraerTasasXModalidad tiene la palabra Cambion y con tilde
+El procedinmiento PROC_S_ProductosXModalidad tiene la palabra Cambion y con tilde
+El procedimiento PROC_S_AHODCON_BuscaCondicionAnteriorActiva tiene la subconsulta a la tabla ahodcon sin dbo
+Se observa cambios que no debieron ser subidos al main
+Se tiene las constantes _C_555_TABLA_TIPO_CANCELACION_CTA, _C_551_TABLA_MOTIVO_CANCELACION_CTA  la cual no tiene el formato correcto
+las constantes _C_SYSTFUN_081_MOTIVOS_CANCELACION_CTS, _C_SYSTFUN_082_TIPO_CANCELACION_CTS
+Las constantes _C_562_DESCRI_JUDICIAL, _C_562_DESCRI_ADMINISTRATIVA, _C_562_DESCRI_INTERNA no deberian existir ya que al ser las decripciones esas deberian salir de la consulta de las tablas del systcre
+Se tiene la constante _C_MONEDA la cual debe ser eliminada y hacer uso de la _M_MONEDA
+Las constantes _C_NOMBRE_HOJA_APERTURA_CTS, _C_NOMBRE_HOJA_ABONO_CTS, _C_RUC, _C_TIPO_EMPRESA, _C_TIPO_DOI_CONTACTO, Tienen el acronimo de _C_ cuando deberian ser _M_
+Se tiene el metodo mxTransaccionSalida en el cual se tiene la declaracion de la variable a mitad del codigo lnMontoBloqueo
+Se tiene el metodo mxObtenerMontoBloqueo4Sueldos el cual tiene un numero en el nombre
+"En el metodo mxCanjeOrdendePago se tiene codigo no identado if (loTransaccion != null && loTransaccion.Connection != null)
+                                loTransaccion.Rollback();"
+Se tiene el metodo mxObtenerDatosAhorros el cual tiene un nombre que no va con lo que realiza
+Se tiene el metodo mxObtenerDatosAhorros se tiene la condicionante if (ldsProductos.pdapcos.Rows[i]["cAsuCos"].ToString().Trim() == "02" && ldsProductos.pdapcos.Rows[i]["cTipCos"].ToString().Trim() == "01")
+"Se tiene el metodo mxObtenerCostosOperacionChequesCCE el cual no esta identado if (lnSumCostos > (ldrAhomcta.nSalDis - ldrAhomcta.nMonRet))
+                            {"
+"En el metodo mxCobrarCostosOperacion existen dos secciones no identadas if (lnSumCostos > (ldrAhomcta.nSalDis - ldrAhomcta.nMonRet))
+                                { y if ((lnSumCostos + lnCostoExceso) > ldrAhomcta.nSalDis)
+                                    {"
+Se tiene el metodo mxSolicitarAutorizacion se tiene el switch en el cual se compara por descripcion y no por codigo y tambien no se tiene el valor por defecto si encaso se agregase un nuevo tipo al combo pero no se tiene configurada un tipo de autorizacion deberia salir un mensaje indicando que no se tiene configurado algun tipo de autorizacion para el tipo seleccionado
+Se tiene el metodo mxVerificarModalidadPermitida el cual tiene logica inversa ya que si existe a modalidad devuelve false y si no la encuentra devuelve true
+En el metodo mxObtenerMesesCts no se verifica si la variable _C_VAR_MES_CTS existe o no
+El metodo mxObtenerMesesCts deberia propagar el error y no mostrar ningun mensaje ya que estos metodos son consumibles no son metodos finales
+Se tiene el metodo mxVerificarModalidadPermitida el cual valida la modalidad a cargar pero para ello hace uso de una lista
+Se tiene el metodo mxVerificarModalidadPermitida el cual valida la modalidad a cargar pero para ello hace uso de una lista
+Se tiene el metodo mxVerificarModalidadPermitida el cual valida la modalidad a cargar pero para ello hace uso de una lista
+Se tiene el metodo mxVerificarModalidadPermitida el cual valida la modalidad a cargar pero para ello hace uso de una lista
+Se tiene el metodo mxVerificarModalidadPermitida el cual valida la modalidad a cargar pero para ello hace uso de una lista
+Se tiene el metodo mxVerificarModalidadPermitida el cual valida la modalidad a cargar pero para ello hace uso de una lista
+Se tiene el metodo mxVerificarModalidadPermitida el cual valida la modalidad a cargar pero para ello hace uso de una lista
+Se tiene el metodo mxVerificarModalidadPermitida el cual valida la modalidad a cargar pero para ello hace uso de una lista
+Se tiene el metodo mxVerificarModalidadPermitida el cual valida la modalidad a cargar pero para ello hace uso de una lista
+Se tiene el metodo mxVerificarModalidadPermitida el cual valida la modalidad a cargar pero para ello hace uso de una lista
+Se tiene la propiedad PNCuatroSueldos, pnMonto MotorInvocacionAhorroBRMSRQT en el esquema MotorInvocacionAhorroBRMSRQT
+Se tiene la propiedad pnSaldis sin estandares
+Se tiene el tag <add name="Crear.CapaDatos.Properties.Settings.LHT" connectionString="Data Source=LIM-ANADES05;Initial Catalog=LHT;Persist Security Info=True;User ID=aspnet;Password=aspnet" providerName="System.Data.SqlClient"/> duplicado
+"En el metodo mxAsientoKardex se tiene la sentencia if (lcOpeCod == SR._C_CODOPE_TRANSFERENCIAS_CUENTAS)
+                                                    lcCueCon2 = lcCuenta1; no esta identada"
+"En el metodo mxAsientoKardex se tiene el codigo if (ldrCodOpe.Length > 0)
+                                    lnRegAsi = 1; no identado"
+Se tiene los controles poTimer no utilizado, Linea, Campo, Error sin estandares
+El metodo mxConfigurarControles debe tener el nombre mxEstadoControles por estandar
+Se tiene el evento txcCodCli_TextChanged en el cual se habilitan y deshabilitan controles
+En dicha tabla se tiene el campo cDocRef el cual almacena varios documentos separados por pipas
+Se tiene el metodo mxLlenarDatosCuenta en la cual se determina los datos de la cuenta como el tipo de abono de interes la modalidad de tasa entre otros los cuales son datos que deben ser obtenidos por el codigo de producto
+Se tiene en en el metodo mxCrearCuentas, el mensaje alterno indica que las cuentas se crearon correctamente y tb existe el metodo mxEsErrorInformativo, 
+En el metodo mxEsErrorInformativo solo valida que el cliente tiene cuenta cuando eso deberia ser devuelto desde el servidor y tampoco se observa si existe algun otro tipo de error controlado
+En el metodo mxToolTip se tiene las palabras busqueda con errores ortograficos
+Se crearon los metodos mxObtenerSystCreXml, mxObtenerSystCreXml, mxObtenerSystZonXml, mxTraerFuncionXml, mxAgregarSeleccionar, mxAgregarSeleccionar los cuales hacen los mismo que hacian los metodos de carga de combos asi como los filtros de deparatmentos y distritos y ya contienen el item seleccionar
+Se tiene el metodo mxConfigurarControles el cual deberia tener mxEstaDoControles
+En el metodo mxToolTip se tiene las palabras busqueda con errores ortograficos
+Se tiene el metodo mxValidarDatosContacto se tiene el mensaje que no esta en constante "Error de datos del contacto {0}{0}"
+Se tiene controles en el formulario sin estandares dataGridViewTextBoxColumn1, groupBox1, clLabelBase1, Se tiene el header Fecha_Creacion, Busqueda sin tilde
+Se tiene el metodo mxActivarControlesCuentaCompartamos se recomienda centralizar la habilitacion en el metodo mxEstadoControles
+En el metodo mxToolTip se tiene las palabras busqueda con errores ortograficos
+El metodo mxConfigurarControles debe tener el nombre mxEstadoControles por estandar
+El metodo mxCargarControles tiene la llamada al metodo mxTraeFecHorActual lo que rompe la arquitectura se recomienda hacer uso de la variable cliniclass.gdfecsis
+Se tiene el metodo mxAbonarCuentas el cual invoca al metodo web wmAbonarCuentaCTS y luego se valida mxEsErrorNoExisteCuenta y mxEsErrorCuentasConAbono despues de haberse hecho el abono
+Se tiene el metodo mxValidarDatosProvisiones el cual despues de invocar al metodo web se realizan las validaciones
+El metodo mxConfigurarControles debe tener el nombre mxEstadoControles por estandar
+En el metodo mxBuscarEmpleador se tiene la llamada al metodo web wmObtenerDatosEmpleador y luego se realiza validaciones como mxEsEmpleador, se recomienda que toda validacion se efectue en el metodo web previas a la ejecucion de la obtencion de datos a partir de la consulta al metodo web
+En el metodo mxAsignarCodClienteBuscar se tiene la variable loFrmCli002 dberia ser loFrmCli1002
+En el metodo mxToolTip se tiene las palabras busqueda con errores ortograficos
+El metodo mxConfigurarControles debe tener el nombre mxEstadoControles por estandar
+En el evento txcCodCli_TextChanged se tiene habilitacion de contrles se recomienda mantener la habilitacion y deshabilitacion en el metodo de estadoControles
+En el metodo mxCargarControles se tiene la llamada al metodo mxObtenerSystCreXml se debe hacer uso de los metodos existentes para el llenado de combos 
+En el metodo mxBuscarEmpleador despues de la llamada al metodo web se tienen validaciones, se recomienda realizar las validaciones a nivel del metodo web
+En el metodo mxAsignarCodClienteBuscar se tiene la variable loFrmCli002 dberia ser loFrmCli1002
+En el metodo mxToolTip se tiene las palabras busqueda con errores ortograficos
+Los metodos mxObtenerSystCreXml, mxObtenerSystCreXml, mxObtenerSystZonXml, mxTraerFuncionXml, leen dataset hacen filtros de la manera normal y luego al dataset se le hace filtro por linq para obtener los campos
+Los metodos mxObtenerSystCreXml, mxObtenerSystCreXml, mxObtenerSystZonXml, mxTraerFuncionXml, devuelven campos en duro no tiene el dinamismo que se tenia anteriormente
+Deberian estar en el componente FuncionesLocales
+Se tiene el textbox Textbox43, cCodCli, cTiDoCi, cNuDoCi, cNomCli, dFecApe, cCodCta, Details, txtContacto, Sin estandares
+Se tiene los textbox txtContacto, grCuentas, lblNum, Textbox63, Textbox43, cCodCli, cTiDoCi, cNuDoCi, cNomCli, dFecTra, cCodCta, nMonTra, Details, no poseen estandares
+Se tiene el metodo mxInicializarDatosCuenta el sual tiene valores seteados y no llegan como parametros
+Se tiene el metodo mxTraeFechaSistema el cual trae la fecha y hora 
+Se tiene el metodo mxLlenarDatosClienteCuenta el cual no es parametrizable
+Se tiene el metodo mxLlenarDatosLog el cual tiene valores por defecto, se debe parametrizar todos los valores
+Se tiene el metodo mxLlenarDatosMaestroCCI el cual tiene valores por defecto todo deberia ser parametrizable
+Se tiene el metodo mxLlenarDatosPuenteAhorroCanales el cual tiene valores por defecto todo deberia ser parametrizable
+En todos los metodos implementados no existen manejo de errores
+No es necesaria para eso se debe usar el objeto de la clase DatosReglaAhorrosRQT la cual es la que se utiliza para enviar al metodo web wmMRGestionarValidacionMotorReglas
+En el metodo mxValidarSaldoDisponibleAhorros el parametro no tiene el estandar correcto
+El metodo mxValidarSaldoDisponibleAhorros no valida por codigo de error sino por mensaje se debe validar por codigo de error
+En el evento cmbGuardar_Click Cuando se invoca al metodo mxValidarSaldoDisponibleAhorros se valida el mensaje mas no el codigo
+"En el metodo web wmTraerMovimientosCuenta se tiene codigo if (laMovimientos[j].CapitalInteres == SR._C_526_INTERES)
+                                    if (laMovimientos[j].Monto > 0) el cual se muestra como no identado"
+Se creo el metodo web wmTraerProductosXModalidad, pero existe el metodo web wmTraerPlanProdXProducto_Modalidad que aparentemente realiza la misma funcion
+Se creo el metodo web wmTraerProductosXModalidad,  no se valida la sesion ni el estado del aplicativo
+El metodo web wmObtenerAcumuladoProvisionesCTS no valida estado del aplicativo
+El metodo web wmObtenerAcumuladoProvisionesCTS en su descripcion tiene tildes se recomienda eliminar todo carácter especial de las descripciones
+Se creo los metodos mxGuardaLogMotorReglas dos veces, se recomienda utilizar el que ya existia
+En el metodo mxActivarCuentas se creo la variable tnCodCon la cual no tiene estandares
+En el metodo mxGenerarAlertasCuentasAhorros en la alerta #region AlertaAperturaCuentaLocalidadDiferente PAM21 la llave de cierre no esta identada
+"En el metodo mxProcesarActualizacionesFuturasColaboradores la porcion de codigo if (ldsPlanillas.rrhdsap.Rows.Count > 0 && !ldsPlanillas.rrhmacf[lnIndice].IsnIdeLogNull())
+                                            { se muestra como no identada "
+En el metodo mxLlenarDatosAhomCTS no todo llega como parametro se recomienda que todos los datos deben ser parametrizables
+_M_CANTIDAD_DIGITOS_IGUAL_8 nombre con numeros en especifico la palabra digitos lleva tilde
+_M_CUENTA_TIENE_ABONO_RECIENTE la palabra deposito lleva tilde
+Se tiene el metodo mxObtenerMontoRetencion el cual puede confundirse con retenciones se recomienda agregarle CTS al final
+
+El campo ubicación se muestra como un campo editable cuando no lo es, para los campos que no son editables se debe establecer la propiedad tabstop en false para que el cursor no se posicione en la caja de texto
+Cuando el codigo de cliente existe se regresa a capa de presentacion para validar si el tipo de documento es valido
+Cuando el codigo de cliente existe se regresa a capa de presentacion para validar si el tipo de documento es valido
+El projecto no fue actualizado ya no contiene la clase DatosReglaCuenta.cs
+Cuando se carga el formulario el cursor esta en el boton nuevo deberia estar en el campo codigo, lo mismo deberia pasar cuando presionamos el boton cancelar o deshacer
+Cuando se ingresa un codigo y se presiona el boton aplicar y se produce alguna excepcion el cursor se coloca en el boton nuevo cuando deberia ser en el campo codigo
+Cuando se carga un empleador el boton nuevo se encuentra habilitado, este boton debe estar deshabilitado
+El boton Deshacer esta trabajando como un cancelar, el deshacer debe cargar los datos originales 
+Cuando actualizamos los datos de un empleador se muestra el siguiente error La función o el procedimiento PROC_U_CLIDCON tiene demasiados argumentos
+La grilla no tiene el estandar correcto se debe mostrar el fondo en gris y todos los campos que son editables en amarillo los demas en gris
+Cuando se inserta mas de un contacto y si se ingresa el mismo dni solo se muestra el mensaje en el que se indica que el contacto que desea agregar ya se encuentra en la grilla, se recomienda establecer el cursor en la fila o mostrar el numero de documento ya registrado
+Cuando se quita un digito al numero de documento se muestra el mensaje Error de datos del contacto Cantidad de digitos no valida, pero no se especifica a que columna se refiere ni a que fila 
+Cuando se agrega una fila nueva y no se ingresa ningun dato y se desea grabar los datos se muestra el mensaje de error indicando que se debe seleccionar un valor o campo obligatorio en blanco pero no indica que campo
+El Boton deshacer debe ser eliminado ya que dicho boton es usado cuando se edita los datos en un formulario
+El icono del boton procesar tiene el mismo que el boton aplicar debe modificarse el icono
+Tiene el boton procesar el cual no realiza ninguna operación debe ser eliminado
+Tiene el boton cancelar para salir del formulario, debe tener el boton salir
+La columnas no son redimensionables, lo que no permite de visualizar todo el error en pantalla
+La grilla de contactos en las columnas de nombres y apellidos permite el ingreso de numeros se recomienda hacer uso de los controles de la librería de controles o basarse en el formulario de solicitud de seguros en el registro de beneficiarios
+El orden en que se muestra las validaciones no esta deacuerdo al orden de los controles en el formulario
+En la grilla no se muestra los mensajes de error en el orden en que se muestran las columnas del contacto no se los nombres de las columnas 
+En la grilla de contactos se permite registrar en los campos Apellido paterno, materno y nombre espacio en blanco 
+Cuando en los datos del empleador se borran todos los campos y se intenta procesar la planilla se muestra el siguiente mensaje  
+Laqs validaciones del formulario de apertura no esta en orden 
