@@ -1,0 +1,250 @@
+#region "Informacion de ValidacionBase"
+/********************************************************************************* 
+ * Autor: Pedro Zapata Espinoza
+ * Fecha de Creacion: 20-10-2017
+ * Descripcion: Clase base que ofrece las funciones base para las validaciones
+*********************************************************************************/
+#endregion
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace Crear.Librerias
+{
+    public class ValidacionBase
+    {
+        /// <summary>
+        /// Valida si el código de la tabla y valor existe en SystCre
+        /// </summary>
+        /// <param name="tcCodTab"></param>
+        /// <param name="tcValor"></param>
+        /// <returns></returns>
+        public bool mxExisteEnSystCreXml(string tcCodTab, string tcValor)
+        {
+            List<SystCre> laLstTab = clIniClass.mxObtenerSystCreXml(tcCodTab, string.Empty, false);
+
+            return laLstTab.Any(p => p.pcCodigo == tcValor);
+        }
+
+        /// <summary>
+        /// Valida si un elemento de SystCre está en la lista pasada por argumento
+        /// </summary>
+        /// <param name="taLstTab"></param>
+        /// <param name="tcValor"></param>
+        /// <returns></returns>
+        public bool mxExisteEnSystCreXml(List<SystCre> taLstTab, string tcValor)
+        {
+            return taLstTab.Any(p => p.pcCodigo == tcValor);
+        }
+
+        /// <summary>
+        /// Valida si los filtros existen SystZon
+        /// </summary>
+        /// <param name="taLstFiltros"></param>
+        /// <returns></returns>
+        public bool mxExisteEnSystZonXml(List<Filtro> taLstFiltros)
+        {
+            List<SystZon> laLstTab = clIniClass.mxObtenerSystZonXml(taLstFiltros, string.Empty, false);
+
+            return laLstTab.Any();
+        }
+
+        /// <summary>
+        /// Obtiene un elemento SystZon con los filtros existentes
+        /// </summary>
+        /// <param name="taLstFiltros"></param>
+        /// <returns></returns>
+        public SystZon mxObtenerSystZonXml(List<Filtro> taLstFiltros)
+        {
+            List<SystZon> laLstTab = clIniClass.mxObtenerSystZonXml(taLstFiltros, string.Empty, false);
+
+            return laLstTab.Any() ? laLstTab.First() : null;
+        }
+
+        /// <summary>
+        /// Valida si un valor de tipo cadena esta vacio o nulo
+        /// </summary>
+        /// <param name="tcValor"></param>
+        /// <returns></returns>
+        public bool mxEsVacio(string tcValor)
+        {
+            if (tcValor == null || tcValor.Trim() == string.Empty)
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Valida si un valor tipo fecha esta vacio o nulo
+        /// </summary>
+        /// <param name="tdValor"></param>
+        /// <returns></returns>
+        public bool mxEsVacio(DateTime? tdValor)
+        {
+            if (tdValor.HasValue)
+                return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Valida si un valor de tipo cadena es un número entero
+        /// </summary>
+        /// <param name="tcValor"></param>
+        /// <returns></returns>
+        public bool mxEsEntero(string tcValor)
+        {
+            Regex loRegex = new Regex(@"^\d+$");
+            return loRegex.IsMatch(tcValor);
+        }
+
+        /// <summary>
+        /// Valida si un valor de tipo cadena es un número decimal
+        /// </summary>
+        /// <param name="tcValor"></param>
+        /// <returns></returns>
+        public bool mxEsDecimal(string tcValor)
+        {
+            Regex loRegex = new Regex(@"^[0-9]+([.,][0-9]+)?$");
+            return loRegex.IsMatch(tcValor);
+        }
+
+        /// <summary>
+        /// Valida si un valor de tipo cadena contiene solo letras
+        /// </summary>
+        /// <param name="tcValor"></param>
+        /// <returns></returns>
+        public bool mxEsSoloLetras(string tcValor)
+        {
+            Regex loRegex;
+
+            if (tcValor != null)
+            {
+                loRegex = new Regex(@"^[a-zA-ZñáéíóúÑÁÉÍÓÚüÄÜ ]*$");
+                return loRegex.IsMatch(tcValor);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Válida que el telefono tenga formato correcto (999999999, #999999999, *999999999)
+        /// </summary>
+        /// <param name="tcValor"></param>
+        /// <returns></returns>
+        public bool mxEsTelefono(string tcValor)
+        {
+            Regex loRegex = new Regex(@"^(\*?|\#?)\d+$");
+            return loRegex.IsMatch(tcValor);
+        }
+
+        /// <summary>
+        /// Valida si un valor de tipo cadena tiene la longitud de caracteres especificada
+        /// </summary>
+        /// <param name="tcValor"></param>
+        /// <param name="tnLongitud"></param>
+        /// <returns></returns>
+        public bool mxTieneMismaLongitud(string tcValor, int tnLongitud)
+        {
+            return tcValor.Length == tnLongitud;
+        }
+
+        /// <summary>
+        /// Valida si un valor de tipo cadena tiene la longitud de caracteres menor igual a la especificada
+        /// </summary>
+        /// <param name="tcValor"></param>
+        /// <param name="tnLongitud"></param>
+        /// <returns></returns>
+        public bool mxEsLongitudMaximaValida(string tcValor, int tnLongitud)
+        {
+            return tcValor.Length <= tnLongitud;
+        }
+
+        /// <summary>
+        /// Valida si dos valores de tipo cadena son iguales
+        /// </summary>
+        /// <param name="tcValor1"></param>
+        /// <param name="tcValor2"></param>
+        /// <returns></returns>
+        public virtual bool mxEsIgual(string tcValor1, string tcValor2)
+        {
+            return tcValor1.Equals(tcValor2, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        /// <summary>
+        /// Valida si un valor de tipo cadena representa un correo correcto
+        /// </summary>
+        /// <param name="tcValor"></param>
+        /// <returns></returns>
+        public bool mxEsCorreoValido(string tcValor)
+        {
+            return clLibgen.mxValidarCorreoElectronico(tcValor);
+        }
+
+        /// <summary>
+        /// Obtiene la edad
+        /// </summary>
+        /// <param name="tdFechaNacimiento"></param>
+        /// <returns></returns>
+        public int mxCalcularEdad(DateTime tdFechaNacimiento)
+        {
+            DateTime ldFechaActual = clIniClass.pdFecSis;
+            int lnEdad = ldFechaActual.Year - tdFechaNacimiento.Year;
+
+            if (tdFechaNacimiento > ldFechaActual.AddYears(-lnEdad))
+                lnEdad--;
+
+            return lnEdad;
+        }
+
+        /// <summary>
+        /// Permite obtener un elemento SystZon a traves de su nombre
+        /// </summary>
+        /// <param name="tcTipoZona"></param>
+        /// <param name="tcDescripcion"></param>
+        /// <param name="tcCodZonaPadre"></param>
+        /// <returns></returns>
+        public SystZon mxObtenerZonaPorNombre(string tcTipoZona, string tcDescripcion, string tcCodZonaPadre)
+        {
+            List<Filtro> laLstFiltros = new List<Filtro>();
+
+            Filtro loFiltro = new Filtro();
+            loFiltro.pcColumna = "cTipZon";
+            loFiltro.pcValor = string.Format("{0}", tcTipoZona);
+            laLstFiltros.Add(loFiltro);
+
+            loFiltro = new Filtro();
+            loFiltro.pcColumna = "cDesZon";
+            loFiltro.pcValor = string.Format("'{0}'", tcDescripcion);
+            laLstFiltros.Add(loFiltro);
+
+            if (tcTipoZona != SR._C_728_DEPARTAMENTO)
+            {
+                loFiltro = new Filtro();
+                loFiltro.pcColumna = "cCodZon";
+                loFiltro.pcOperador = "LIKE";
+                loFiltro.pcValor = string.Format("'{0}*'", tcCodZonaPadre);
+                laLstFiltros.Add(loFiltro);
+            }
+
+            return this.mxObtenerSystZonXml(laLstFiltros);
+        }
+
+        /// <summary>
+        /// Permite obtener un elemento SystZon a traves de su código
+        /// </summary>
+        /// <param name="tcCodZona"></param>
+        /// <returns></returns>
+        public SystZon mxObtenerZonaPorCodigo(string tcCodZona)
+        {
+            List<Filtro> laLstFiltros = new List<Filtro>();
+
+            Filtro loFiltro = new Filtro();
+            loFiltro.pcColumna = "cCodZon";
+            loFiltro.pcValor = string.Format("'{0}'", tcCodZona);
+            laLstFiltros.Add(loFiltro);
+
+            return this.mxObtenerSystZonXml(laLstFiltros);
+        }
+    }
+}
