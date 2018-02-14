@@ -1,1 +1,9 @@
-Se agregó validación de funciones para tipo de clase de persona y tipo de documento (07/02/2018)
+- Ticket C0019-18  - Corrección en voucher con saldo negativo ahorros (Pruebas Unitarias) (12/02/2018)
+- ANEXO Nº 4 - Análisis y Diseño del Proyecto (12/02/2018)
+- ANEXO Nº 9 - Archivos modificados (13/02/2018)
+- ANEXO Nº 6 - Pruebas Unitarias y de funcionalidad (13/02/2018)
+- Solución de incidente: Cuando se crea un contacto este debe estar activo por defecto, caso no se quiera que sea activo se quitara el check
+- Solución de incidente: Si el empleador es compartamos, no se valida que los trabajadores, sean de compartamos, permitiendo que se aperture cuentas y se vincule a compartamos 
+- Solución de incidente: La grilla no permite copiar con combinacion de teclas pero si haciendo clic derecho y pegar
+- Solución de incidente: El formulario AHO1033 me permite dejar el blanco el apellido materno, pero para poder absorverlo en para aperturar cuenta, me pide que ese campo no sea vacio
+- Solución de incidente: Se esta validando los campos Nro de documento cuando son de tipo carnet de extranjeria y pasaporte, solo permitiendo que sea numericos, pero estos campos pueden recibir datos alfanumericos
