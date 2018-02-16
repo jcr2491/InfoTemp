@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en" style="font-family: sans-serif; font-size: 10px;" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Proceso de Carga Proyecto Comisiones</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body style="background-color: #fff; color: #333; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 10px; line-height: 1;">
+    <div style="background-color: #fff; border: 1px solid transparent; border-color: #ddd; border-radius: 4px; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); margin-bottom: 20px; max-width: 1000px">
+
+        <div style="padding: 15px;">
+            <div style="margin-left: -15px; margin-right: -15px;">
+                <div style="min-height: 1px; padding-left: 15px; padding-right: 15px; position: relative;">
+
+                    <h2>Proceso de Carga Inputs Comisiones</h2>
+                    <p>Hora de ejecución: @Model.HoraEjecucion</p>
+                    <h3>Inputs con Errores en carga</h3>
+
+                    <table style="background-color: transparent; border: 1px solid #ddd; border-collapse: collapse; border-spacing: 0; margin-bottom: 20px; max-width: 100%; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th colspan="6" style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1;  min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Tipo Comision  : UAC</th>
+                            </tr>
+                            <tr>
+                                <th colspan="6" style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; padding: 2px; text-align: center; vertical-align: bottom;"> Input ejemplo</th>
+                            </tr>
+                            <tr>
+                                <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Nombre Hoja</th>
+                                <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Nombre Columna</th>
+                                <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Fila</th>
+                                <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Error</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var error in Model.ErrorList)
+                            {
+                            <tr>
+                                <td style="border: 1px solid #ddd; border-top: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@error.NombreHoja</td>
+                                <td style="border: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@error.NombreColumna</td>
+                                <td style="border: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@error.NumeroFila</td>
+                                <td style="border: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@error.Mensaje</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+        <div style="background-color: #f5f5f5; font-size: 10px; border-top: 1px solid  #ddd; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); text-align: center;">
+            Reporte generado por COMISIONES
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+
+

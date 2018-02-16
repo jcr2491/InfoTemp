@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F8825476-AA9E-467B-92CB-FBBDFDE7BB12}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sigcomt.Scheduler.BulkFile</RootNamespace>
+    <AssemblyName>Sigcomt.Scheduler.BulkFile</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Core.Extensions, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CSharp.Portable-Singleton.2.0.0.4\lib\Core.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Core.Singleton, Version=2.0.6074.9804, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CSharp.Portable-Singleton.2.0.0.4\lib\Core.Singleton.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.3.0\lib\net40\NPOI.OOXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RazorEngine.3.10.0\lib\net45\RazorEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClasesCarga\Automotriz\CargaDataAutomotriz.cs" />
+    <Compile Include="ClasesCarga\Automotriz\PruebaCargaAutomotriz.cs" />
+    <Compile Include="ClasesCarga\CCFF\CargaAmpliacionesCCFF.cs" />
+    <Compile Include="ClasesCarga\FFVV\CargaFFVV.cs" />
+    <Compile Include="ClasesCarga\Maestro\CargaBono.cs" />
+    <Compile Include="ClasesCarga\Maestro\CargaPuntajeKPI.cs" />
+    <Compile Include="ClasesCarga\Maestro\CragaMaestroAutomotriz.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaDetalleMaestroRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaDetalleSodimacRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaDetalleTottusRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaMetaMaestroRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaMetaSodimacRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaMetaSagaRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaPlanillaCajeroTottusRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaPlanillaTottusRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaResumenMaestroRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaResumenSodimacRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaResumenTottusRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaSodimacGanadorRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaSodimacMetaRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargarMaestroRapicash.cs" />
+    <Compile Include="ClasesCarga\Referido\CargaReferidoCCFF.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\ADirectorio\CargaRICCFF.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacion.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionMaestro.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionSodimac.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionTottus.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionSaga.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\CTarjetas\CargaRITarjetaCCFF.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\DTiemposdeEspera\CargaRITiempoEspera.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\EPasivos\CargaRIPasivosCsdCsi.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\EPasivos\CargaRIPasivosCortoLagoPlazo.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\HSeguros\CargaRISeguroP1.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\HSeguros\CargaRISeguroP2.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\HSeguros\CargaRISeguroTP.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\HSeguros\CargaRISeguroVSC.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\ICalidadAtencion\CargaRICalidadAtencion.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\ICalidadAtencion\CargaRICalidadAtencion1erContacto.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\ICalidadAtencion\CargaRICalidadCICCFF.cs" />
+    <Compile Include="ClasesCarga\CCFF\CargaDerivacionCCFF.cs" />
+    <Compile Include="ClasesCarga\CCFF\CargaEmpleadoCCFF.cs" />
+    <Compile Include="ClasesCarga\CCFF\CargaInformeVentaCCFF.cs" />
+    <Compile Include="ClasesCarga\CCFF\CargaJefeGerenteCCFF.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\ICalidadAtencion\CargaRICalidadNPSCCFF.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\FActivos\CargaRIActivosRapicashCCFF.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\CTarjetas\CargaRITarjetasAvanceZonales.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\DTiemposdeEspera\CargaRITECajero.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\DTiemposdeEspera\CargaRITECCFF.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\DTiemposdeEspera\CargaRITEPlataforma.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\FActivos\CargaRIActivosSuperCash.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\HSeguros\CargaRISeguroCCFF.cs" />
+    <Compile Include="ClasesCarga\CCFF\CargarPasivosCCFF.cs" />
+    <Compile Include="ClasesCarga\CCFF\CargaSegurosCCFF.cs" />
+    <Compile Include="ClasesCarga\EjecutivosPromotores\CargaTarjetaPromotorCCFF.cs" />
+    <Compile Include="ClasesCarga\FFVV\CargaCmrRatificada.cs" />
+    <Compile Include="ClasesCarga\FFVV\CargaTotalCuentas2Abono.cs" />
+    <Compile Include="ClasesCarga\FFVV\CargaMontosTrasladosCTS.cs" />
+    <Compile Include="ClasesCarga\JefeComercial\CargaCierrePlanningJefeComercial.cs" />
+    <Compile Include="ClasesCarga\JefeComercial\CargaPesoCCFF.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaDetalleSFRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaMetaRetail.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaResumenSFRapicash.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\JDerivacióndeCanalesElectrónicos\CargaRIDerivacionHeavyPlataforma.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\JDerivacióndeCanalesElectrónicos\CargaRIDerivacionCaja.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\LAmpliacionesdeLínea\CargaRIAmpliacionLinea.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\MOperaciones\CargaRIOperacionE.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\MOperaciones\CargaRIOperacionSF.cs" />
+    <Compile Include="ClasesCarga\UAC\CargaDiasAusencia.cs" />
+    <Compile Include="ClasesCarga\UAC\CargaMonitoreo.cs" />
+    <Compile Include="ClasesCarga\UAC\CargaProducContactenos.cs" />
+    <Compile Include="ClasesCarga\UAC\CargaSlaUac.cs" />
+    <Compile Include="ClasesCarga\UAC\CargaProductividad.cs" />
+    <Compile Include="ClasesCarga\UAC\CargaSLAContactenos.cs" />
+    <Compile Include="ClasesCarga\UAC\CargaUAC.cs" />
+    <Compile Include="ClasesCarga\UAC\CargaUACMonitoreo.cs" />
+    <Compile Include="Core\Constantes.cs" />
+    <Compile Include="Core\EnvioEmail.cs" />
+    <Compile Include="Core\PropiedadColumna.cs" />
+    <Compile Include="Core\UtilsLocal.cs" />
+    <Compile Include="Core\CargaBase.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sigcomt.Business.Entity\Sigcomt.Business.Entity.csproj">
+      <Project>{5f8bb5e3-3eee-4aae-acb8-284c35b57135}</Project>
+      <Name>Sigcomt.Business.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sigcomt.Business.Logic\Sigcomt.Business.Logic.csproj">
+      <Project>{40e4a67f-c0a8-48a4-90eb-470f31e0d7f2}</Project>
+      <Name>Sigcomt.Business.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sigcomt.Common\Sigcomt.Common.csproj">
+      <Project>{d42a0d10-1e4e-4035-b518-20d227f09593}</Project>
+      <Name>Sigcomt.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sigcomt.DataAccess\Sigcomt.DataAccess.csproj">
+      <Project>{2F621E12-F808-4B68-ACB2-73B51B35CC2F}</Project>
+      <Name>Sigcomt.DataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ClasesCarga\ReporteRI\GServicio\" />
+    <Folder Include="ClasesCarga\ReporteRI\KAuditoríayTransparencia\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Template\Plantilla-Email.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

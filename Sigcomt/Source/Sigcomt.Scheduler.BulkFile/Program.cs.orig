@@ -1,0 +1,216 @@
+﻿using Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.FFVV;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.EjecutivosPromotores;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ADirectorio;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.BParticipación;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.EPasivos;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.FActivos;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.HSeguros;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanalesElectrónicos;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.LAmpliacionesdeLínea;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.MOperaciones;
+using Sigcomt.Scheduler.BulkFile.Core;
+using System;
+
+
+namespace Sigcomt.Scheduler.BulkFile
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            UtilsLocal.CargarDatosIniciales();
+            try
+            {
+                //Automotriz
+                //CargaDataAutomotriz.CargarArchivo();
+
+                //Ejecutivo Promotores
+                //CargaTarjetaPromotorCCFF.CargarArchivo();
+
+                //FFVV
+                //CargaCmrRatificada.CargarArchivo();
+                //CargaMontosTrasladosCTS.CargarArchivo();
+                //CargaTotalCuentas2Abono.CargarArchivo();
+
+                //Jefe Comercial
+                //CargaCierrePlanningJefeComercial.CargarArchivo();
+                //CargaPesoCCFF.CargarArchivo();
+
+                ////UAC
+                //CargaProductividad.CargarArchivo();
+                //CargaSlaUac.CargarArchivo();
+                //CargaMonitoreo.CargarArchivo();
+                //CargaDiasAusencia.CargarArchivo();
+                //CargaProducContactenos.CargarArchivo();
+                //CargaSLAContactenos.CargarArchivo();
+
+
+
+                ////CCFF
+                //CargaEmpleadoCCFF.CargarArchivo();
+                //CargaAmpliacionesCCFF.CargarArchivo();
+                //CargaCICCFF.CargarArchivo();
+                //CargaDerivacionCCFF.CargarArchivo();    //pendiente
+                //CargaInformeVentaCCFF.CargarArchivo();  //pendiente
+                //CargaJefeGerenteCCFF.CargarArchivo();
+                //CargaNPSCCFF.CargarArchivo();
+
+                // CargaRapicashCCFF.CargarArchivo();
+
+                //RIActivosRapicashCCFF.CargarArchivo();
+
+                //CargarPasivosCCFF.CargarArchivo();
+                //CargaSegurosCCFF.CargarArchivo();
+
+
+
+                //Rapicash 
+                //CargaDetalleSFRapicash.CargarArchivo();
+
+                //CargaMetaRetail.CargarArchivo();
+                //CargaMetaSagaRapicash.CargarArchivo();
+                //CargaMetaMaestroRapicash.CargarArchivo();
+                //CargaMetaSodimacRapicash.CargarArchivo();
+
+                //CargaResumenSFRapicash.CargarArchivo();
+                //CargaResumenTottusRapicash.CargarArchivo();
+                //CargaDetalleTottusRapicash.CargarArchivo();
+                //CargaPlanillaTottusRapicash.CargarArchivo();
+                //CargaResumenMaestroRapicash.CargarArchivo();
+                //CargaDetalleMaestroRapicash.CargarArchivo();
+                //CargaResumenSodimacRapicash.CargarArchivo();
+                //CargaDetalleSodimacRapicash.CargarArchivo();
+
+                //CCFF
+                //CargaRISeguroCCFF.CargarArchivo();
+                //CargaEmpleadoCCFF.CargarArchivo();
+
+                #region Reporte RI
+
+                #region Directorio
+                // CargaRICCFF.CargarArchivo();
+                #endregion
+
+                #region Participacion
+                //#region
+                //CargaRISeguroCCFF.CargarArchivo();
+                //#endregion
+                //#region Info Comercial
+                ////CargaRICCFF.CargarArchivo();
+                //#endregion
+
+                //#region B. Participacion
+                //CargaRIParticipacionMaestro.CargarArchivo();
+                //CargaRIParticipacionSaga.CargarArchivo();
+                //CargaRIParticipacionSodimac.CargarArchivo();
+                CargaRIParticipacionTottus.CargarArchivo();
+                #endregion
+
+                #region Tarjetas
+                //CargaRITarjetasAvanceZonales.CargarArchivo();
+                #endregion
+
+                #region D. Tiempo de Espera
+                //CargaRITECajero.CargarArchivo();
+                //CargaRITECCFF.CargarArchivo();
+                //CargaRITEPlataforma.CargarArchivo();
+                #endregion
+
+                #region Pasivos
+                //CargaRIPasivosCortoLagoPlazo.CargarArchivo();
+                //CargaRIPasivosCsdCsi.CargarArchivo();
+                #endregion
+
+                #region  Activos
+                //CargaRIActivosRapicashCCFF.CargarArchivo();
+               // CargaRIActivosSuperCash.CargarArchivo();
+
+                #endregion
+
+                #region Seguro
+                CargaRISeguroCCFF.CargarArchivo();
+                #endregion
+
+                #region Calidad Atencion
+               // CargaRICalidadAtencion1erContacto.CargarArchivo();
+                #endregion
+
+                #region Info Comercial
+                //CargaRICCFF.CargarArchivo();
+                #endregion
+
+                #region Ampliacion de Linea
+
+                #endregion
+
+                //#endregion
+
+                //#region C. Tarjetas
+                //CargaRITarjetasAvanceZonales.CargarArchivo();
+                //#endregion
+
+                //#region D. Tiempo de Espera
+                //CargaRITECCFF.CargarArchivo();
+                //CargaRITEPlataforma.CargarArchivo();
+                //CargaRITECajero.CargarArchivo();
+                //#endregion
+
+                //#region E. Pasivos
+                //CargaRIPasivosCortoLagoPlazo.CargarArchivo();
+                //CargaRIPasivosCsdCsi.CargarArchivo();
+                //#endregion
+
+                //#region  F. Activos
+                //CargaRIActivosSuperCash.CargarArchivo();
+                //CargaRIActivosRapicashCCFF.CargarArchivo();
+                //#endregion
+
+                //#region H. Seguros
+                //CargaRISeguroCCFF.CargarArchivo();
+                //#endregion
+
+                //#region I. CalidadAtencion
+                //CargaRICalidadAtencion1erContacto.CargarArchivo();
+                //CargaRICalidadCICCFF.CargarArchivo();
+                //CargaRICalidadNPSCCFF.CargarArchivo();
+                //#endregion
+
+                //#region J. Derivación de Canales Electrónicos
+                //CargaRIDerivacionHeavyPlataforma.CargarArchivo();
+<<<<<<< HEAD
+                CargaRIDerivacionCaja.CargarArchivo();
+=======
+                //CargaRIDerivacionCaja.CargarArchivo();
+>>>>>>> 7acfd51903c2c21a93f0fea31a41545e95ce5455
+                //#endregion
+
+                //#region L. Ampliaciones de Línea
+                //CargaRIAmpliacionLinea.CargarArchivo();
+                //#endregion
+
+                //#region M. Operaciones
+                //CargaRIOperacionSF.CargarArchivo();
+                //CargaRIOperacionE.CargarArchivo();
+                //#endregion
+
+                #endregion
+
+
+                Console.ReadLine();
+            }
+            catch (Exception e) {
+                string mensaje = e.Message.ToString();
+            }
+            
+        }
+    }
+}

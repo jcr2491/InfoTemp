@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5F8BB5E3-3EEE-4AAE-ACB8-284C35B57135}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sigcomt.Business.Entity</RootNamespace>
+    <AssemblyName>Sigcomt.Business.Entity</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AmpliacionesCCFF.cs" />
+    <Compile Include="Bono.cs" />
+    <Compile Include="DetalleTottusRapicash.cs" />
+    <Compile Include="ErrorCarga.cs" />
+    <Compile Include="Parametros.cs" />
+    <Compile Include="PlanillaTottusRapicash.cs" />
+    <Compile Include="CajeroTottusRapicash.cs" />
+    <Compile Include="PuntajeKPI.cs" />
+    <Compile Include="ReferidoCCFF.cs" />
+    <Compile Include="ResumenSodimacRapicash.cs" />
+    <Compile Include="ResumenTottusRapicash.cs" />
+    <Compile Include="RIActivosSuperCash.cs" />
+    <Compile Include="RIAmpliacionLinea.cs" />
+    <Compile Include="RICalidadAtencion.cs" />
+    <Compile Include="RICalidadAtencion1erContacto.cs" />
+    <Compile Include="RICCFF.cs" />
+    <Compile Include="RIDerivacionCaja.cs" />
+    <Compile Include="RIDerivacionHeavyPlataforma.cs" />
+    <Compile Include="RIOperacionE.cs" />
+    <Compile Include="RIOperacionSF.cs" />
+    <Compile Include="RIParticipacion.cs" />
+    <Compile Include="RIParticipacionMaestro.cs" />
+    <Compile Include="RIParticipacionSaga.cs" />
+    <Compile Include="RIParticipacionSodimac.cs" />
+    <Compile Include="RIParticipacionTottus.cs" />
+    <Compile Include="RIPasivosCortoLargoPlazo.cs" />
+    <Compile Include="RIPasivosCsdCsi.cs" />
+    <Compile Include="RISeguroP1.cs" />
+    <Compile Include="RISeguroP2.cs" />
+    <Compile Include="RISeguroTP.cs" />
+    <Compile Include="SodimacGanadorRepicash.cs" />
+    <Compile Include="SodimacMetaRepicash.cs" />
+    <Compile Include="RISeguroCCFF.cs" />
+    <Compile Include="CierrePlanningJefeComercial.cs" />
+    <Compile Include="EmpleadoCCFF.cs" />
+    <Compile Include="RICalidadCICCFF.cs" />
+    <Compile Include="CmrRatificada.cs" />
+    <Compile Include="DataAutomotriz.cs" />
+    <Compile Include="CabeceraCarga.cs" />
+    <Compile Include="Cargo.cs" />
+    <Compile Include="Core\EntityAuditable.cs" />
+    <Compile Include="Core\EntityBase.cs" />
+    <Compile Include="DerivacionCCFF.cs" />
+    <Compile Include="DetalleMaestroRapicash.cs" />
+    <Compile Include="DetalleSagaRapicash.cs" />
+    <Compile Include="DetalleSodimacRapicash.cs" />
+    <Compile Include="DiasAusencia.cs" />
+    <Compile Include="Empleado.cs" />
+    <Compile Include="EquipoConsolidadoMes.cs" />
+    <Compile Include="Excel.cs" />
+    <Compile Include="ExcelHoja.cs" />
+    <Compile Include="ExcelHojaCampo.cs" />
+    <Compile Include="Grupo.cs" />
+    <Compile Include="InformeVentaCCFF.cs" />
+    <Compile Include="ItemTabla.cs" />
+    <Compile Include="JefeGerenteCCFF.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Lote.cs" />
+    <Compile Include="MetaTiendaRetail.cs" />
+    <Compile Include="Monitoreo.cs" />
+    <Compile Include="MontosTrasladosCTS.cs" />
+    <Compile Include="MPonderacion.cs" />
+    <Compile Include="RICalidadNPSCCFF.cs" />
+    <Compile Include="PasivosCCFF.cs" />
+    <Compile Include="PersonalSFRapicash.cs" />
+    <Compile Include="PesoCCFF.cs" />
+    <Compile Include="ProducContactenos.cs" />
+    <Compile Include="Productividad.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RIActivosRapicashCCFF.cs" />
+    <Compile Include="ResumenMaestroRapicash.cs" />
+    <Compile Include="ResumenSagaRapicash.cs" />
+    <Compile Include="RISeguroVSC.cs" />
+    <Compile Include="RITarjetasAvanceTarjetasZonales.cs" />
+    <Compile Include="RITarjetasAvanceZonales.cs" />
+    <Compile Include="Rol.cs" />
+    <Compile Include="SegurosCCFF.cs" />
+    <Compile Include="SLAContactenos.cs" />
+    <Compile Include="SlaUac.cs" />
+    <Compile Include="Tabla.cs" />
+    <Compile Include="TarjetaPromotorCCFF.cs" />
+    <Compile Include="TCumplimiento.cs" />
+    <Compile Include="RITECajero.cs" />
+    <Compile Include="RITECCFF.cs" />
+    <Compile Include="RITEPlataforma.cs" />
+    <Compile Include="TotalCuentas2Abono.cs" />
+    <Compile Include="UACMonitoreo.cs" />
+    <Compile Include="Usuario.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

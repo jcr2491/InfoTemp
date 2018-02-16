@@ -1,0 +1,282 @@
+﻿@{
+    ViewBag.Title = "Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/jquery.dataTables.css")" />
+}
+
+<!-- /section:basics/sidebar -->
+<div class="main-content">
+    <div class="main-content-inner">
+        <!-- #section:basics/content.breadcrumbs -->
+        <div class="breadcrumbs" id="breadcrumbs">
+            <script type="text/javascript">
+                try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+            </script>
+
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="@Url.Action("Index", "Home")">INICIO</a>
+                </li>
+
+                <li>
+                    <a href="javascript:void(0)">ADMINISTRACI&Oacute;N</a>
+                </li>
+                <li class="active">USUARIO</li>
+            </ul><!-- /.breadcrumb -->
+            <!-- /section:basics/content.searchbox -->
+        </div>
+
+        <!-- /section:basics/content.breadcrumbs -->
+        <div class="page-content">
+            <!-- #section:settings.box -->
+            <!-- /section:settings.box -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <!-- PAGE CONTENT BEGINS -->
+                    <div class="table-responsive">
+                        <table id="UsuarioDataTable" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <button class="btn btn-primary btn-minier btnAgregarUsuario">
+                                            <i class="ace-icon fa fa-plus-circle align-top bigger-110"></i>
+                                            Agregar
+                                        </button>
+                                    </th>
+                                    <th>Id</th>
+                                    <th>Usuario</th>
+                                    <th class="hidden-1200">Nombre</th>
+                                    <th class="hidden-992">Apellido</th>
+                                    <th class="hidden-768">Correo</th>
+                                    <th class="hidden-600">Rol</th>
+                                    <th class="hidden-480">Estado</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <!-- PAGE CONTENT ENDS -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <!-- FILTER BEGINS-->
+            <div id="searchFilterDiv" class="hide">
+                <div id="UsuarioDataTable_filter" class="dataTables_filter">
+                    <label>
+                        <a href="javascript:void(0);" class="searchFilter btnBuscarUsuario">
+                            <i class="ace-icon fa fa-filter"></i> Filtros de b&uacute;squeda
+                        </a>
+                    </label>
+                </div>
+            </div>
+
+            <div id='searchFilterUsuario' tabindex='-1' role='dialog' aria-hidden='true' class='modal fade' data-backdrop='static' style='z-index:100000;'>
+                <div class='modal-dialog'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class='modal-title'>Buscar Usuario</h4>
+                        </div>
+                        <div class='modal-body'>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <!-- PAGE CONTENT BEGINS -->
+                                    <form class="form-horizontal" role="form" id="UsuarioSearchForm">
+                                        <div class="form-group"></div>
+                                        <!-- #section:elements.form -->
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="UsuarioSearch">Usuario </label>
+
+                                            <div class="col-xs-12 col-sm-8">
+                                                <div class="clearfix">
+                                                    <input type="text" id="UsuarioSearch"  name="UsuarioSearch" placeholder="Usuario" maxlength="100" class="col-xs-12 col-sm-12" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                   
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="RolIdSearch">Rol </label>
+
+                                            <div class="col-xs-12 col-sm-8">
+                                                <div class="clearfix">
+                                                    <select id="RolIdSearch" name="RolIdSearch" class="col-xs-12 col-sm-12"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='modal-footer' style='margin-top: 0px; margin-bottom: 0px;'>
+                            <button class='btn btn-primary' data-dismiss='modal'><i class='fa fa-remove'></i> Cancelar</button>
+                            <button class='btn btn-success' id="btnSearchUsuario"><i class='fa fa-search'></i> Buscar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- FILTER ENDS-->
+
+            <div id='NuevoUsuario' tabindex='-1' role='dialog' aria-hidden='true' class='modal fade' data-backdrop='static' style='z-index:100000;'>
+                <div class='modal-dialog'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class='modal-title'><span id='accionTitle'></span> Usuario</h4>
+                        </div>
+                        <div class='modal-body'>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <!-- PAGE CONTENT BEGINS -->
+                                    <form class="form-horizontal" role="form" id="UsuarioForm">
+                                        <div class="form-group"></div>
+                                        <!-- #section:elements.form -->
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-12 col-sm-2 no-padding-right" for="Usuario">Usuario </label>
+
+                                            <div class="col-xs-12 col-sm-9">
+                                                <div class="clearfix">
+                                                    <input type="text" id="Username" autocomplete="off"  name="Username" placeholder="Usuario" maxlength="100" class="col-xs-12 col-sm-12" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-12 col-sm-2 no-padding-right" for="Nombre">Nombre </label>
+
+                                            <div class="col-xs-12 col-sm-9">
+                                                <div class="clearfix">
+                                                    <input type="text" id="Nombre" autocomplete="off" name="Nombre" placeholder="Nombre" maxlength="100" class="col-xs-12 col-sm-12" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-12 col-sm-2 no-padding-right" for="Apellido">Apellido </label>
+
+                                            <div class="col-xs-12 col-sm-9">
+                                                <div class="clearfix">
+                                                    <input type="text" id="Apellido" autocomplete="off" name="Apellido" placeholder="Apellido" maxlength="100" class="col-xs-12 col-sm-12" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-12 col-sm-2 no-padding-right" for="Correo">Correo </label>
+
+                                            <div class="col-xs-12 col-sm-9">
+                                                <div class="clearfix">
+                                                    <input type="text" id="Correo" autocomplete="off" name="Correo" placeholder="Correo" maxlength="100" class="col-xs-12 col-sm-12"  />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-12 col-sm-2 no-padding-right" for="CargoId">Cargo </label>
+
+                                            <div class="col-xs-12 col-sm-9">
+                                                <div class="clearfix">
+                                                    <select id="CargoId" name="CargoId" class="col-xs-12 col-sm-12"></select>
+                                                </div>
+                                            </div>
+                                        </div> 
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-12 col-sm-2 no-padding-right" for="RolId">Rol </label>
+
+                                            <div class="col-xs-12 col-sm-9">
+                                                <div class="clearfix">
+                                                    <select id="RolId" name="RolId" class="col-xs-12 col-sm-12"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-12 col-sm-2 no-padding-right" for="Estado">Estado </label>
+
+                                            <div class="col-xs-12 col-sm-9">
+                                                <div class="clearfix">
+                                                    <select id="Estado" name="Estado" class="col-xs-12 col-sm-12">
+                                                        <option value="1" selected>Activo</option>
+                                                        <option value="2">Inactivo</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="UsuarioId" id="UsuarioId" value="0" />
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='modal-footer' style='margin-top: 0px; margin-bottom: 0px;'>
+                            <button class='btn btn-primary' data-dismiss='modal'><i class='fa fa-remove'></i> Cancelar</button>
+                            <button class='btn btn-success' id="btnGuardarUsuario"><i class='fa fa-floppy-o'></i> Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.page-content -->
+    </div>
+</div><!-- /.main-content -->
+
+@section scripts{
+    <!-- page specific plugin scripts -->
+    <script src="@Url.Content("~/Content/js/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery.dataTables.fnReloadAjax.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery.inputlimiter.1.3.1.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Content/js/additional-methods.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery.gritter.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery.blockUI.js")"></script>
+
+    <!-- inline scripts related to this page -->
+    <script src="@Url.Content("~/Content/js/viewsJs/usuario.js")"></script>
+    <!-- Ajax BlockUi scripts -->
+    <script type="text/javascript">
+        var pageBlocked = false;
+        var handlerActivo = false;
+
+        $(document).ready(function () {
+            $.blockUI.defaults.baseZ = 100000;
+            $.blockUI.defaults.overlayCSS.opacity = 0.4;
+            $.blockUI.defaults.css.backgroundColor = "transparent";
+            $.blockUI.defaults.css.border = '0px none';
+            $.blockUI.defaults.fadeIn = 100,
+            $.blockUI.defaults.fadeOut = 100,
+
+            $(document).ajaxSend(function () {
+                if (!pageBlocked) {
+                    $.blockUI({
+                        message: "Espere un momento por favor",
+                        css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: '#000',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: 1,
+                            color: '#fff'
+                        },
+                        onBlock: function () {
+                            pageBlocked = true;
+                        }
+                    });
+                }
+            }).ajaxStop(function () {
+                jQuery.unblockUI();
+                pageBlocked = false;
+            });
+
+        });
+    </script>
+
+
+
+}

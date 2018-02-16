@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{40E4A67F-C0A8-48A4-90EB-470F31E0D7F2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sigcomt.Business.Logic</RootNamespace>
+    <AssemblyName>Sigcomt.Business.Logic</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Core.Extensions, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CSharp.Portable-Singleton.2.0.0.4\lib\Core.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Core.Singleton, Version=2.0.6074.9804, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CSharp.Portable-Singleton.2.0.0.4\lib\Core.Singleton.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CabeceraCargaBL.cs" />
+    <Compile Include="CargaArchivoBL.cs" />
+    <Compile Include="CargoBL.cs" />
+    <Compile Include="Core\ILogic.cs" />
+    <Compile Include="Core\IReadOnlyLogic.cs" />
+    <Compile Include="Core\IWriteOnlyLogic.cs" />
+    <Compile Include="ParametrosBL.cs" />
+    <Compile Include="ExcelBL.cs" />
+    <Compile Include="Interfaces\ICabeceraCargaBL.cs" />
+    <Compile Include="Interfaces\ICargaArchivoBL.cs" />
+    <Compile Include="Interfaces\ICargoBL.cs" />
+    <Compile Include="Interfaces\IParametrosBL.cs" />
+    <Compile Include="Interfaces\IExcelBL.cs" />
+    <Compile Include="Interfaces\IItemTablaBL.cs" />
+    <Compile Include="Interfaces\ILogBL.cs" />
+    <Compile Include="Interfaces\ILoteBL.cs" />
+    <Compile Include="Interfaces\IRolBL.cs" />
+    <Compile Include="Interfaces\IUsuarioBL.cs" />
+    <Compile Include="ItemTablaBL.cs" />
+    <Compile Include="LogBL.cs" />
+    <Compile Include="LoteBL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RolBL.cs" />
+    <Compile Include="UsuarioBL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sigcomt.Business.Entity\Sigcomt.Business.Entity.csproj">
+      <Project>{5f8bb5e3-3eee-4aae-acb8-284c35b57135}</Project>
+      <Name>Sigcomt.Business.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sigcomt.Cache\Sigcomt.Cache.csproj">
+      <Project>{3dbabe0e-6b92-4328-a1b8-16f7d96505fc}</Project>
+      <Name>Sigcomt.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sigcomt.Common\Sigcomt.Common.csproj">
+      <Project>{d42a0d10-1e4e-4035-b518-20d227f09593}</Project>
+      <Name>Sigcomt.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sigcomt.DataAccess\Sigcomt.DataAccess.csproj">
+      <Project>{2f621e12-f808-4b68-acb2-73b51b35cc2f}</Project>
+      <Name>Sigcomt.DataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
