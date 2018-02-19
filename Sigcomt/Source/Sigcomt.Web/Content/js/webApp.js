@@ -802,6 +802,8 @@ var webApp = function () {
         elemento.value = elemento.value.toUpperCase();
     };
 
+   
+
     var inicializarFileUpload = function(id) {
         var itemTemplate = '<div id="'+id+'_SWFUpload_0_0" class="uploadify-queue-item">\
             <span class="ace-file-name" ><i class=" ace-icon fa fa-upload"></i> Sin Archivo ...</span>\
@@ -908,6 +910,16 @@ var webApp = function () {
             $('#'+item).validCampoFranz('1234567890');
         });        
     };
+    var validarBasioONull = function (identificador) {
+        var resp = true;
+        if ($("#" + identificador).val() == "" ||
+            $("#" + identificador).val() == null ||
+           typeof $("#" + identificador).val() == "undefined") {
+            resp = false;
+        }
+        return resp;
+    }
+
     var validarCantidadAmarillaMax = function (identificadores,cantidad) {
         return (identificadores > cantidad) ? true : false;
     };

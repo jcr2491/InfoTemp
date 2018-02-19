@@ -70,8 +70,13 @@ namespace Sigcomt.DataAccess
                             PosicionColumna = lector.GetString(lector.GetOrdinal("PosicionColumna")),
                             TipoDato = lector.GetString(lector.GetOrdinal("TipoDato")),
                             PermiteNulo = lector.GetBoolean(lector.GetOrdinal("PermiteNulo")),
-                            ValorDefecto = lector.GetString(lector.GetOrdinal("ValorDefecto")),
-                            ValorIgnorar = lector.GetString(lector.GetOrdinal("ValorDefecto"))
+          
+                            ValorDefecto = lector.IsDBNull(lector.GetOrdinal("ValorDefecto"))
+                                            ? null
+                                            : lector.GetString(lector.GetOrdinal("ValorDefecto")),
+                            ValorIgnorar = lector.IsDBNull(lector.GetOrdinal("ValorIgnorar")) 
+                                            ? null 
+                                            : lector.GetString(lector.GetOrdinal("ValorIgnorar"))
                         });
                     }
                 }

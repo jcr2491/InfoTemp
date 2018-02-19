@@ -17,7 +17,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
     public class CargaProducContactenos
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -104,13 +103,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "ProducContactenos");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
+                    cargaBase.RegistrarCarga(dt, "ProducContactenos");
 
                     //Se coloca el Id del empleado a los registros
                     CargaArchivoBL.GetInstance().AddEmpleadoId("ProducContactenos", "Empleado", "EmpleadoId");
@@ -118,9 +111,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -131,21 +122,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["Empleado"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Empleado"]));
-            dr["TotalAtendido"] = excel.GetIntCellValue(row, _indexCol["TotalAtendido"]);
-            dr["DiasLaborados"] = excel.GetIntCellValue(row, _indexCol["DiasLaborados"]);
-            dr["MetaDiaria"] = excel.GetIntCellValue(row, _indexCol["MetaDiaria"]);
-            dr["MetaMes"] = excel.GetIntCellValue(row, _indexCol["MetaMes"]);
-            dr["Productividad"] = Math.Round(excel.GetDoubleCellValue(row, _indexCol["Productividad"]),2);
-
-            return dr;
-        }
-
-        #endregion
     }
 }

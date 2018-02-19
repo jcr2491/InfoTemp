@@ -29,8 +29,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion
             string tipoArchivo = TipoArchivo.RICalidadAtencion1erContacto.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
             int num = 0;
             try
             {
@@ -92,45 +90,33 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion
 
                         if (!string.IsNullOrWhiteSpace(CCFFId))
                         {
-                                cont++;
-                                DataRow dr = cargaBase.AsignarDatos(dt);
-                                dr["Secuencia"] = cont;
-                                var logro = dr["Logro"];
-                                var meta = dr["Meta"];
-                                if ((int)logro > 0 && (int)meta > 0)
-                                {
-                                    dr["Cumplimiento"] =Convert.ToDouble(logro) / Convert.ToDouble(meta);
-                                }
-                                else
-                                {
-                                    dr["Cumplimiento"] = 0;
-                                }
+                            cont++;
+                            DataRow dr = cargaBase.AsignarDatos(dt);
+                            dr["Secuencia"] = cont;
+                            var logro = dr["Logro"];
+                            var meta = dr["Meta"];
+                            if ((int)logro > 0 && (int)meta > 0)
+                            {
+                                dr["Cumplimiento"] =Convert.ToDouble(logro) / Convert.ToDouble(meta);
+                            }
+                            else
+                            {
+                                dr["Cumplimiento"] = 0;
+                            }
 
-                                dt.Rows.Add(dr);
+                            dt.Rows.Add(dr);
                             
                         }
                         num++;
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-
-                    CargaArchivoBL.GetInstance().Add(dt, "RICalidadAtencion1erContacto");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "RICalidadAtencion1erContacto");
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-                int n = num;
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -141,83 +127,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion
 
         #endregion
 
-        #region Métodos Privados
-    
-        public static DataTable GroupBy(DateTime FechaFile, DataTable i_dSourceTable, int CargaID)
-        {
-            DataTable query = i_dSourceTable.AsEnumerable().Where(name => name.Field<bool>("IngresoBack") == true).CopyToDataTable();
-            var query2 = query.AsEnumerable().GroupBy(r1 => new
-            {
-                CCFFId = r1.Field<string>("CCFFId"),
-                CCFF = r1.Field<string>("CCFF"),
-                Zona = r1.Field<string>("Zona")
-            }).Select(g => new
-            {
-                CCFFId = g.Key.CCFFId,
-                CCFF = g.Key.CCFF,
-                Zona = g.Key.Zona,
-                Count = Convert.ToDouble(g.Count())
-            });
-            DataTable dt2 = Utils.LinqQueryToDataTable(query2);
-
-            query = i_dSourceTable.AsEnumerable().CopyToDataTable();
-            var query3 = query.AsEnumerable().GroupBy(r1 => new
-            {
-                CCFFId = r1.Field<string>("CCFFId"),
-                CCFF = r1.Field<string>("CCFF"),
-                Zona = r1.Field<string>("Zona")
-            }).Select(g => new
-            {
-                CCFFId = g.Key.CCFFId,
-                CCFF = g.Key.CCFF,
-                Zona = g.Key.Zona,
-                Count = Convert.ToDouble(g.Count())
-            });
-            DataTable dt3 = Utils.LinqQueryToDataTable(query3);
-
-            DataTable dtResult = new DataTable();
-            dtResult.Columns.Add("CCFFId", typeof(string));
-            dtResult.Columns.Add("CCFF", typeof(string));
-            dtResult.Columns.Add("Zona", typeof(string));
-            dtResult.Columns.Add("FechaFile", typeof(DateTime));
-            dtResult.Columns.Add("Logro", typeof(double));
-
-            var InnerJoin = from a in dt2.AsEnumerable()
-                            join b in dt3.AsEnumerable()
-                            on a.Field<string>("CCFFId") equals b.Field<string>("CCFFId")
-                            select dtResult.LoadDataRow(new object[]
-                            {
-                               a.Field<string>("CCFFId"),
-                               a.Field<string>("CCFF"),
-                               a.Field<string>("Zona"),
-                               FechaFile,
-                               Math.Round(a.Field<double>("Count") / b.Field<double>("Count"), 3)
-                            }, false);
-            dtResult = InnerJoin.CopyToDataTable();
-
-            dtResult.Columns.Add("CargaId", typeof(int)).SetOrdinal(0);
-            dtResult.Columns.Add("Secuencia", typeof(int)).SetOrdinal(1);
-            int secuencia = 0;
-
-            foreach (DataRow row in dtResult.Rows)
-            {
-                string id = row["CCFFId"].ToString();
-                int number;
-                if (!Int32.TryParse(id, out number))
-                {
-                    row.Delete();
-                }
-            }
-            dtResult.AcceptChanges();
-
-            foreach (DataRow row in dtResult.Rows)
-            {
-                row["CargaID"] = CargaID;
-                row["Secuencia"] = secuencia++;
-            }
-
-            return dtResult;
-        }
-        #endregion
     }
 }

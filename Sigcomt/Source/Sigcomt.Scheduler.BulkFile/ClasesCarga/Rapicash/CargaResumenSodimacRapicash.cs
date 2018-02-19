@@ -17,7 +17,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
     public class CargaResumenSodimacRapicash
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -96,34 +95,20 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
                         if (!string.IsNullOrWhiteSpace(Sucursal) && !Sucursal.StartsWith("Total general", StringComparison.InvariantCultureIgnoreCase))
                         {
                             cont++;
-                            DataRow dr = GetDataRow(dt, excel, row);
-                            dr["CargaId"] = cabeceraId;
+                            DataRow dr = cargaBase.AsignarDatos(dt);
                             dr["Secuencia"] = cont;
-                            dr["Sucursal"] = Sucursal;
-
                             dt.Rows.Add(dr);
                         }
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "ResumenSodimacRapicash");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("ResumenSagaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "ResumenSodimacRapicash");
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -134,18 +119,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["Meta"] = excel.GetDoubleCellValue(row, _indexCol["Meta"]);
-            dr["VentaReal"] = excel.GetDoubleCellValue(row, _indexCol["VentaReal"]);
-            dr["Cumplimiento"] = excel.GetDoubleCellValue(row, _indexCol["Cumplimiento"]);
-
-            return dr;
-        }
-
-        #endregion
     }
 }

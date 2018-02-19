@@ -87,12 +87,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Maestro
 
                         CargoId = Utils.GetValueColumn(
                                 excel.GetCellToString(row,
-                                cargaBase.PropiedadCol.First(p => p.Key == "CargoId").Value.PosicionColumna), CargoId);
+                                cargaBase.PropiedadCol.First(p => p.Key == "CargoId").Value.PosicionColumna), "");
 
                         if (CargoId != string.Empty && Char.IsNumber(CargoId, 0))
                         {
                             cont++;
-                            DataRow dr = cargaBase.AsignarDatos(dt, excel, row);
+                            DataRow dr = cargaBase.AsignarDatos(dt);
 
                             dt.Rows.Add(dr);
                         }
@@ -101,17 +101,10 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Maestro
                     }
 
                     cargaBase.RegistrarCarga(dt, "Bono");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(EstadoCarga.Procesado);
-
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(EstadoCarga.Fallido);
-
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);

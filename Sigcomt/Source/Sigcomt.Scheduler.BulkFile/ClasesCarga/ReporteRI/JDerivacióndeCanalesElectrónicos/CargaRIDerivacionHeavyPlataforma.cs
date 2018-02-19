@@ -25,7 +25,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
             Logger.Info("Se inició la carga del archivo Derivacion Heavy Plataforma");
             Console.WriteLine("Se inició la carga del archivo Derivacion Heavy Plataforma");
             var cargaBase = new CargaBase<RIDerivacionHeavyPlataforma>();
-            string tipoArchivo = TipoArchivo.RICalidadAtencion1erContacto.GetStringValue();
+            string tipoArchivo = TipoArchivo.RIDerivacionHeavyPlataformaCCFF.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
             bool fileError = true;
@@ -44,7 +44,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                     int dia = 1;
                     int mes = Convert.ToInt32(onlyName.Substring(0, 2));
                     int año = Convert.ToInt32(onlyName.Substring(2, 4));
-
 
                     DateTime fechaFile = new DateTime(año, mes, dia);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
@@ -102,24 +101,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-
-                    CargaArchivoBL.GetInstance().Add(dt, "RIDerivacionHeavyPlataforma");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "RIDerivacionHeavyPlataforma");
                 }
             }
             catch (Exception ex)
-            {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-                int n = num;
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+            {            
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }

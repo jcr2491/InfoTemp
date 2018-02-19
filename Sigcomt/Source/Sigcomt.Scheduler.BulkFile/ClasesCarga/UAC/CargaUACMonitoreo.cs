@@ -65,8 +65,8 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
                     Console.WriteLine("Se está procesando el archivo: " + fileName);
                     Logger.InfoFormat("Se está procesando el archivo: " + fileName);
 
-                    var fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
+                    FileStream fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                    GenericExcel excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
                     DataTable dt = Utils.CrearCabeceraDataTable<UACMonitoreo>();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
@@ -91,7 +91,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
                         if (Empleado != string.Empty)
                         {
                             cont++;
-                            DataRow dr = cargaBase.AsignarDatos(dt, excel, row);
+                            DataRow dr = cargaBase.AsignarDatos(dt);
                             dr["Secuencia"] = cont;
                             dt.Rows.Add(dr);
 
@@ -100,23 +100,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
                         }
                         
                     }
-                  
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "Monitoreo");
-
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("Monitoreo", "Empleado", "EmpleadoId");
-
+                   cargaBase.RegistrarCarga(dt, "Monitoreo");
                 }
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }

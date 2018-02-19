@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using NPOI.SS.Util;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
+using Sigcomt.DataAccess;
 
 namespace Sigcomt.Scheduler.BulkFile.Core
 {
@@ -38,6 +40,9 @@ namespace Sigcomt.Scheduler.BulkFile.Core
                         PermiteNulo = campo.PermiteNulo,
                         ValorDefecto = campo.ValorDefecto,
                         ValorIgnorar = campo.ValorIgnorar,
+                        LetraColumna = Utils.IsNumber(campo.PosicionColumna)
+                            ? null
+                            : campo.PosicionColumna,
                         PosicionColumna = Utils.IsNumber(campo.PosicionColumna)
                             ? Convert.ToInt32(campo.PosicionColumna)
                             : CellReference.ConvertColStringToIndex(campo.PosicionColumna)
@@ -46,6 +51,41 @@ namespace Sigcomt.Scheduler.BulkFile.Core
             }
 
             return columnas;
+        }
+
+        public static List<DetalleErrorCarga> RegistrarErrorCarga()
+        {            
+            int secuencia = 0;
+            DataTable dt = Utils.CrearCabeceraDataTable<ErrorCarga>();
+            DateTime fecha = DateTime.Now;
+
+            foreach (var error in ErrorCargaList)
+            {
+                secuencia++;
+
+                DataRow dr = dt.NewRow();
+                dr["FechaError"] = fecha;
+                dr["Secuencia"] = secuencia;
+                dr["TipoError"] = error.TipoError;                
+                dr["PosicionColumna"] = error.PosicionColumna;                
+                dr["DetalleError"] = error.DetalleError;
+
+                if (error.CargaId != null)
+                    dr["CargaId"] = error.CargaId;
+
+                if (error.NumFila != null)
+                    dr["NumFila"] = error.NumFila;
+
+                if (error.ExcelHojaCampoId != null)
+                    dr["ExcelHojaCampoId"] = error.ExcelHojaCampoId;
+
+                dt.Rows.Add(dr);
+            }
+
+            CargaArchivoRepository.GetInstance().Add(dt, "ErrorCarga");
+
+            // Obtenemos los errores
+            return CargaArchivoRepository.GetInstance().GetUltimaCargaPorArchivo(fecha);
         }
 
         public static string GetMessageError(bool fileError, string[] campos, int numLinea, string messageException)

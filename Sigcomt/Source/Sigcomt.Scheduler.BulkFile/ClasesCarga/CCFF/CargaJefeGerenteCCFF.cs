@@ -120,8 +120,8 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
                     fileError = false;
                     CargaArchivoBL.GetInstance().Add(dt, "BaseJefesyGerentesCCFF");
 
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
+                    
+                    
 
                     //Se coloca el Id del empleado a los registros
                     CargaArchivoBL.GetInstance().AddEmpleadoId("BaseJefesyGerentesCCFF", "NombreCorto", "EmpleadoId");
@@ -129,7 +129,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
+                
 
                 string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
                 Console.WriteLine(messageError);

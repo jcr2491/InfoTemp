@@ -4,8 +4,6 @@ namespace Sigcomt.Business.Entity
     {
         public int CargaId { get; set; }
         public int Secuencia { get; set; }
-        public int SupervisorId { get; set; }
-        public string Supervisor { get; set; }
         public int GrupoId { get; set; }
         public string Grupo { get; set; }
         public int EmpleadoId { get; set; }
@@ -15,6 +13,6 @@ namespace Sigcomt.Business.Entity
         public decimal Logro { get; set; }
         public decimal MetaDiaria { get; set; }
         public decimal MetaReal { get; set; }
-        public decimal APPAND { get; set; }
+        public decimal AppAnd { get; set; }
     }
 }

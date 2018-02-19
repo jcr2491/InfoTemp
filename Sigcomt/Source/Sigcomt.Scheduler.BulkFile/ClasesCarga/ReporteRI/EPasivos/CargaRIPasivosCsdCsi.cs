@@ -102,20 +102,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.EPasivos
 
                     }
 
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "RIPasivosCsdCsi");
-
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
+                    cargaBase.RegistrarCarga(dt, "RIPasivosCsdCsi");
                 }
             }
             catch (Exception ex)
             {
-                
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -126,43 +118,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.EPasivos
 
         #endregion
 
-        #region Métodos Privados
-
-        //private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        //{
-        //    DataRow dr = dt.NewRow();
-        //    //var Logro, CS, CSI;
-        //    dr["Zona"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Zona"]), "");
-        //    dr["CCFFId"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CCFFId"]), "0");
-
-        //    dr["CSI"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CSI"]), "0");
-        //    dr["CS"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CS"]), "0");
-        //    var Logro = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Logro"]), "0");
-        //    var Meta = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Meta"]), "0");
-        //    if (Char.IsNumber(Logro, 0) && Char.IsNumber(Meta, 0))
-        //    {
-        //        dr["Logro"] = Logro;
-        //        dr["Meta"] = Meta;
-        //        if (Int32.Parse(Logro) > 0 && Int32.Parse(Meta) > 0)
-        //        {
-        //            dr["Cumplimiento"] = Convert.ToDecimal(Logro) / Convert.ToDecimal(Meta);
-        //        }
-        //        else
-        //        {
-        ////            dr["Cumplimiento"] = 0;
-        //        }
-
-        //    }
-        //    else
-        //    {
-        //        dr["Logro"] = 0;
-        //        dr["Meta"] = 0;
-        //        dr["Cumplimiento"] = 0;
-        //    }
-
-        //    return dr;
-        //}
-
-        #endregion
     }
 }

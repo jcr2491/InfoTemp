@@ -101,24 +101,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-
-                    CargaArchivoBL.GetInstance().Add(dt, "RICalidadAtencion");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "RICalidadAtencion");
                 }
             }
             catch (Exception ex)
-            {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-                int n = num;
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+            {                
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -129,82 +117,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion
 
         #endregion
 
-        #region Métodos Privados
-
-        public static DataTable GroupBy(DateTime FechaFile, DataTable i_dSourceTable, int CargaID)
-        {
-            DataTable query = i_dSourceTable.AsEnumerable().Where(name => name.Field<bool>("IngresoBack") == true).CopyToDataTable();
-            var query2 = query.AsEnumerable().GroupBy(r1 => new
-            {
-                CCFFId = r1.Field<string>("CCFFId"),
-                CCFF = r1.Field<string>("CCFF"),
-                Zona = r1.Field<string>("Zona")
-            }).Select(g => new
-            {
-                CCFFId = g.Key.CCFFId,
-                CCFF = g.Key.CCFF,
-                Zona = g.Key.Zona,
-                Count = Convert.ToDouble(g.Count())
-            });
-            DataTable dt2 = Utils.LinqQueryToDataTable(query2);
-
-            query = i_dSourceTable.AsEnumerable().CopyToDataTable();
-            var query3 = query.AsEnumerable().GroupBy(r1 => new {
-                CCFFId = r1.Field<string>("CCFFId"),
-                CCFF = r1.Field<string>("CCFF"),
-                Zona = r1.Field<string>("Zona")
-            }).Select(g => new
-            {
-                CCFFId = g.Key.CCFFId,
-                CCFF = g.Key.CCFF,
-                Zona = g.Key.Zona,
-                Count = Convert.ToDouble(g.Count())
-            });
-            DataTable dt3 = Utils.LinqQueryToDataTable(query3);
-
-            DataTable dtResult = new DataTable();
-            dtResult.Columns.Add("CCFFId", typeof(string));
-            dtResult.Columns.Add("CCFF", typeof(string));
-            dtResult.Columns.Add("Zona", typeof(string));
-            dtResult.Columns.Add("FechaFile", typeof(DateTime));
-            dtResult.Columns.Add("Logro", typeof(double));
-
-            var InnerJoin = from a in dt2.AsEnumerable()
-                            join b in dt3.AsEnumerable()
-                            on a.Field<string>("CCFFId") equals b.Field<string>("CCFFId")
-                            select dtResult.LoadDataRow(new object[]
-                            {
-                               a.Field<string>("CCFFId"),
-                               a.Field<string>("CCFF"),
-                               a.Field<string>("Zona"),
-                               FechaFile,
-                               Math.Round(a.Field<double>("Count") / b.Field<double>("Count"), 3)
-                            }, false);
-            dtResult = InnerJoin.CopyToDataTable();
-
-            dtResult.Columns.Add("CargaId", typeof(int)).SetOrdinal(0);
-            dtResult.Columns.Add("Secuencia", typeof(int)).SetOrdinal(1);
-            int secuencia = 0;
-
-            foreach (DataRow row in dtResult.Rows)
-            {
-                string id = row["CCFFId"].ToString();
-                int number;
-                if (!Int32.TryParse(id, out number))
-                {
-                    row.Delete();
-                }
-            }
-            dtResult.AcceptChanges();
-
-            foreach (DataRow row in dtResult.Rows)
-            {
-                row["CargaID"] = CargaID;
-                row["Secuencia"] = secuencia++;
-            }
-
-            return dtResult;
-        }
-        #endregion
     }
 }

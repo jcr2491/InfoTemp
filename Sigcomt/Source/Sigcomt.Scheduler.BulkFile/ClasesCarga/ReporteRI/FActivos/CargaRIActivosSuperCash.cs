@@ -118,23 +118,13 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.FActivos
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "RIActivosSuperCash");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "RIActivosSuperCash");
+                    
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -145,19 +135,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.FActivos
 
         #endregion
 
-        #region Métodos Privados
-
-        //private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        //{
-        //    DataRow dr = dt.NewRow();
-        //   // dr["Zona"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Zona"]), "");
-            
-        //    dr["Logro"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Logro"]), "0.0");
-        //    dr["MetaMonto"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["MetaMonto"]), "0.0");
-        //    dr["LogroProy"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["LogroProy"]), "0");
-        //    return dr;
-        //}
-
-        #endregion
     }
 }

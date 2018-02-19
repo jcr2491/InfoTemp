@@ -6,7 +6,8 @@
         public int Secuencia { get; set; }
         public int CCFFId  { get; set; }
         public string CCFF { get; set; }
-        public int ALogro { get; set; }
-        public int AMeta { get; set; }
+        public decimal ALogro { get; set; }
+        public decimal AMeta { get; set; }
+        public decimal ACumplimiento { get; set; }
     }
 }

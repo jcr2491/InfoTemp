@@ -157,16 +157,16 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
                     fileError = false;
                     CargaArchivoBL.GetInstance().Add(dt, "DerivacionCCFF");
 
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
+                    
+                    
 
                 }
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
+                
 
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }

@@ -41,8 +41,10 @@
   <ItemGroup>
     <Compile Include="AmpliacionesCCFF.cs" />
     <Compile Include="Bono.cs" />
+    <Compile Include="DetalleErrorCarga.cs" />
     <Compile Include="DetalleTottusRapicash.cs" />
     <Compile Include="ErrorCarga.cs" />
+    <Compile Include="MaestroAutomotriz.cs" />
     <Compile Include="Parametros.cs" />
     <Compile Include="PlanillaTottusRapicash.cs" />
     <Compile Include="CajeroTottusRapicash.cs" />
@@ -69,6 +71,7 @@
     <Compile Include="RISeguroP1.cs" />
     <Compile Include="RISeguroP2.cs" />
     <Compile Include="RISeguroTP.cs" />
+    <Compile Include="RITarjetaAdicional.cs" />
     <Compile Include="SodimacGanadorRepicash.cs" />
     <Compile Include="SodimacMetaRepicash.cs" />
     <Compile Include="RISeguroCCFF.cs" />

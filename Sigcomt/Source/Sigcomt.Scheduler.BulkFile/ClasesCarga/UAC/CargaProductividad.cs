@@ -22,15 +22,13 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
         {
             Logger.Info("Se inició la carga del archivo Productividad");
             Console.WriteLine("Se inició la carga del archivo Productividad");
-
-            var cargaBase = new CargaBase<Productividad>();
+            
             string tipoArchivo = TipoArchivo.Productividad.GetStringValue();
+            var cargaBase = new CargaBase<Productividad>(tipoArchivo);
             int cont = 0;
-            bool cargaError = true;
 
             try
             {
-                cargaBase = new CargaBase<Productividad>(tipoArchivo);
                 var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
 
                 foreach (var fileName in filesNames)
@@ -77,24 +75,19 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
+
                         if (isValid)
                         {
-                            supervisor = Utils.GetValueColumn(
-                                excel.GetStringCellValue(row,
-                                    cargaBase.PropiedadCol.First(p => p.Key == "Supervisor").Value.PosicionColumna),
-                                supervisor);
                             grupo = Utils.GetValueColumn(
                                 excel.GetStringCellValue(row,
                                     cargaBase.PropiedadCol.First(p => p.Key == "Grupo").Value.PosicionColumna), grupo);
 
-                            if (supervisor.Replace(" ", "")
-                                .StartsWith("TotalGeneral", StringComparison.InvariantCultureIgnoreCase)) break;
-                            if (!(supervisor.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase) ||
-                                  grupo.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase)))
+                            if (!grupo.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase))
                             {
                                 cont++;
                                 DataRow dr = cargaBase.AsignarDatos(dt);
                                 dr["Secuencia"] = cont;
+                                dr["Grupo"] = grupo;
 
                                 dt.Rows.Add(dr);
                             }
@@ -106,15 +99,8 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
                     
                     cargaBase.RegistrarCarga(dt, "Productividad");
 
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(EstadoCarga.Procesado);
-
                     //Se coloca el Id del empleado a los registros
                     CargaArchivoBL.GetInstance().AddEmpleadoId("Productividad", "Empleado", "EmpleadoId");
-
-                    //Se coloca el Id del supervisor a los registros
-                    CargaArchivoBL.GetInstance().AddEmpleadoId("Productividad", "Supervisor", "SupervisorId");
 
                     //Se coloca el Id del grupo a los registros
                     CargaArchivoBL.GetInstance().AddGrupoId("Productividad");
@@ -122,8 +108,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(EstadoCarga.Fallido);
-
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);

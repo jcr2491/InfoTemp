@@ -1,7 +1,6 @@
 ﻿using Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz;
 using Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF;
 using Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC;
-using Sigcomt.Scheduler.BulkFile.ClasesCarga.FFVV;
 using Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash;
 using Sigcomt.Scheduler.BulkFile.ClasesCarga.EjecutivosPromotores;
 using Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial;
@@ -37,7 +36,13 @@ namespace Sigcomt.Scheduler.BulkFile
             {
                 //var email = ParametrosBL.GetInstance().GetParametros("CorreoAnalistaBI");
 
-                //CargaUAC.CargarArchivos();
+
+                //Maestro
+                //CargaPuntajeKPI.CargarArchivo();
+                //CargaBono.CargarArchivo();
+                //CargaMaestroAutomotriz.CargarArchivo();
+
+                CargaUAC.CargarArchivos();
                 //CargaFFVV.CargarArchivos();
 
                 //Base
@@ -88,8 +93,9 @@ namespace Sigcomt.Scheduler.BulkFile
                 //CargaResumenSodimacRapicash.CargarArchivo();
                 //CargaDetalleSodimacRapicash.CargarArchivo();
                 //CargaPlanillaCajeroTottusRapicash.CargarArchivo();
+                CargaSodimacMetaRapicash.CargarArchivo();
 
-                //CargaSodimacMetaRapicash.CargarArchivo();
+
 
                 //CCFF
                 //CargaRISeguroCCFF.CargarArchivo();
@@ -103,9 +109,7 @@ namespace Sigcomt.Scheduler.BulkFile
                 //CargaUACMonitoreo.CargarArchivo();
                 //CargaProductividad.CargarArchivo();
 
-                //Maestro
-                //CargaPuntajeKPI.CargarArchivo();
-                CargaBono.CargarArchivo();
+          
 
                 #region Reporte RI
 
@@ -123,12 +127,14 @@ namespace Sigcomt.Scheduler.BulkFile
 
                 #region C. Tarjetas
                 //CargaRITarjetasAvanceZonales.CargarArchivo();
+                //CargaRITarjetaAdicional.CargarArchivo();
+                //CargaRITarjetaAdicional.CargarArchivo();
                 #endregion
 
                 #region D. Tiempo de Espera
                 //CargaRITECCFF.CargarArchivo();
                 //CargaRITEPlataforma.CargarArchivo();
-                //CargaRITECajero.CargarArchivo();
+                //CargaRITECajero.CargarArchivo();                          //CARGÓ!
                 //CargaRITiempoEspera.CargarArchivo();
                 #endregion
 
@@ -151,30 +157,32 @@ namespace Sigcomt.Scheduler.BulkFile
                 #region I. CalidadAtencion
                 //CargaRICalidadAtencion1erContacto.CargarArchivo();
                 //CargaRICalidadCICCFF.CargarArchivo();
-                //CargaRICalidadNPSCCFF.CargarArchivo();
-                //CargaRICalidadAtencion.CargarArchivo();
+                CargaRICalidadNPSCCFF.CargarArchivo();
+                //CargaRICalidadAtencion.CargarArchivo();                
                 #endregion
 
                 #region J. Derivación de Canales Electrónicos
-                //CargaRIDerivacionHeavyPlataforma.CargarArchivo();
-                //CargaRIDerivacionCaja.CargarArchivo();
+                //CargaRIDerivacionHeavyPlataforma.CargarArchivo();         //CARGÓ
+                //CargaRIDerivacionCaja.CargarArchivo();                  //CARGÓ
                 #endregion
 
                 #region L. Ampliaciones de Línea
-                //CargaRIAmpliacionLinea.CargarArchivo();
+                //CargaRIAmpliacionLinea.CargarArchivo();                 //CARGÓ
                 #endregion
 
                 #region M. Operaciones
-                //CargaRIOperacionSF.CargarArchivo();
-                //CargaRIOperacionE.CargarArchivo();
+                //CargaRIOperacionSF.CargarArchivo();                      //CARGÓ!
+                //CargaRIOperacionE.CargarArchivo();                       //CARGÓ! 
                 #endregion
 
                 #endregion
 
+
+                var errorList = UtilsLocal.RegistrarErrorCarga();
 
                 //Envio Correo
 
-                EnvioEmail.EnvioCorreo();
+                EnvioEmail.EnvioCorreo(errorList);
                 Console.WriteLine("Se completó la carga de todos los archivos inputs.");
 
                 //Console.ReadLine();

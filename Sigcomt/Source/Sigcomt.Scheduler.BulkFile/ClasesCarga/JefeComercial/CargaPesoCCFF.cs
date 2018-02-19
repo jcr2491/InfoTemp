@@ -18,7 +18,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
     public class CargaPesoCCFF
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -105,27 +104,18 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
                             dr["CodigoCCFF"] = CodigoCCFF;
                             dt.Rows.Add(dr);
                         }
-
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "PesoCCFF");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
+                    cargaBase.RegistrarCarga(dt, "PesoCCFF");                                       
                     //Se coloca el Id del empleado a los registros
                     //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -136,28 +126,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["CCFF"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CCFF"]),"0");
-            dr["Cargo"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Cargo"]),"0");
-            dr["CTSEPlataforma"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CTSEPlataforma"]));
-            dr["TarjetaCMRATarjeta"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["TarjetaCMRATarjeta"]));
-            dr["TajetaCMRAColocaciones"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["TajetaCMRAColocaciones"]));
-            dr["TarjetaCMRACruceVSC"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["TarjetaCMRACruceVSC"]));
-            dr["PSCuentaHaberes"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["PSCuentaHaberes"]));
-            dr["TarjetaCMRASaldoPasivo"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["TarjetaCMRASaldoPasivo"]));
-            dr["RetailCMRParticipacionCMRSaga"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["RetailCMRParticipacionCMRSaga"]));
-            dr["DerivacionPlataforma"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["DerivacionPlataforma"]));
-            dr["CSEnCPlataforma"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CSEnCPlataforma"]));
-            dr["CSEnCPromotor"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CSEnCPromotor"]));
-            dr["CSEncuestaCalidadCCFF"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CSEncuestaCalidadCCFF"]));
-            dr["CSNPS"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CSNPS"]));
-            return dr;
-        }
-
-        #endregion
     }
 }

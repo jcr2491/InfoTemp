@@ -1,13 +1,10 @@
 ﻿using log4net;
-using NPOI.SS.UserModel;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -18,7 +15,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
     public class CargaDataAutomotriz
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        //private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -56,7 +52,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    //cabeceraId = cargaBase.AgregarCabecera(TipoArchivo.DataAutomotriz, EstadoCarga.Iniciado, fechaFile);
                     cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
@@ -75,9 +70,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     cont = 0;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string pase = string.Empty;
-
-                    //string data = _ValidationMensaje(dt, excel, _indexCol, row);
+                    string NroPrestamo = string.Empty;
 
                     //TODO: Aqui se debe hacer la logica para consumir de la tabla excel de configuracion
 
@@ -91,16 +84,15 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
                         };
-                        pase = Utils.GetValueColumn(
-                           excel.GetStringCellValue(row,
-                               cargaBase.PropiedadCol.First(p => p.Key == "Pase").Value.PosicionColumna),
-                           pase);
+                        NroPrestamo = Utils.GetValueColumn(
+                           excel.GetCellToString(row,
+                               cargaBase.PropiedadCol.First(p => p.Key == "NroPrestamo").Value.PosicionColumna),
+                           NroPrestamo);
 
-                        if(!string.IsNullOrWhiteSpace(pase))
+                        if(!string.IsNullOrWhiteSpace(NroPrestamo))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["CargaId"] = cabeceraId; 
                             dr["Secuencia"] = cont;                            
                             dr["Moneda"] = Utils.GetValueColumn("Soles");  
                             dt.Rows.Add(dr);
@@ -110,21 +102,14 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
-                    fileError = false;
                     CargaArchivoBL.GetInstance().Add(dt, "DataAutomotriz");
-
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
                     //Se coloca el Id del empleado a los registros
                     CargaArchivoBL.GetInstance().AddEmpleadoId("DataAutomotriz", "Empleado", "EmpleadoId");
                 }
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -138,102 +123,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
 
         #endregion
  
-
-        //#region Métodos Privados
-
-        //private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        //{
-        //    DataRow dr = dt.NewRow();
-        //    dr["NroPrestamo"] = excel.GetIntCellValue(row, _indexCol["NroPrestamo"]);
-        //    dr["TipoDoc"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["TipoDoc"]));
-        //    dr["Documento"] = excel.GetIntCellValue(row, _indexCol["Documento"]);
-        //    dr["Empleado"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Empleado"]));
-        //    dr["FechaDesembolso"] = excel.GetDateCellValue(row, _indexCol["FechaDesembolso"]);
-        //    dr["Canal"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Canal"]));
-        //    dr["Captacion"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Captacion"]));
-        //    dr["Promotor"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Promotor"]));
-        //    dr["Asistente"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Asistente"]));
-        //    dr["TipoSeguro"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["TipoSeguro"]));
-        //    dr["Precio"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Precio"]));
-        //    dr["CuotaInicial"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CuotaInicial"]));
-        //    dr["Monto"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Monto"]));
-        //    string interm = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Intermediacion"]), string.Empty);
-        //    dr["Intermediacion"] = interm;
-
-        //    return dr;
-        //}
-
-       // #endregion
-
-        #region Validation
-        public static bool ValidateExcel(GenericExcel excel, Dictionary<string, int> _indexCol, int FilaIni, ref List<ResponseError> response)
-        {
-
-            DataTable dt = Utils.CrearCabeceraDataTable<DataAutomotriz>();
-            int rowNum = FilaIni - 1, cont = 0, iterador = 0;            
-            var row = excel.Sheet.GetRow(rowNum);
-            string msj = string.Empty;
-            string campo = "", codigo = "";
-            try
-            {
-                // Recorriendo el archivo excel
-                while (row != null)
-                {
-                    string interm = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Intermediacion"]), string.Empty);
-                    string pase = excel.GetCellToString(row, _indexCol["NroPrestamo"]);
-                    if (!string.IsNullOrWhiteSpace(pase))
-                    {
-                        cont++;
-                        DataRow dr = null;//GetDataRow(dt, excel, row);
-                        dr["CargaId"] = 0;
-                        dr["Secuencia"] = cont;
-                        dr["Moneda"] = Utils.GetValueColumn("Soles");
-                        dr["Intermediacion"] = interm;
-
-                        dt.Rows.Add(dr);
-                    }
-
-                    rowNum++;
-                    row = excel.Sheet.GetRow(rowNum);
-                }
-            }
-            catch(Exception e)
-            {
-
-            }
-
-
-            return true;
-        }
-
-        public static string _ValidationMensaje(DataTable dt, GenericExcel excel, Dictionary<string, int> _indexCol, IRow row)
-        {
-            string mensaje = string.Empty;
-            DataRow dr = dt.NewRow();
-            foreach (var column in dt.Columns)
-            {
-
-                if (!(column.ToString()=="CargaId") && !(column.ToString()=="Secuencia") && !(column.ToString()=="Moneda"))
-                {
-                    lectura:
-                    try
-                    {
-                        dr[column.ToString()] = excel.GetCellToString(row, _indexCol[column.ToString()]);                      
-                        Console.WriteLine("conituacion de lectura.");
-                    }
-                    catch (Exception e)
-                    {
-                        mensaje = e.Message;
-                        goto lectura;
-                    }
-                  
-                }
-            }
-            dt.Rows.Add(dr);
-
-            return mensaje; 
-        }
-        #endregion
     }
 
 }

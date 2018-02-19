@@ -104,12 +104,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
                         }                       
                     }
 
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "DiasAusencia");
-
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-                    
+                    cargaBase.RegistrarCarga(dt, "DiasAusencia");                    
                     //Se coloca el Id del empleado a los registros
                     CargaArchivoBL.GetInstance().AddEmpleadoId("DiasAusencia", "Empleado", "EmpleadoId");
 
@@ -117,9 +112,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -130,23 +123,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
 
         #endregion
 
-        //#region Métodos Privados
-
-        //private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        //{
-        //    DataRow dr = dt.NewRow();
-        //    dr["EmpresaId"] = excel.GetIntCellValue(row, _indexCol["EmpresaId"]);            
-        //    dr["Empresa"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Empresa"]));
-        //    dr["Empleado"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Empleado"]));
-        //    dr["Anio"] = excel.GetIntCellValue(row, _indexCol["Anio"]);
-        //    dr["Mes"] = excel.GetIntCellValue(row, _indexCol["Mes"]);
-        //    dr["Correlativo"] = excel.GetIntCellValue(row, _indexCol["Correlativo"]);
-        //    dr["FechaProc"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["FechaProc"]),"");
-        //    dr["TotDiasNoLabor"] = excel.GetDoubleCellValue(row, _indexCol["TotDiasNoLabor"]);
-
-        //    return dr;
-        //}
-
-        //#endregion
     }
 }

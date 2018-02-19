@@ -105,10 +105,8 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.EPasivos
                             {
                                 cont++;
                                 DataRow dr = cargaBase.AsignarDatos(dt);
-                                dr["CargaId"] = cabeceraId;
                                 dr["Secuencia"] = cont;
-                                dr["Zona"] = Zona;
-                                dr["CCFF"] = CCFF;
+                           
                                 dt.Rows.Add(dr);
                             }
                         }
@@ -117,20 +115,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.EPasivos
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "RIPasivosCortoLargoPlazo");
-
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
+                    cargaBase.RegistrarCarga(dt, "RIPasivosCortoLargoPlazo");
                 }
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -141,41 +131,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.EPasivos
 
         #endregion
 
-        //#region Métodos Privados
-
-        //private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        //{
-        //    DataRow dr = dt.NewRow();
-        //    double ResultCP=0, MetaCP=0, ResultLP=0, MetaLP=0;
-        //    dr["CCFFId"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CCFFId"]),"");
-        //    ResultCP = excel.GetDoubleCellValue(row, _indexCol["ResultadoCP"]);
-        //    MetaCP = excel.GetDoubleCellValue(row, _indexCol["MetaCP"]);
-        //    dr["ResultadoCP"] = ResultCP;
-        //    dr["MetaCP"] = MetaCP;
-        //    if (ResultCP != 0 && MetaCP != 0)
-        //    {
-        //        dr["CumplimientoCP"] = Math.Round((ResultCP / MetaCP), 3);
-        //    }
-        //    else {
-        //        dr["CumplimientoCP"] = 0;
-        //    }
-
-        //    ResultLP = excel.GetDoubleCellValue(row, _indexCol["ResultadoLP"]);
-        //    MetaLP = excel.GetDoubleCellValue(row, _indexCol["MetaLP"]);
-        //    dr["ResultadoLP"] = ResultLP;
-        //    dr["MetaLP"] = MetaLP;
-        //    if (ResultLP != 0 && MetaLP != 0)
-        //    {
-        //        dr["CumplimientoLP"] = Math.Round((ResultLP / MetaLP),3);
-        //    }
-        //    else
-        //    {
-        //        dr["CumplimientoLP"] = 0;
-        //    }
-
-        //    return dr;
-        //}
-
-        //#endregion
     }
 }

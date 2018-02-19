@@ -38,7 +38,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                 string tipoArchivo = TipoArchivo.RIDerivacionCajaAtencionesCaja.GetStringValue();
                  cargaBase = new CargaBase<RIDerivacionCaja>(tipoArchivo);
                 var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
-
+                int col = 0;
                 foreach (var fileName in filesNames)
                 {
                     var split = fileName.Split('\\');
@@ -73,7 +73,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                     var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
-                    int i = 0, col = 0;
+                    int i = 0;
                     DateTime fechaExcel;
                     string fecha = string.Empty;
                     var row = excel.Sheet.GetRow(rowNum);
@@ -101,6 +101,8 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
 
                         if (col != 0)
                         {
+                            cargaBase.PropiedadCol.First(p => p.Key == "AtencionesCaja").Value.PosicionColumna = col;
+
                             bool isValid = cargaBase.ValidarDatos(excel, row);
                             if (!isValid) {
                                 rowNum++;
@@ -128,7 +130,11 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                         row = excel.Sheet.GetRow(rowNum);
                     }
                 }
-            
+
+                if (col == 0)
+                {
+                    string error = "No se encuentra el nombre de la hoja registrada en la BD para este archivo.";                    
+                }
                 string tipoArchivoMR = TipoArchivo.RIDerivacionCajaMetaRetiro.GetStringValue();
                 cargaBase = new CargaBase<RIDerivacionCaja>(tipoArchivoMR);
                 var filesNamesMR = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
@@ -151,10 +157,10 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                     var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
-                    int i = 0, col = 0;
+                    int i = 0;
                     DateTime fechaExcel;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;
+                    cont = 0; col=0;
                     string fecha = string.Empty;
 
                     while (row != null)
@@ -179,6 +185,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
 
                         if (col != 0)
                         {
+                            cargaBase.PropiedadCol.First(p => p.Key == "MetaRetiros").Value.PosicionColumna = col;
                             bool isValid = cargaBase.ValidarDatos(excel, row);
                             if (!isValid) {
                                 rowNum++;
@@ -225,10 +232,10 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                     var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
-                    int i = 0, col = 0;
+                    int i = 0;
                     DateTime fechaExcel;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;
+                    cont = 0; col = 0;
                     string fecha = string.Empty;
 
                     while (row != null)
@@ -253,8 +260,10 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
 
                         if (col != 0)
                         {
+                            cargaBase.PropiedadCol.First(p => p.Key == "MetaPagoTC").Value.PosicionColumna = col;
                             bool isValid = cargaBase.ValidarDatos(excel, row);
-                            if (!isValid) {
+                            if (!isValid)
+                            {
                                 rowNum++;
                                 row = excel.Sheet.GetRow(rowNum);
                                 continue;
@@ -299,10 +308,10 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                     var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
-                    int i = 0, col = 0;
+                    int i = 0;
                     DateTime fechaExcel;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;
+                    cont = 0; col = 0;
                     string fecha = string.Empty;
 
                     while (row != null)
@@ -327,6 +336,15 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
 
                         if (col != 0)
                         {
+                            cargaBase.PropiedadCol.First(p => p.Key == "PagoTC").Value.PosicionColumna = col;
+                            bool isValid = cargaBase.ValidarDatos(excel, row);
+                            if (!isValid)
+                            {
+                                rowNum++;
+                                row = excel.Sheet.GetRow(rowNum);
+                                continue;
+                            };
+
                             string Pago = excel.GetCellToString(row, col);
                             foreach (DataRow fila in dt.Rows)
                             {
@@ -366,14 +384,15 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                     var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
-                    int i = 0, col = 0;
+                    int i = 0;
                     DateTime fechaExcel;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;
+                    cont = 0; col = 0;
                     string fecha = string.Empty;
 
                     while (row != null)
-                    {
+                    {              
+
                         fecha = excel.GetCellToString(row, i);
                         if (col == 0)
                         {
@@ -394,6 +413,15 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
 
                         if (col != 0)
                         {
+                            cargaBase.PropiedadCol.First(p => p.Key == "RetirosTCCajaPIF").Value.PosicionColumna = col;
+                            bool isValid = cargaBase.ValidarDatos(excel, row);
+                            if (!isValid)
+                            {
+                                rowNum++;
+                                row = excel.Sheet.GetRow(rowNum);
+                                continue;
+                            };
+
                             string Meta = excel.GetCellToString(row, col);
                             foreach (DataRow fila in dt.Rows)
                             {
@@ -433,10 +461,10 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                     var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
-                    int i = 0, col = 0;
+                    int i = 0;
                     DateTime fechaExcel;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;
+                    cont = 0; col = 0;
                     string fecha = string.Empty;
 
                     while (row != null)
@@ -461,9 +489,14 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
 
                         if (col != 0)
                         {
+                            cargaBase.PropiedadCol.First(p => p.Key == "RetirosTDCajaPIF").Value.PosicionColumna = col;
                             bool isValid = cargaBase.ValidarDatos(excel, row);
-                        if (!isValid) continue;
-
+                            if (!isValid)
+                            {
+                                rowNum++;
+                                row = excel.Sheet.GetRow(rowNum);
+                                continue;
+                            };
 
                             string Meta = excel.GetCellToString(row, col);
                             foreach (DataRow fila in dt.Rows)
@@ -482,27 +515,28 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-                }           
-                
+                }
+
+                cargaBase.RegistrarCarga(dt, "RIDerivacionCaja");
+                CargaArchivoBL.GetInstance().AddCCFFSucursal("RIDerivacionHeavyPlataforma", "CCFFId", "CCFF");
+
             }
             catch (Exception ex)
-            {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+            {                
+                
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
 
-            fileError = false;
-            CargaArchivoBL.GetInstance().Add(dt, "RIDerivacionCaja");
+            //fileError = false;
+            
 
-            cargaError = false;
-            //Se actualiza a procesado la tabla CabeceraCarga
-            cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
+            
+            
 
             //Se coloca el Id del Tienda-SucursalId a los registros
-            CargaArchivoBL.GetInstance().AddCCFFSucursal("RIDerivacionHeavyPlataforma", "CCFFId", "CCFF");
+            
 
             Logger.Info("Se terminó la carga del archivo RIDerivacionCaja");
             Console.WriteLine("Se terminó la carga del archivo RIDerivacionCaja");

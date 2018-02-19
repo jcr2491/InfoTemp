@@ -1,5 +1,8 @@
-﻿using System.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using Core.Singleton;
+using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic.Interfaces;
 using Sigcomt.DataAccess;
 
@@ -30,6 +33,11 @@ namespace Sigcomt.Business.Logic
         public void AddCCFFSucursal(string nombreTabla, string campoComparar, string campoActualizar)
         {
             CargaArchivoRepository.GetInstance().AddCCFFSucursal(nombreTabla, campoComparar, campoActualizar);
+        }
+
+        public List<DetalleErrorCarga> GetUltimaCargaPorArchivo(DateTime fecha)
+        {
+            return CargaArchivoRepository.GetInstance().GetUltimaCargaPorArchivo(fecha);
         }
     }
 }

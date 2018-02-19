@@ -17,7 +17,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
     public class CargaRITiempoEspera
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -81,15 +80,16 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-                        if (!isValid) {
+                        if (!isValid)
+                        {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };              
+                        };
                         TECCFFId = Utils.GetValueColumn(excel.GetCellToString(row,
                                     cargaBase.PropiedadCol.First(p => p.Key == "TECCFFId").Value.PosicionColumna), TECCFFId);
 
-                        if (Char.IsNumber(TECCFFId,0))
+                        if (Char.IsNumber(TECCFFId, 0))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
@@ -100,23 +100,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "RITECCFF");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "RITECCFF");
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -127,7 +116,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
 
         #endregion
 
-        
+
 
     }
 }

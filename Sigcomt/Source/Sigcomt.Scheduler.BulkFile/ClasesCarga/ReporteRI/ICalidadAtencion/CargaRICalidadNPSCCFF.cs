@@ -73,10 +73,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     cont = 0;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string CCFF = string.Empty;
-                    DateTime date;
-                    //TODO: Aqui se debe hacer la logica para consumir de la tabla excel de configuracion
+                    string CCFFId = string.Empty;
 
+                    //TODO: Aqui se debe hacer la logica para consumir de la tabla excel de configuracion
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
@@ -86,9 +85,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
                             continue;
                         };
 
-                        CCFF = Utils.GetValueColumn(excel.GetCellToString(row,cargaBase.PropiedadCol.First(p => p.Key == "CCFF").Value.PosicionColumna), CCFF);
+                        CCFFId = Utils.GetValueColumn(excel.GetCellToString(row,cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna), CCFFId);
 
-                        if (CCFF != string.Empty)
+                        if (CCFFId != string.Empty)
                         {
                                 cont++;
                                 DataRow dr = cargaBase.AsignarDatos(dt);
@@ -100,19 +99,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "RICalidadNPSCCFF");
-
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
+                    cargaBase.RegistrarCarga(dt, "RICalidadNPSCCFF");
                 }
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }

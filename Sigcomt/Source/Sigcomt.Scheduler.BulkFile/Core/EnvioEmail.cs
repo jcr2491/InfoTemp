@@ -1,4 +1,5 @@
-﻿using Sigcomt.Common;
+﻿using Sigcomt.Business.Entity;
+using Sigcomt.Common;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,41 +11,41 @@ namespace Sigcomt.Scheduler.BulkFile.Core
 {
     public class EnvioEmail
     {
-        public static bool EnvioCorreo() //PARAMETRO :lista de errores y lista correctas
+        public static bool EnvioCorreo(List<DetalleErrorCarga> errorList)
         {
             bool success = true;
             var listError = new List<ResponseError>();
             var listCorrecto = new List<ResponseCorrecto>();
             ResponseError Entityerror = null;
-            //listError.Add(new ResponseError { Reporte = "Ejemplo ", Input = "Automotriz", TipoArchivo = "ReporteRI", NombreCampo = "Base", NumeroFila = 2, NombreHoja = "A", Mensaje = "Error al convertir un dato" });
-            //Informacion 
+
             foreach (var error in UtilsLocal.ErrorCargaList)
             {
                 Entityerror = new ResponseError();
-                Entityerror.NombreColumna = error.NombreColumna;
-                Entityerror.NumeroFila = error.Fila;
+                Entityerror.NombreColumna = error.PosicionColumna;
+                Entityerror.NumeroFila = error.NumFila ?? 0;
                 Entityerror.PosicionColumna = error.PosicionColumna;
                 Entityerror.Mensaje = error.DetalleError;
                 Entityerror.NombreHoja = "Prueba";
                 listError.Add(Entityerror);
             }
 
-            DataEmail data = new DataEmail();
-            bool estadoEnvio = SendWithTemplateModel(new DataEmail
+            if (listError.Count > 0)
             {
-                Reporte = "REPORTE AUTOMOTRIZ", //ejemplo
-                HoraEjecucion = Convert.ToDateTime(DateTime.Now).ToShortTimeString(),
-                Mes = "JULIO",
-                ErrorList = listError
-            });
+                bool estadoEnvio = SendWithTemplateModel(new DataEmail
+                {
+                    Reporte = "REPORTE AUTOMOTRIZ", //ejemplo
+                    HoraEjecucion = Convert.ToDateTime(DateTime.Now).ToShortTimeString(),
+                    Mes = "JULIO",
+                    ErrorList = listError
+                });
 
-            //var estadoEnvio = SendWithTemplateModel(data);
-
-            if (!estadoEnvio) {
-                Console.WriteLine("Error al enviar correo");
-                success = false;
+                if (!estadoEnvio)
+                {
+                    Console.WriteLine("Error al enviar correo");
+                    success = false;
+                }
             }
-           
+
             return success;
         }
         static bool SendWithTemplateModel(DataEmail Data)

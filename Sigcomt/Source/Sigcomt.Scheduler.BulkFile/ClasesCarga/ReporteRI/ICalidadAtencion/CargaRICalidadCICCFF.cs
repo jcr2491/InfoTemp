@@ -28,7 +28,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion
             string tipoArchivo = TipoArchivo.RICalidadCICCFF.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
-            bool fileError = true;
 
             try
             {
@@ -74,7 +73,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion
                     cont = 0;
                     var row = excel.Sheet.GetRow(rowNum);
                     string CCFFId = string.Empty;
-                    string Zona = "";
+                    
                     //TODO: Aqui se debe hacer la logica para consumir de la tabla excel de configuracion
 
                     while (row != null)
@@ -88,47 +87,27 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion
                         };
                         CCFFId = Utils.GetValueColumn(excel.GetCellToString(row, cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna), string.Empty);
 
-                        if (CCFFId.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            Zona = CCFFId;
-                        }
-                        else if (CCFFId != string.Empty)
+                        
+                        if (CCFFId != string.Empty)
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["CargaId"] = cabeceraId;
-                            dr["Secuencia"] = cont;
-                            dr["CCFFId"] = CCFFId;
-                            dr["Zona"] = "";
+                            dr["Secuencia"] = cont;                            
                             dt.Rows.Add(dr);
-                        }
-                        else
-                        {
-                            dt.Select(string.Format("[Zona] = '{0}'", ""))
-                             .ToList<DataRow>()
-                             .ForEach(r => {
-                                 r["Zona"] = Zona;
-                             });
-                            Zona = "";
-                        }
+                        }                       
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "CICCFF");
-
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
+                    cargaBase.RegistrarCarga(dt, "CICCFF");
 
                 }
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
 
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -139,31 +118,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion
 
         #endregion
 
-        #region Métodos Privados
-
-        //private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        //{            
-        //    DataRow dr = dt.NewRow();            
-        //    dr["CCFF"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CCFF"]), "");                        
-        //    dr["LogroREL"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["LogroREL"]), "0");
-        //    dr["MetaREL"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["MetaREL"]), "0");
-        //    dr["PorcentajeLogroREL"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["PorcentajeLogroREL"]), "0.0");
-        //    dr["LogroEECC"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["LogroEECC"]), "0");
-        //    dr["MetaEECC"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["MetaEECC"]), "0");
-        //    dr["PorcentajeLogroEECC"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["PorcentajeLogroEECC"]), "0.0");
-        //    dr["LogroCAJ"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["LogroCAJ"]), "0");
-        //    dr["MetaCAJ"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["MetaCAJ"]), "0");
-        //    dr["PorcentajeLogroCAJ"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["PorcentajeLogroCAJ"]), "0.0");
-        //    dr["LogroPRO"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["LogroPRO"]), "0");
-        //    dr["MetaPRO"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["MetaPRO"]), "0");
-        //    dr["PorcentajeLogroPRO"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["PorcentajeLogroPRO"]), "0.0");
-        //    dr["LogroTotal"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["LogroTotal"]), "0");
-        //    dr["MetaTotal"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["MetaTotal"]), "0");
-        //    dr["PorcentajeLogroTotal"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["PorcentajeLogroTotal"]), "0.0");
-
-        //    return dr;
-        //}
-
-        #endregion
     }
 }

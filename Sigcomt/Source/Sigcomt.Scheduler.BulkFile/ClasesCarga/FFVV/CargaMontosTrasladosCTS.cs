@@ -110,13 +110,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.FFVV
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "MontosTrasladosCTS");
-
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
+                    cargaBase.RegistrarCarga(dt, "MontosTrasladosCTS");
                     //Se coloca el Id del empleado a los registros
                     CargaArchivoBL.GetInstance().AddEmpleadoId("MontosTrasladosCTS", "NombreCorto", "EmpleadoId");
 
@@ -124,8 +118,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.FFVV
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
                 string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);

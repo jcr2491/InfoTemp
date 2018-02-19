@@ -17,7 +17,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
    public class CargaRITECajero
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -26,7 +25,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
             Logger.Info("Se inició la carga del archivo Tiempo de Espera - Cajero");
             Console.WriteLine("Se inició la carga del archivo Tiempo de Espera - Cajero");
             var cargaBase = new CargaBase<RITECajero>();
-            string tipoArchivo = TipoArchivo.RITiempoEsperaCajeroReg.GetStringValue();
+            string tipoArchivo = TipoArchivo.RITiempoEsperaCajero.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
             bool fileError = true;
@@ -44,8 +43,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
                      cargaBase = new CargaBase<RITECajero>(tipoArchivo);
                     filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
                 }
-
-            
 
                 foreach (var fileName in filesNames)
                 {
@@ -87,7 +84,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
                     cont = 0;
-                    string CCFFId = string.Empty;
+                    string TECCFFId = string.Empty;
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
@@ -97,18 +94,17 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
                             continue;
                         };
 
-                        CCFFId = Utils.GetValueColumn(
-                                excel.GetStringCellValue(row,
-                                    cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna),
-                                CCFFId);
+                        TECCFFId = Utils.GetValueColumn(
+                                excel.GetCellToString(row,
+                                    cargaBase.PropiedadCol.First(p => p.Key == "TECCFFId").Value.PosicionColumna),
+                                TECCFFId);
          
-                       if (!(string.IsNullOrWhiteSpace(CCFFId)) && !(CCFFId.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase)) && !(CCFFId.StartsWith("Banco", StringComparison.InvariantCultureIgnoreCase)))
+                       if (!(string.IsNullOrWhiteSpace(TECCFFId)) && !(TECCFFId.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase)) && !(TECCFFId.StartsWith("Banco", StringComparison.InvariantCultureIgnoreCase)))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["CargaId"] = cabeceraId;
                             dr["Secuencia"] = cont;
-                            dr["TECCFFId"] = CCFFId;
+                        
                             dt.Rows.Add(dr);
                         }
 
@@ -116,22 +112,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "RITECajero");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "RITECajero");
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -142,20 +128,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["TECCFF"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["TECCFF"]), "0");
-            dr["TECajeroAten_10Min"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["TECajeroAten_10Min"]), "0");
-            dr["TECajeroTotalAten"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["TECajeroTotalAten"]), "0");
-            dr["TECajeroLogro"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["TECajeroLogro"]), "0");
-            dr["TECajeroMeta"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["TECajeroMeta"]), "0");
-
-            return dr;
-        }
-
-        #endregion
     }
 }

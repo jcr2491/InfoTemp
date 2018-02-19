@@ -17,43 +17,49 @@ using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion;
 using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanalesElectrónicos;
 using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.LAmpliacionesdeLínea;
 using Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.MOperaciones;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.Referido;
+using Sigcomt.Scheduler.BulkFile.ClasesCarga.Maestro;
 using Sigcomt.Scheduler.BulkFile.Core;
 using System;
-
+using Sigcomt.Business.Entity;
+using Sigcomt.Business.Logic;
+using System.Collections.Generic;
 
 namespace Sigcomt.Scheduler.BulkFile
 {
     class Program
-    {
+    {        
         static void Main(string[] args)
         {
             UtilsLocal.CargarDatosIniciales();
+
             try
             {
+                //var email = ParametrosBL.GetInstance().GetParametros("CorreoAnalistaBI");
+
+
+                //Maestro
+                //CargaPuntajeKPI.CargarArchivo();
+                //CargaBono.CargarArchivo();
+                //CargaMaestroAutomotriz.CargarArchivo();
+
+                //CargaUAC.CargarArchivos();
+                //CargaFFVV.CargarArchivos();
+
+                //Base
+                //CargaEmpleadoCCFF.CargarArchivo();
+                //CargaRICCFF.CargarArchivo();
+
                 //Automotriz
                 //CargaDataAutomotriz.CargarArchivo();
+
 
                 //Ejecutivo Promotores
                 //CargaTarjetaPromotorCCFF.CargarArchivo();
 
-                //FFVV
-                //CargaCmrRatificada.CargarArchivo();
-                //CargaMontosTrasladosCTS.CargarArchivo();
-                //CargaTotalCuentas2Abono.CargarArchivo();
-
                 //Jefe Comercial
                 //CargaCierrePlanningJefeComercial.CargarArchivo();
                 //CargaPesoCCFF.CargarArchivo();
-
-                ////UAC
-                //CargaProductividad.CargarArchivo();
-                //CargaSlaUac.CargarArchivo();
-                //CargaMonitoreo.CargarArchivo();
-                //CargaDiasAusencia.CargarArchivo();
-                //CargaProducContactenos.CargarArchivo();
-                //CargaSLAContactenos.CargarArchivo();
-
-
 
                 ////CCFF
                 //CargaEmpleadoCCFF.CargarArchivo();
@@ -64,10 +70,8 @@ namespace Sigcomt.Scheduler.BulkFile
                 //CargaJefeGerenteCCFF.CargarArchivo();
                 //CargaNPSCCFF.CargarArchivo();
 
-                // CargaRapicashCCFF.CargarArchivo();
-
+                //CargaRapicashCCFF.CargarArchivo();
                 //RIActivosRapicashCCFF.CargarArchivo();
-
                 //CargarPasivosCCFF.CargarArchivo();
                 //CargaSegurosCCFF.CargarArchivo();
 
@@ -89,128 +93,105 @@ namespace Sigcomt.Scheduler.BulkFile
                 //CargaDetalleMaestroRapicash.CargarArchivo();
                 //CargaResumenSodimacRapicash.CargarArchivo();
                 //CargaDetalleSodimacRapicash.CargarArchivo();
+                //CargaPlanillaCajeroTottusRapicash.CargarArchivo();
+
+                //CargaSodimacMetaRapicash.CargarArchivo();
 
                 //CCFF
                 //CargaRISeguroCCFF.CargarArchivo();
-                //CargaEmpleadoCCFF.CargarArchivo();
+
+
+                //Referido
+                // CargaReferidoCCFF.CargarArchivo();
+
+
+                //UAC
+                //CargaUACMonitoreo.CargarArchivo();
+                //CargaProductividad.CargarArchivo();
+
+          
 
                 #region Reporte RI
 
                 #region Directorio
-                // CargaRICCFF.CargarArchivo();
+                // 
                 #endregion
 
-                #region Participacion
-                //#region
-                //CargaRISeguroCCFF.CargarArchivo();
-                //#endregion
-                //#region Info Comercial
-                ////CargaRICCFF.CargarArchivo();
-                //#endregion
-
-                //#region B. Participacion
+                #region B. Participacion
                 //CargaRIParticipacionMaestro.CargarArchivo();
                 //CargaRIParticipacionSaga.CargarArchivo();
                 //CargaRIParticipacionSodimac.CargarArchivo();
-                CargaRIParticipacionTottus.CargarArchivo();
+                //CargaRIParticipacionTottus.CargarArchivo();
+                //CargaRIParticipacion.CargaArchivo();
                 #endregion
 
-                #region Tarjetas
+                #region C. Tarjetas
                 //CargaRITarjetasAvanceZonales.CargarArchivo();
+                //CargaRITarjetaAdicional.CargarArchivo();
+                //CargaRITarjetaAdicional.CargarArchivo();
                 #endregion
 
                 #region D. Tiempo de Espera
-                //CargaRITECajero.CargarArchivo();
                 //CargaRITECCFF.CargarArchivo();
                 //CargaRITEPlataforma.CargarArchivo();
+<<<<<<< HEAD
+                //CargaRITECajero.CargarArchivo();                          //CARGÓ!
+=======
+                //CargaRITECajero.CargarArchivo();
+>>>>>>> bb62b669075bb1c978146883573ae65fa3b8e18c
+                //CargaRITiempoEspera.CargarArchivo();
                 #endregion
 
-                #region Pasivos
+                #region E. Pasivos
                 //CargaRIPasivosCortoLagoPlazo.CargarArchivo();
                 //CargaRIPasivosCsdCsi.CargarArchivo();
                 #endregion
 
-                #region  Activos
-                //CargaRIActivosRapicashCCFF.CargarArchivo();
-               // CargaRIActivosSuperCash.CargarArchivo();
-
-                #endregion
-
-                #region Seguro
-                CargaRISeguroCCFF.CargarArchivo();
-                #endregion
-
-                #region Calidad Atencion
-               // CargaRICalidadAtencion1erContacto.CargarArchivo();
-                #endregion
-
-                #region Info Comercial
-                //CargaRICCFF.CargarArchivo();
-                #endregion
-
-                #region Ampliacion de Linea
-
-                #endregion
-
-                //#endregion
-
-                //#region C. Tarjetas
-                //CargaRITarjetasAvanceZonales.CargarArchivo();
-                //#endregion
-
-                //#region D. Tiempo de Espera
-                //CargaRITECCFF.CargarArchivo();
-                //CargaRITEPlataforma.CargarArchivo();
-                //CargaRITECajero.CargarArchivo();
-                //#endregion
-
-                //#region E. Pasivos
-                //CargaRIPasivosCortoLagoPlazo.CargarArchivo();
-                //CargaRIPasivosCsdCsi.CargarArchivo();
-                //#endregion
-
-                //#region  F. Activos
+                #region  F. Activos
                 //CargaRIActivosSuperCash.CargarArchivo();
                 //CargaRIActivosRapicashCCFF.CargarArchivo();
-                //#endregion
+                #endregion
 
-                //#region H. Seguros
+                #region H. Seguros
                 //CargaRISeguroCCFF.CargarArchivo();
-                //#endregion
+                //CargaRISeguroVSC.CargarArchivo();
+                //CargaRISeguroTP.CargarArchivo();
+                #endregion
 
-                //#region I. CalidadAtencion
+                #region I. CalidadAtencion
                 //CargaRICalidadAtencion1erContacto.CargarArchivo();
                 //CargaRICalidadCICCFF.CargarArchivo();
                 //CargaRICalidadNPSCCFF.CargarArchivo();
-                //#endregion
+                //CargaRICalidadAtencion.CargarArchivo();
+                #endregion
 
-                //#region J. Derivación de Canales Electrónicos
+                #region J. Derivación de Canales Electrónicos
                 //CargaRIDerivacionHeavyPlataforma.CargarArchivo();
-<<<<<<< HEAD
-                CargaRIDerivacionCaja.CargarArchivo();
-=======
                 //CargaRIDerivacionCaja.CargarArchivo();
->>>>>>> 7acfd51903c2c21a93f0fea31a41545e95ce5455
-                //#endregion
+                #endregion
 
-                //#region L. Ampliaciones de Línea
+                #region L. Ampliaciones de Línea
                 //CargaRIAmpliacionLinea.CargarArchivo();
-                //#endregion
+                #endregion
 
-                //#region M. Operaciones
-                //CargaRIOperacionSF.CargarArchivo();
+                #region M. Operaciones
+                CargaRIOperacionSF.CargarArchivo();
                 //CargaRIOperacionE.CargarArchivo();
-                //#endregion
+                #endregion
 
                 #endregion
 
 
-                Console.ReadLine();
+                //Envio Correo
+
+                EnvioEmail.EnvioCorreo();
+                Console.WriteLine("Se completó la carga de todos los archivos inputs.");
+
+                //Console.ReadLine();
             }
             catch (Exception e) {
                 string mensaje = e.Message.ToString();
             }
-            
         }
     }
 }

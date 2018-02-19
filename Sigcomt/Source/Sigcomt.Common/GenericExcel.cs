@@ -30,7 +30,6 @@ namespace Sigcomt.Common
             }
 
             _sheet = _workBook.GetSheet(nombreHoja);
-            //_sheet = _workBook.GetSheetAt(1);
         }
 
         public GenericExcel(FileStream s, int indexHoja)
@@ -124,13 +123,7 @@ namespace Sigcomt.Common
         {
             ICell cell = row?.GetCell(cellNumber);
             return cell?.DateCellValue;
-        }
-
-        public string GetDateCellString(IRow row, int cellNumber)
-        {
-            ICell cell = row?.GetCell(cellNumber);
-            return cell?.StringCellValue;
-        }
+        }        
 
         public double GetDoubleCellValue(int rowNumber, int cellNumber)
         {
@@ -151,7 +144,46 @@ namespace Sigcomt.Common
         public string GetCellToString(IRow row, int cellNumber)
         {
             ICell cell = row?.GetCell(cellNumber);
-            return this.GetCellToString(cell);
+            string valor = string.Empty;
+
+            switch (cell.CellType)
+            {
+                case CellType.Numeric:
+                    valor = DateUtil.IsCellDateFormatted(cell)
+                        ? cell.DateCellValue.ToString("dd/MM/yyyy")
+                        : cell.NumericCellValue.ToString();
+                    break;
+                case CellType.Formula:
+                    switch (cell.CachedFormulaResultType)
+                    {
+                        case CellType.Numeric:
+                            valor = DateUtil.IsCellDateFormatted(cell)
+                                ? cell.DateCellValue.ToString()
+                                : cell.NumericCellValue.ToString();
+                            break;
+                        case CellType.Error:
+                            valor = cell.ErrorCellValue.ToString();
+                            break;
+                        case CellType.String:
+                            valor = cell.StringCellValue.Trim();
+                            break;
+                        case CellType.Boolean:
+                            valor = cell.BooleanCellValue.ToString();
+                            break;
+                        default:
+                            valor = GetCellToString(cell);
+                            break;
+                    }
+                    break;
+                case CellType.Error:
+                    valor = cell.ErrorCellValue.ToString();
+                    break;
+                default:
+                    valor = GetCellToString(cell);
+                    break;
+            }
+
+            return valor;
         }
 
         public string GetCellToString(ICell cell)

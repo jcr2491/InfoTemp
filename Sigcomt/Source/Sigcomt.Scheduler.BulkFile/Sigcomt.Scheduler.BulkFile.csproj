@@ -85,12 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClasesCarga\Automotriz\CargaDataAutomotriz.cs" />
-    <Compile Include="ClasesCarga\Automotriz\PruebaCargaAutomotriz.cs" />
-    <Compile Include="ClasesCarga\CCFF\CargaAmpliacionesCCFF.cs" />
-    <Compile Include="ClasesCarga\FFVV\CargaFFVV.cs" />
     <Compile Include="ClasesCarga\Maestro\CargaBono.cs" />
     <Compile Include="ClasesCarga\Maestro\CargaPuntajeKPI.cs" />
-    <Compile Include="ClasesCarga\Maestro\CragaMaestroAutomotriz.cs" />
+    <Compile Include="ClasesCarga\Maestro\CargaMaestroAutomotriz.cs" />
     <Compile Include="ClasesCarga\Rapicash\CargaDetalleMaestroRapicash.cs" />
     <Compile Include="ClasesCarga\Rapicash\CargaDetalleSodimacRapicash.cs" />
     <Compile Include="ClasesCarga\Rapicash\CargaDetalleTottusRapicash.cs" />
@@ -112,6 +109,7 @@
     <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionSodimac.cs" />
     <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionTottus.cs" />
     <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionSaga.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\CTarjetas\CargaRITarjetaAdicional.cs" />
     <Compile Include="ClasesCarga\ReporteRI\CTarjetas\CargaRITarjetaCCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\DTiemposdeEspera\CargaRITiempoEspera.cs" />
     <Compile Include="ClasesCarga\ReporteRI\EPasivos\CargaRIPasivosCsdCsi.cs" />
@@ -123,10 +121,6 @@
     <Compile Include="ClasesCarga\ReporteRI\ICalidadAtencion\CargaRICalidadAtencion.cs" />
     <Compile Include="ClasesCarga\ReporteRI\ICalidadAtencion\CargaRICalidadAtencion1erContacto.cs" />
     <Compile Include="ClasesCarga\ReporteRI\ICalidadAtencion\CargaRICalidadCICCFF.cs" />
-    <Compile Include="ClasesCarga\CCFF\CargaDerivacionCCFF.cs" />
-    <Compile Include="ClasesCarga\CCFF\CargaEmpleadoCCFF.cs" />
-    <Compile Include="ClasesCarga\CCFF\CargaInformeVentaCCFF.cs" />
-    <Compile Include="ClasesCarga\CCFF\CargaJefeGerenteCCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\ICalidadAtencion\CargaRICalidadNPSCCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\FActivos\CargaRIActivosRapicashCCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\CTarjetas\CargaRITarjetasAvanceZonales.cs" />
@@ -135,12 +129,7 @@
     <Compile Include="ClasesCarga\ReporteRI\DTiemposdeEspera\CargaRITEPlataforma.cs" />
     <Compile Include="ClasesCarga\ReporteRI\FActivos\CargaRIActivosSuperCash.cs" />
     <Compile Include="ClasesCarga\ReporteRI\HSeguros\CargaRISeguroCCFF.cs" />
-    <Compile Include="ClasesCarga\CCFF\CargarPasivosCCFF.cs" />
-    <Compile Include="ClasesCarga\CCFF\CargaSegurosCCFF.cs" />
     <Compile Include="ClasesCarga\EjecutivosPromotores\CargaTarjetaPromotorCCFF.cs" />
-    <Compile Include="ClasesCarga\FFVV\CargaCmrRatificada.cs" />
-    <Compile Include="ClasesCarga\FFVV\CargaTotalCuentas2Abono.cs" />
-    <Compile Include="ClasesCarga\FFVV\CargaMontosTrasladosCTS.cs" />
     <Compile Include="ClasesCarga\JefeComercial\CargaCierrePlanningJefeComercial.cs" />
     <Compile Include="ClasesCarga\JefeComercial\CargaPesoCCFF.cs" />
     <Compile Include="ClasesCarga\Rapicash\CargaDetalleSFRapicash.cs" />

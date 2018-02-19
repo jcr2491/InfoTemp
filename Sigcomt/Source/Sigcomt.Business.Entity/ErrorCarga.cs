@@ -1,11 +1,16 @@
+using System;
+
 namespace Sigcomt.Business.Entity
 {
     public class ErrorCarga
     {
-        public int CargaId { get; set; }
-        public int Fila { get; set; }
-        public int PosicionColumna { get; set; }
-        public string NombreColumna { get; set; }
+        public DateTime FechaError { get; set; }
+        public int Secuencia { get; set; }
+        public string TipoError { get; set; }
+        public int? CargaId { get; set; }
+        public int? NumFila { get; set; }
+        public string PosicionColumna { get; set; }
+        public int? ExcelHojaCampoId { get; set; }        
         public string DetalleError { get; set; }
     }
 }

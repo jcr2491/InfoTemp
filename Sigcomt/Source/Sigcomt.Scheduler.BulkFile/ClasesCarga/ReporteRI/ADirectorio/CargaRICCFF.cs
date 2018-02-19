@@ -17,7 +17,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ADirectorio
     public class CargaRICCFF
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -114,19 +113,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ADirectorio
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "CCFF");
-
-                    cargaError = false;
-
+                    cargaBase.RegistrarCarga(dt, "CCFF");
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -137,23 +129,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ADirectorio
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["Id"] =excel.GetIntCellValue(row, _indexCol["Id"]);
-            dr["Formato"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Formato"]),"");
-            dr["GerenteOJefeCCFF"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["GerenteOJefeCCFF"]),"");
-            dr["Cargo"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Cargo"]), "");
-            dr["Direccion"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Direccion"]), "");
-            dr["Departamento"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Departamento"]), "");
-            dr["Provincia"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Provincia"]), "");
-            dr["Distrito"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Distrito"]), "");
-     
-            return dr;
-        }
-
-        #endregion
     }
 }

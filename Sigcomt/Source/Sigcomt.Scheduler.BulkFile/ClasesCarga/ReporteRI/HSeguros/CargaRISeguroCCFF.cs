@@ -152,8 +152,8 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.HSeguros
                     CargaArchivoBL.GetInstance().Add(dt, "RISeguroCCFF");
 
                     cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
+                    
+                    
 
                     //Se coloca el Id del empleado a los registros
                     //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
@@ -161,9 +161,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.HSeguros
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
+                
 
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -242,9 +242,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.HSeguros
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
+                
 
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -256,28 +256,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.HSeguros
 
         #endregion
 
-
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["Zona"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Zona"]), "0");
-            dr["CCFFId"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CCFFId"]), "0");
-            dr["TPNetoEC"] = excel.GetDoubleCellValue(row, _indexCol["TPNetoEC"]);
-            dr["TPNetoCP"] = excel.GetDoubleCellValue(row, _indexCol["TPNetoCP"]);
-            dr["TPNetoPR"] = excel.GetDoubleCellValue(row, _indexCol["TPNetoPR"]);
-            dr["TPCuotaCP"] = excel.GetDoubleCellValue(row, _indexCol["TPCuotaCP"]);
-            dr["TPCuotaPR"] = excel.GetDoubleCellValue(row, _indexCol["TPCuotaPR"]);
-            return dr;
-        }
-        private static DataRow GetDataRowReportVSC(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["VidaSNeto"] = excel.GetDoubleCellValue(row, _indexCol["VidaSNeto"]);
-            dr["VidaSCuota"] = excel.GetDoubleCellValue(row, _indexCol["VidaSCuota"]);
-            return dr;
-        }
-        #endregion
     }
 }

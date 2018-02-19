@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using Core.Singleton;
 using Microsoft.Practices.EnterpriseLibrary.Data;
+using Sigcomt.Business.Entity;
 using Sigcomt.DataAccess.Core;
 using Sigcomt.DataAccess.Interfaces;
 
@@ -26,15 +29,11 @@ namespace Sigcomt.DataAccess
                 {
                     bulkCopy.BulkCopyTimeout = int.MaxValue;
                     bulkCopy.DestinationTableName = $"{ConectionStringRepository.EsquemaName}.{nameTable}";
-
-                    #region Datatable bullcopy
-
+                    
                     foreach (var column in dt.Columns)
                     {
                         bulkCopy.ColumnMappings.Add(column.ToString(), column.ToString());
                     }
-
-                    #endregion
 
                     bulkCopy.WriteToServer(dt);
                 }
@@ -86,6 +85,35 @@ namespace Sigcomt.DataAccess
                 _database.ExecuteNonQuery(comando);
             }
         }
+
+        public List<DetalleErrorCarga> GetUltimaCargaPorArchivo(DateTime fecha)
+        {
+            var list = new List<DetalleErrorCarga>();
+
+            using (var comando = _database.GetStoredProcCommand($"{ConectionStringRepository.EsquemaName}.GetErrorCarga"))
+            {
+                _database.AddInParameter(comando, "@FechaError", DbType.DateTime, fecha);
+
+                using (var lector = _database.ExecuteReader(comando))
+                {
+                    while (lector.Read())
+                    {
+                        list.Add(new DetalleErrorCarga
+                        {
+                            TipoArchivo = lector.GetString(lector.GetOrdinal("TipoArchivo")),
+                            FechaError = lector.GetDateTime(lector.GetOrdinal("FechaError")),
+                            DetalleError = lector.GetString(lector.GetOrdinal("DetalleError")),
+                            NumFila = lector.GetString(lector.GetOrdinal("NumFila")),
+                            PosicionColumna = lector.GetString(lector.GetOrdinal("PosicionColumna")),
+                            TipoError = lector.GetString(lector.GetOrdinal("TipoError"))
+                        });
+                    }
+                }
+            }
+
+            return list;
+        }
+
         #endregion
     }
 }

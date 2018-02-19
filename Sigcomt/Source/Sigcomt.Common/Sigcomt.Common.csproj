@@ -83,6 +83,7 @@
     <Compile Include="Comun.cs" />
     <Compile Include="ConfigurationAppSettings.cs" />
     <Compile Include="DataEmail.cs" />
+    <Compile Include="Enums\TipoErrorCarga.cs" />
     <Compile Include="ResponseCorrecto.cs" />
     <Compile Include="DataTable\ColumnDataTableModel.cs" />
     <Compile Include="DataTable\DataTableModel.cs" />
@@ -91,7 +92,6 @@
     <Compile Include="Enums\TiendaKpi.cs" />
     <Compile Include="Enums\TiendaRetail.cs" />
     <Compile Include="Enums\TipoArchivo.cs" />
-    <Compile Include="Enums\TipoCarga.cs" />
     <Compile Include="Enums\TipoComision.cs" />
     <Compile Include="Enums\TipoDato.cs" />
     <Compile Include="FormaData.cs" />

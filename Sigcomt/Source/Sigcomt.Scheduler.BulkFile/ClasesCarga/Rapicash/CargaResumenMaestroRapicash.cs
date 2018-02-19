@@ -17,7 +17,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
    public class CargaResumenMaestroRapicash
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -107,47 +106,18 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "ResumenMaestroRapicash");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("ResumenSagaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "ResumenMaestroRapicash");                    
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
 
             Logger.Info("Se terminó la carga del archivo ResumenMaestroRapicash");
             Console.WriteLine("Se terminó la carga del archivo ResumenMaestroRapicash");
-        }
-
-        #endregion
-
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["SucursalId"] =excel.GetIntCellValue(row, _indexCol["SucursalId"]);
-            dr["CodEmpleado"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CodEmpleado"]), "");
-            dr["Empleado"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Empleado"]), "");
-            dr["Cargo"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Cargo"]), "");
-            dr["MontoRapicash"] = excel.GetDoubleCellValue(row, _indexCol["MontoRapicash"]);
-            dr["MontoBono"] = excel.GetDoubleCellValue(row, _indexCol["MontoBono"]);
-     
-
-            return dr;
         }
 
         #endregion

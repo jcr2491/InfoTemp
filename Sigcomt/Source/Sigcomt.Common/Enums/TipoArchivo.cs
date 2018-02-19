@@ -81,7 +81,8 @@
         RICalidadAtencion=77,
         PuntajeKPI =78,
         Bono=79,
-        MaestroAutoMotriz=80
+        MaestroAutomotriz=80,
+        RITarjetaAdicional=81
 
     }
 }

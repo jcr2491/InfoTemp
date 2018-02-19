@@ -73,10 +73,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     cont = 0;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string CCFF = string.Empty;
-                    DateTime date;
-                    //TODO: Aqui se debe hacer la logica para consumir de la tabla excel de configuracion
+                    string CCFFId = string.Empty;
 
+                    //TODO: Aqui se debe hacer la logica para consumir de la tabla excel de configuracion
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
@@ -86,21 +85,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
                             continue;
                         };
 
-                        CCFF = Utils.GetValueColumn(excel.GetCellToString(row,cargaBase.PropiedadCol.First(p => p.Key == "CCFF").Value.PosicionColumna), CCFF);
+                        CCFFId = Utils.GetValueColumn(excel.GetCellToString(row,cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna), CCFFId);
 
-                        if (CCFF != string.Empty)
+                        if (CCFFId != string.Empty)
                         {
                                 cont++;
-<<<<<<< HEAD
-                                //if (Fecha.Month == (mes == 1 ? 12 : mes - 1))
-                                //{
-                                //    Fecha = Fecha.AddMonths(-1);
-                                //}
                                 DataRow dr = cargaBase.AsignarDatos(dt);
-                                dr["CargaId"] = cabeceraId;
-=======
-                                DataRow dr = cargaBase.AsignarDatos(dt, excel, row);
->>>>>>> 0a4dac1cf1d83ab49f834e04d170525306646e38
                                 dr["Secuencia"] = cont;
                                 dt.Rows.Add(dr);
                         }
@@ -109,18 +99,17 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
+<<<<<<< HEAD
                     fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "RICalidadNPSCCFF");
+                    CargaArchivoBL.GetInstance().Add(dt, "RICalidadNPSCCFF");         
 
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
+=======
+                    cargaBase.RegistrarCarga(dt, "RICalidadNPSCCFF");
+>>>>>>> 650f915f291254f28cd523733ade0678563b68ce
                 }
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
                 string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);

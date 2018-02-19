@@ -29,7 +29,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.LAmpliacionesdeLínea
             string tipoArchivo = TipoArchivo.RIAmpliacionLinea.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
-            bool fileError = true;
             bool cargaError = true;
 
             try
@@ -88,29 +87,24 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.LAmpliacionesdeLínea
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["CargaId"] = cabeceraId;
                             dr["Secuencia"] = cont;
-                            //dr["CCFF"] = CCFF;
-                           
                             dt.Rows.Add(dr);
+                        }
+                        else if (!(CCFF.StartsWith("TOTAL", StringComparison.InvariantCultureIgnoreCase))) {
+                            break;
                         }
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "RIAmpliacionLinea");
+                    cargaBase.RegistrarCarga(dt, "RIAmpliacionLinea");                    
 
-                    cargaError = false;
-                  
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -120,18 +114,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.LAmpliacionesdeLínea
         }
 
         #endregion
-
-        //#region Métodos Privados
-
-        //private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        //{
-        //    DataRow dr = dt.NewRow();
-        //    dr["CCFFId"] = excel.GetIntCellValue(row, _indexCol["CCFFId"]);
-        //    dr["ALogro"] = excel.GetIntCellValue(row, _indexCol["ALogro"]);
-        //    dr["AMeta"] = excel.GetIntCellValue(row, _indexCol["AMeta"]);
-        //    return dr;
-        //}
-
-        //#endregion
     }
 }

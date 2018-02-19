@@ -17,7 +17,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
     public class CargaSLAContactenos
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -105,13 +104,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "SLAContactenos");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
+                    cargaBase.RegistrarCarga(dt, "SLAContactenos");
 
                     //Se coloca el Id del empleado a los registros
                     CargaArchivoBL.GetInstance().AddEmpleadoId("SLAContactenos", "Empleado", "EmpleadoId");
@@ -119,9 +112,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -132,19 +123,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();            
-            dr["Empleado"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Empleado"]));
-            dr["DentroPlazo"] = excel.GetIntCellValue(row, _indexCol["DentroPlazo"]);
-            dr["FueraPlazo"] = excel.GetIntCellValue(row, _indexCol["FueraPlazo"]);            
-            dr["TotalGeneral"] = excel.GetIntCellValue(row, _indexCol["TotalGeneral"]);
-            dr["SLA"] = Math.Round(excel.GetDoubleCellValue(row, _indexCol["SLA"]), 2);
-            return dr;
-        }
-
-        #endregion
     }
 }

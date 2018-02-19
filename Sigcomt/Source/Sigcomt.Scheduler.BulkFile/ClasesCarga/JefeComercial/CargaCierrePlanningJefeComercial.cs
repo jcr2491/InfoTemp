@@ -17,7 +17,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
     public class CargaCierrePlanningJefeComercial
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -107,23 +106,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "CierrePlanningJefeComercial");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "CierrePlanningJefeComercial");              
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -134,46 +122,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["CodigoCCFF"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CodigoCCFF"]),"0");
-            dr["Nombre"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["Nombre"]),"0");
-            dr["Cargo"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Cargo"]),"0");
-            dr["CalidadTELogro"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadTELogro"]));
-            dr["CalidadTEMeta"] =Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadTEMeta"]));
-            dr["CalidadCILogro"] =Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadCILogro"]));
-            dr["CalidadCIMeta"] =Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadCIMeta"]));
-            dr["CalidadCIResultado"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadCIResultado"]));
-            dr["CalidadCIPromotorLogro"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadCIPromotorLogro"]));
-            dr["CalidadCIPromotorMeta"] = Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadCIPromotorMeta"]));
-            dr["CalidadCIPromotorResultado"] =Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadCIPromotorResultado"]));
-            dr["CalidadCIEECCPromotorLogro"] =Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadCIEECCPromotorLogro"]));
-            dr["CalidadCIEECCPromotorMeta"] =Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadCIEECCPromotorMeta"]));
-            dr["CalidadCIEECCPromotorResultado"] =Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadCIEECCPromotorResultado"]));
-            dr["CalidadNPSLogro"] = Utils.GetPorcentaje(excel.GetCellToString( row, _indexCol["CalidadNPSLogro"]));
-            dr["CalidadNPSMeta"] =Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadNPSMeta"]));
-            dr["CalidadNPSResultado"] =Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["CalidadNPSResultado"]));
-            dr["TarjetaCMRCSTPPLogro"] =Utils.GetPorcentaje(excel.GetCellToString(row, _indexCol["TarjetaCMRCSTPPLogro"]));
-            dr["TarjetaCMRCSTPPMeta"] =excel.GetCellToString(row, _indexCol["TarjetaCMRCSTPPMeta"]);
-            dr["ActivoPasivoCPLogro"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["ActivoPasivoCPLogro"]),"0");
-            dr["ActivoPasivoCPMeta"] =Utils.GetValueColumn (excel.GetCellToString(row, _indexCol["ActivoPasivoCPMeta"]),"0");
-            dr["ActivoCVLogro"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["ActivoCVLogro"]),"0");
-            dr["ActivoCVMeta"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["ActivoCVMeta"]),"0");
-            dr["PasivoTarjetaCLogro"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["PasivoTarjetaCLogro"]),"0");
-            dr["PasivoTarjetaCMeta"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["PasivoTarjetaCMeta"]),"0");
-            dr["PasivoCSALogro"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["PasivoCSALogro"]),"0");
-            dr["PasivoCSAMeta"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["PasivoCSAMeta"]),"0");
-            dr["CrucePAPLogro"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CrucePAPLogro"]),"0");
-            dr["CrucePAPMeta"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CrucePAPMeta"]),"0");
-            dr["CrucePEECCPLogro"] =Utils.GetValueColumn( excel.GetCellToString(row, _indexCol["CrucePEECCPLogro"]),"0");
-            dr["CrucePEECCPMeta"] =Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CrucePEECCPMeta"]),"0");
-
-            return dr;
-        }
-
-        #endregion
     }
 }

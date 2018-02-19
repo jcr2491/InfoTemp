@@ -100,15 +100,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
 
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
-                        }   else { goto saltar; }                    
+                        }                
                     }
-                saltar:
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "Monitoreo");
-
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
+                    cargaBase.RegistrarCarga(dt, "Monitoreo");
                     //Se coloca el Id del empleado a los registros
                     CargaArchivoBL.GetInstance().AddEmpleadoId("Monitoreo", "Empleado", "EmpleadoId");
 
@@ -116,9 +110,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -129,41 +121,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
 
         #endregion
 
-        //#region Métodos Privados
-
-        //private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        //{
-        //    DataRow dr = dt.NewRow();
-        //    dr["Semana"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Semana"]));
-        //    dr["FechaMuestra"] = excel.GetDateCellValue(row, _indexCol["FechaMuestra"]);
-        //    dr["Mes"] = excel.GetIntCellValue(row, _indexCol["Mes"]);
-        //    dr["Incidente"] = excel.GetIntCellValue(row, _indexCol["Incidente"]);
-        //    dr["Empleado"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Empleado"]));
-        //    dr["Proceso"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Proceso"]));
-        //    dr["TipoMonitoreo"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["TipoMonitoreo"]));
-        //    dr["CR1"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CR1"]));
-        //    dr["CR2"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CR2"]));
-        //    dr["CR3"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CR3"]));
-        //    dr["CR4"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CR4"]));
-        //    dr["CR5"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CR5"]));
-        //    dr["CR6"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CR6"]));
-        //    dr["CR7"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CR7"]));
-        //    dr["CS1"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CS1"]));
-        //    dr["CS2"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CS2"]));
-        //    dr["CP1"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CP1"]));
-        //    dr["OR1"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["OR1"]));
-        //    dr["OR2"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["OR2"]));
-        //    dr["VR1"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["VR1"]));
-        //    dr["VR2"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["VR2"]));
-        //    dr["VR3"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["VR3"]));
-        //    dr["VR4"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["VR4"]));
-        //    dr["MR1"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["MR1"]));
-        //    dr["MR2"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["MR2"]));
-        //    dr["MR3"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["MR3"]));
-
-        //    return dr;
-        //}
-
-        //#endregion
     }
 }

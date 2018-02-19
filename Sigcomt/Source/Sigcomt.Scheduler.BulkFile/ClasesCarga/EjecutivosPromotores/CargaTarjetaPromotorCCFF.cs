@@ -1,5 +1,4 @@
 ﻿using log4net;
-using NPOI.SS.UserModel;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
@@ -17,7 +16,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.EjecutivosPromotores
     public class CargaTarjetaPromotorCCFF
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -109,20 +107,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.EjecutivosPromotores
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "TarjetaPromotorCCFF");
-
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
+                    cargaBase.RegistrarCarga(dt, "TarjetaPromotorCCFF");                 
                 }
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -133,19 +123,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.EjecutivosPromotores
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["Empleado"] = Utils.GetStringColumn(excel.GetCellToString(row, _indexCol["Empleado"]));
-            dr["CuotaEntregas"] = excel.GetIntCellValue(row, _indexCol["CuotaEntregas"]);
-            dr["TarjetasEntregadas"] = excel.GetIntCellValue(row, _indexCol["TarjetasEntregadas"]);
-            dr["ProyeccionCumplida"] = excel.GetDoubleCellValue(row, _indexCol["ProyeccionCumplida"]);
-
-            return dr;
-        }
-
-        #endregion
     }
 }

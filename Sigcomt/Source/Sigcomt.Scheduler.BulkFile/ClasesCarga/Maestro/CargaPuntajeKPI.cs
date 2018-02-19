@@ -92,7 +92,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Maestro
                         if (KpiId!=string.Empty && Char.IsNumber(KpiId,0))
                         {
                             cont++;
-                            DataRow dr = cargaBase.AsignarDatos(dt, excel, row);
+                            DataRow dr = cargaBase.AsignarDatos(dt);
                       
                             dt.Rows.Add(dr);
                         }
@@ -102,16 +102,10 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Maestro
 
                     cargaBase.RegistrarCarga(dt, "PuntajeKpi");
 
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(EstadoCarga.Procesado);
-
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(EstadoCarga.Fallido);
-
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);

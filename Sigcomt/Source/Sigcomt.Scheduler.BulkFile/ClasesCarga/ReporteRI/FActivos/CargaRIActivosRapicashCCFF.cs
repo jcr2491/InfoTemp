@@ -99,11 +99,8 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
                             {
                                 cont++;
                                 DataRow dr = cargaBase.AsignarDatos(dt);
-                                dr["CargaId"] = cabeceraId;
                                 dr["Secuencia"] = cont;
-                                dr["Zona"] = Zona;
-                                dr["CCFFId"] = CCFFId;
-                                dr["CCFF"] = CCFF;
+                            
                                 dt.Rows.Add(dr);
                             }
                         }
@@ -122,19 +119,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "RIActivosRapicashCCFF");
-
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
+                    cargaBase.RegistrarCarga(dt, "RIActivosRapicashCCFF");
                 }
             }
             catch (Exception ex)
             {
-                cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -145,60 +135,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
 
         #endregion
 
-        #region Métodos Privados
-
-        //private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        //{
-        //    DataRow dr = dt.NewRow();
-
-        //    var pifSolesLogro = excel.GetDoubleCellValue(row, _indexCol["PifSolesLogro"]);
-        //    var PifSolesMeta = excel.GetDoubleCellValue(row, _indexCol["PifSolesMeta"]);
-        //    var ATMSolesLogro = excel.GetDoubleCellValue(row, _indexCol["ATMSolesLogro"]);
-        //    var ATMSolesMeta = excel.GetDoubleCellValue(row, _indexCol["ATMSolesMeta"]);
-
-        //    dr["PifSolesLogro"] = Convert.ToDecimal(pifSolesLogro);
-        //    dr["PifSolesMeta"] = Convert.ToDecimal(PifSolesMeta);
-        //    if ((double) pifSolesLogro > 0 && (double) PifSolesMeta > 0)
-        //    {
-
-        //        dr["PifSolesLogroProy"] = Convert.ToDecimal(pifSolesLogro) / Convert.ToDecimal(PifSolesMeta); ;
-        //    }
-        //    else
-        //    {
-        //        dr["PifSolesLogro"] = 0;
-        //        dr["PifSolesMeta"] = 0;
-        //        dr["PifSolesLogroProy"] = 0;
-        //    }
-
-        //    dr["ATMSolesLogro"] = Convert.ToDecimal(ATMSolesLogro);
-        //    dr["ATMSolesMeta"] = Convert.ToDecimal(ATMSolesMeta);
-        //    if ((double) ATMSolesLogro > 0 && (double) ATMSolesMeta > 0)
-        //    {
-        //        dr["ATMSolesLogroProy"] = Convert.ToDecimal(ATMSolesLogro) / Convert.ToDecimal(ATMSolesMeta); ;
-        //    }
-        //    else
-        //    {
-        //        dr["ATMSolesLogro"] = 0;
-        //        dr["ATMSolesMeta"] = 0;
-        //        dr["ATMSolesLogroProy"] = 0;
-        //    }
-
-
-        //    dr["TotalSolesLogro"] = pifSolesLogro + ATMSolesLogro;
-        //    dr["TotalSolesMeta"] = PifSolesMeta + ATMSolesMeta;
-
-        //    if ((double) dr["TotalSolesLogro"] > 0 && (double) dr["TotalSolesMeta"] > 0)
-        //    {
-        //        dr["TotalSolesLogroProy"] = Convert.ToDecimal(Convert.ToDecimal(dr["TotalSolesLogro"]) / Convert.ToDecimal(dr["TotalSolesMeta"]));
-        //    }
-        //    else
-        //    {
-        //        dr["TotalSolesLogroProy"] = 0;
-        //    }
-
-        //    return dr;
-        //}
-
-        #endregion
     }
 }

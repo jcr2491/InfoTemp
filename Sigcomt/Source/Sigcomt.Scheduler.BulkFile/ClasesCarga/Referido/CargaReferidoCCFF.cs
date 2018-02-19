@@ -16,7 +16,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Referido
     public class CargaReferidoCCFF
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -105,23 +104,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Referido
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "ReferidoCCFF");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "ReferidoCCFF");
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -132,21 +120,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Referido
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["CCFF"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CCFF"]), "");
-            dr["CCFFId"] =excel.GetIntCellValue(row, _indexCol["CCFFId"]);
-            dr["Fecha"] = Utils.GetDateToString(excel.GetDateCellValue(row, _indexCol["Fecha"])??default(DateTime));
-            dr["Colaborador"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Colaborador"]), "");
-            dr["Estado"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Estado"]),"");
-            dr["Cod_Colaborador"] =excel.GetIntCellValue(row, _indexCol["Cod_Colaborador"]);
-            dr["TiendaRetail"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["TiendaRetail"]), "");
-            return dr;
-        }
-
-        #endregion
     }
 }

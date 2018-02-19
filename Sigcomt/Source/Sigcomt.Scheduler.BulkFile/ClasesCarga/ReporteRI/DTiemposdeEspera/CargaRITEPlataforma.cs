@@ -17,7 +17,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
     public class CargaRITEPlataforma
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -88,7 +87,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
                         };
 
                         TECCFFId = Utils.GetValueColumn(
-                                excel.GetStringCellValue(row,
+                                excel.GetCellToString(row,
                                     cargaBase.PropiedadCol.First(p => p.Key == "TECCFFId").Value.PosicionColumna),
                                 TECCFFId);
 
@@ -96,9 +95,8 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["CargaId"] = cabeceraId;
                             dr["Secuencia"] = cont;
-                            dr["TECCFFId"] = TECCFFId;
+                      
                             dt.Rows.Add(dr);
                         }
 
@@ -106,22 +104,13 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "RITEPlataforma");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "RITEPlataforma");
+                    
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -132,20 +121,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["TECCFF"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["TECCFF"]), "0");
-            dr["TEPlatAten_10Min"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["TEPlatAten_10Min"]), "0");
-            dr["TEPlatAtenTotalAten"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["TEPlatAtenTotalAten"]), "0");
-            dr["TEPlatLogro"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["TEPlatLogro"]), "0");
-            dr["TEPlatMeta"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["TEPlatMeta"]), "0");
-
-            return dr;
-        }
-
-        #endregion
     }
 }

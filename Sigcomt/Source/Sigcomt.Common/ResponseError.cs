@@ -17,7 +17,7 @@
         public int FilaId { get; set; }
         public string NombreCampo  { get; set; }
         public string Mensaje { get; set; }
-        public int PosicionColumna { get; set; }
+        public string PosicionColumna { get; set; }
         public string NombreColumna { get; set; }
     }
 }

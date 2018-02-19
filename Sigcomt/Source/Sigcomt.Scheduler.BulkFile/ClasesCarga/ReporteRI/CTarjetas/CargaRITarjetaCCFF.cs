@@ -18,7 +18,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
     {
 
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -123,22 +122,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "RITarjetasAvanceZonales");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "RITarjetasAvanceZonales");
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -149,21 +138,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["CCFF"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["CCFF"]), "");
-            dr["CuotaAprobada"] = excel.GetDoubleCellValue(row, _indexCol["CuotaAprobada"]);
-            dr["SolicitudesAprobadas"] = excel.GetDoubleCellValue(row, _indexCol["SolicitudesAprobadas"]);
-            dr["CuotaEntrega"] = excel.GetDoubleCellValue(row, _indexCol["CuotaEntrega"]);
-            dr["TarjetasEntregadas"] = excel.GetDoubleCellValue(row, _indexCol["TarjetasEntregadas"]);
-
-            return dr;
-        }
-
-        #endregion
 
     }
 }

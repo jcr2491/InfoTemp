@@ -20,7 +20,6 @@ namespace Sigcomt.Scheduler.BulkFile.Core
         public Excel ExcelBd { get; }
         public ExcelHoja HojaBd { get; }
         public int CabeceraCargaId { get; private set; }
-        private bool esErrorCarga;
 
         #region Método Constructor
 
@@ -44,13 +43,13 @@ namespace Sigcomt.Scheduler.BulkFile.Core
 
         public bool EsEntero(string valor)
         {
-            string pattern = @"^[0-9]+$";
+            string pattern = @"^-?[0-9]+$";
             return Regex.IsMatch(valor, pattern);
         }
 
         public bool EsDecimal(string valor)
         {
-            string pattern = @"^[0-9]+([.,][0-9]+)?$";
+            string pattern = @"^-?[0-9]+([.,][0-9]+)?$";
             return Regex.IsMatch(valor, pattern);
         }
 
@@ -68,8 +67,15 @@ namespace Sigcomt.Scheduler.BulkFile.Core
 
         public bool EsFecha(string valor)
         {
-            string pattern = @""; //TODO: poner patron
-            return Regex.IsMatch(valor, pattern);
+            // dd/mm/yyyy o dd-mm-yyyy
+            string pattern = @"^(?:(?:0?[1-9]|1\d|2[0-8])(\/|-)(?:0?[1-9]|1[0-2]))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(?:(?:31(\/|-)(?:0?[13578]|1[02]))|(?:(?:29|30)(\/|-)(?:0?[1,3-9]|1[0-2])))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(29(\/|-)0?2)(\/|-)(?:(?:0[48]00|[13579][26]00|[2468][048]00)|(?:\d\d)?(?:0[48]|[2468][048]|[13579][26]))$";
+            if (Regex.IsMatch(valor, pattern)) return true;
+
+            // mm/dd/yyyy o mm-dd-yyyy
+            pattern = @"^(?:(?:(?:0?[13578]|1[02])(\/|-)31)|(?:(?:0?[1,3-9]|1[0-2])(\/|-)(?:29|30)))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(?:(?:0?[1-9]|1[0-2])(\/|-)(?:0?[1-9]|1\d|2[0-8]))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(0?2(\/|-)29)(\/|-)(?:(?:0[48]00|[13579][26]00|[2468][048]00)|(?:\d\d)?(?:0[48]|[2468][048]|[13579][26]))$";
+            if (Regex.IsMatch(valor, pattern)) return true;
+
+            return false;
         }
 
         /// <summary>
@@ -85,23 +91,24 @@ namespace Sigcomt.Scheduler.BulkFile.Core
 
             foreach (var propCol in PropiedadCol)
             {
-                propCol.Value.Valor = excel.GetCellToString(fila, propCol.Value.PosicionColumna);
                 bool isValid = true;
+                propCol.Value.Valor = excel.GetCellToString(fila, propCol.Value.PosicionColumna);
 
                 if (ValidarValor(propCol.Value))
                 {
                     isValid = MetodoTipoDato[propCol.Value.TipoDato].Invoke(propCol.Value.Valor);
-                }                
+                }
 
                 if (!isValid)
                 {
                     isAllValid = false;
-                    ErrorCarga errorCarga = new ErrorCarga
+                    var errorCarga = new ErrorCarga
                     {
+                        TipoError = TipoErrorCarga.ValidacionDatos.GetStringValue(),
                         CargaId = CabeceraCargaId,
-                        Fila = numFila,
-                        PosicionColumna = propCol.Value.PosicionColumna + 1,
-                        NombreColumna = propCol.Key,
+                        NumFila = numFila,
+                        PosicionColumna = propCol.Value.LetraColumna ?? Convert.ToString(propCol.Value.PosicionColumna + 1),
+                        ExcelHojaCampoId = propCol.Value.ExcelHojaCampoId,
                         DetalleError = $"El valor es incorrecto: {propCol.Value.Valor}"
                     };
                     ErrorCargaList.Add(errorCarga);
@@ -124,7 +131,14 @@ namespace Sigcomt.Scheduler.BulkFile.Core
 
             foreach (var propCol in PropiedadCol)
             {
-                dr[propCol.Key] = propCol.Value.Valor;
+                if (propCol.Value.Valor != null)
+                {
+                    dr[propCol.Key] = propCol.Value.Valor;
+                }
+                else
+                {
+                    dr[propCol.Key] = DBNull.Value;
+                }
             }
 
             return dr;
@@ -137,41 +151,46 @@ namespace Sigcomt.Scheduler.BulkFile.Core
             return CabeceraCargaId;
         }
 
-        public void ActualizarCabecera(int cabeceraId, EstadoCarga estado)
+        public void ActualizarCabecera(EstadoCarga estado)
         {
-            if (cabeceraId != 0)
+            if (CabeceraCargaId != 0)
             {
                 CabeceraCargaBL.GetInstance().Update(new CabeceraCarga
                 {
-                    Id = cabeceraId,
+                    Id = CabeceraCargaId,
                     FechaCargaFin = DateTime.Now,
                     EstadoCarga = estado.GetNumberValue()
                 });
             }
         }
 
-        public void ActualizarCabecera(EstadoCarga estado)
-        {
-            ActualizarCabecera(CabeceraCargaId, estado);
-        }
-
         public void RegistrarCarga(DataTable dt, string nameTable)
         {
-            if (!ErrorCargaList.Any())
+            try
             {
-                CargaArchivoRepository.GetInstance().Add(dt, nameTable);
-                esErrorCarga = false;
+                if (!ErrorCargaList.Any())
+                {
+                    CargaArchivoRepository.GetInstance().Add(dt, nameTable);
+                    ActualizarCabecera(EstadoCarga.Procesado);
+                }
+                else
+                {
+                    ActualizarCabecera(EstadoCarga.Fallido);
+                }
             }
-        }
-
-        /// <summary>
-        /// Registra los errores en la base de datos
-        /// </summary>
-        public void RegistrarError()
-        {
-            if (ErrorCargaList.Any())
+            catch (Exception ex)
             {
-                //Todo: Se debe registrar en la BD
+                ActualizarCabecera(EstadoCarga.Fallido);
+                var errorCarga = new ErrorCarga
+                {
+                    TipoError = TipoErrorCarga.CargaDatos.GetStringValue(),
+                    CargaId = CabeceraCargaId,
+                    DetalleError = $"Error al cargar los datos: {ex.Message}"
+                };
+
+                UtilsLocal.ErrorCargaList.Add(errorCarga);
+
+                throw new Exception(ex.Message, ex);
             }
         }
 

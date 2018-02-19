@@ -17,7 +17,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.BParticipación
     public class CargaRIParticipacionSodimac
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -112,23 +111,14 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.BParticipación
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "RIParticipacion");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
+                    cargaBase.RegistrarCarga(dt, "RIParticipacion");                    
                     //Se coloca el Id del Tienda-SucursalId a los registros
                     CargaArchivoBL.GetInstance().AddSucursalId("RIParticipacion", "Tienda", "TiendaId");
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -139,24 +129,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.BParticipación
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            double ParticipacionCMR = 0.0, CMRMeta = 0.0;
-            DataRow dr = dt.NewRow();
-            dr["TiendaRatail"] = TiendaRetail.Sodimac;
-            dr["VentaTotal"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["VentaTotal"]), "0.0");
-            dr["VentaCMR"] = Utils.GetValueColumn(excel.GetCellToString(row, _indexCol["VentaCMR"]), "0.0");
-            ParticipacionCMR = excel.GetDoubleCellValue(row, _indexCol["ParticipacionCMR"]);
-            dr["ParticipacionCMR"] = ParticipacionCMR;
-            CMRMeta = excel.GetDoubleCellValue(row, _indexCol["CMRMeta"]);
-            dr["CMRMeta"] = CMRMeta;
-            dr["DiferenciaParticipacionMeta"] = ParticipacionCMR - CMRMeta;
-
-            return dr;
-        }
-
-        #endregion
     }
 }

@@ -70,8 +70,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.MOperaciones
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    int Anio = 0;
-                    int Mes = 0;
+                    string CCFFId = string.Empty;
                     cont = 0;
 
                     while (row != null)
@@ -83,41 +82,27 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.MOperaciones
                             continue;
                         };
 
-                        //fechaRegistro = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["OPFecha"]),"");
-                        Anio = excel.GetIntCellValue(row, cargaBase.PropiedadCol.First(p => p.Key == "APAnio").Value.PosicionColumna);
-                        Mes = excel.GetIntCellValue(row, cargaBase.PropiedadCol.First(p => p.Key == "APMes").Value.PosicionColumna);
-                        
-                        if (Mes == mes && Anio == año)
+                        CCFFId = Utils.GetValueColumn(excel.GetCellToString(row, cargaBase.PropiedadCol.First(p => p.Key == "OPCCFFId").Value.PosicionColumna), CCFFId);
+
+                        if (!string.IsNullOrWhiteSpace(CCFFId))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["CargaId"] = cabeceraId;
                             dr["Secuencia"] = cont;
-                            dr["OPAnio"] = Anio;
-                            dr["OPMes"] = Mes;
                             dt.Rows.Add(dr);
-
                         }
                         
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
 
                     }
-
-                    DataTable dtResult = GroupBy("OPCCFFId", "OPCCFFId", dt);
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dtResult, "RIOperacionE");
-
-                    cargaError = false;
-
+                    cargaBase.RegistrarCarga(dt, "RIOperacionE");
+                    cargaBase.RegistrarCarga(dt, "RIOperacionE");                    
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -128,34 +113,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.MOperaciones
 
         #endregion
 
-        #region Métodos Privados
-
-        //private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        //{
-        //    DataRow dr = dt.NewRow();
-        //    dr["OPMoneda"] = excel.GetStringCellValue(row, _indexCol["OPMoneda"]);
-        //    dr["OPCCFFId"] = excel.GetCellToString(row, _indexCol["OPCCFFId"]);
-           
-       
-        //    return dr;
-        //}
-
-
-        public static DataTable GroupBy(string i_sGroupByColumn, string i_sAggregateColumn, DataTable i_dSourceTable)
-        {
-
-            DataView dv = new DataView(i_dSourceTable);
-
-            DataTable dtGroup = dv.ToTable(true);
-            dtGroup.Columns.Add("OPErrores", typeof(int));
-
-            foreach (DataRow dr in dtGroup.Rows)
-            {
-                dr["OPErrores"] = i_dSourceTable.Compute("Count(" + i_sAggregateColumn + ")", i_sGroupByColumn + " = '" + dr[i_sGroupByColumn] + "'");
-            }
-            return dtGroup;
-        }
-
-        #endregion
     }
 }

@@ -17,7 +17,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
     public class CargaPlanillaCajeroTottusRapicash
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private static Dictionary<string, int> _indexCol;
 
         #region Métodos Públicos
 
@@ -105,23 +104,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    fileError = false;
-                    CargaArchivoBL.GetInstance().Add(dt, "PlanillaCajeroTottusRapicash");
-
-                    cargaError = false;
-                    //Se actualiza a procesado la tabla CabeceraCarga
-                    cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Procesado);
-
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
+                    cargaBase.RegistrarCarga(dt, "PlanillaCajeroTottusRapicash");
                 }
             }
             catch (Exception ex)
             {
-                if (cargaError) cargaBase.ActualizarCabecera(cabeceraId, EstadoCarga.Fallido);
-
-                string messageError = UtilsLocal.GetMessageError(fileError, null, cont, ex.Message);
+                string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
@@ -132,26 +120,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
 
         #endregion
 
-        #region Métodos Privados
-
-        private static DataRow GetDataRow(DataTable dt, GenericExcel excel, IRow row)
-        {
-            DataRow dr = dt.NewRow();
-            dr["TiendaId"] = TiendaRetail.Maestro.GetStringValue();
-            dr["Mes"] = excel.GetIntCellValue(row, _indexCol["Mes"]);
-            dr["Anio"] = excel.GetIntCellValue(row, _indexCol["Anio"]);
-            dr["Tienda"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Tienda"]), "");
-            dr["Plla"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Plla"]), "");
-            dr["Puesto"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Puesto"]), "");
-            dr["Codigo"] = excel.GetIntCellValue(row, _indexCol["Codigo"]);
-            string apellidoParterno = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["ApellidoPaterno"]), "");
-            string apellidoMaterno = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["ApellidoMaterno"]), "");
-            string Colaborador = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["Colaborador"]), "");
-            dr["Colaborador"] = apellidoParterno + " " + apellidoMaterno + " " + Colaborador;
-            dr["DNI"] = Utils.GetValueColumn(excel.GetStringCellValue(row, _indexCol["DNI"]), "");
-            return dr;
-        }
-
-        #endregion
     }
 }
