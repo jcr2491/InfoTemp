@@ -24,15 +24,14 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.EPasivos
         {
             Logger.Info("Se inició la carga del archivo RIPasivosCsdCsi");
             Console.WriteLine("Se inició la carga del archivo RIPasivosCsdCsi");
-            var cargaBase = new CargaBase<Productividad>();
+            var cargaBase = new CargaBase<RIPasivosCsdCsi>();
             string tipoArchivo = TipoArchivo.RIPasivosCsdCsi.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
-            bool fileError = true;
 
             try
             {
-                 cargaBase = new CargaBase<Productividad>(tipoArchivo);
+                 cargaBase = new CargaBase<RIPasivosCsdCsi>(tipoArchivo);
                 var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
 
                 foreach (var fileName in filesNames)
@@ -72,7 +71,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.EPasivos
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     cont = 0;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string CCFF = string.Empty;
+                    string CCFFId = string.Empty;
                     //TODO: Aqui se debe hacer la logica para consumir de la tabla excel de configuracion
 
                     while (row != null)
@@ -84,22 +83,16 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.EPasivos
                             continue;
                         };
 
-
-                        CCFF = excel.GetCellToString(row, cargaBase.PropiedadCol.First(p => p.Key == "CCFF").Value.PosicionColumna);
-
-                        if (CCFF != string.Empty)
+                        CCFFId = excel.GetCellToString(row, cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna);
+                        if (CCFFId != string.Empty)
                         {
                             cont++;
-                            DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["CargaId"] = cabeceraId;
+                            DataRow dr = cargaBase.AsignarDatos(dt);                            
                             dr["Secuencia"] = cont;
-                            dr["CCFF"] = CCFF;
                             dt.Rows.Add(dr);
                         }
-
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
-
                     }
 
                     cargaBase.RegistrarCarga(dt, "RIPasivosCsdCsi");

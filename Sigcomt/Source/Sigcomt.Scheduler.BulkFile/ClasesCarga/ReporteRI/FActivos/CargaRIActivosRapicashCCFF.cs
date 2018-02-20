@@ -12,7 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
+namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI
 {
     public class CargaRIActivosRapicashCCFF
     {
@@ -28,7 +28,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
             string tipoArchivo = TipoArchivo.RIActivosRapicashCCFF.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
-            bool fileError = true;
 
             try
             {
@@ -89,30 +88,20 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
                         CCFFId = excel.GetCellToString(row, cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna);
                         CCFF = excel.GetCellToString(row, cargaBase.PropiedadCol.First(p => p.Key == "CCFF").Value.PosicionColumna);
 
-                        if (CCFFId.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            Zona = CCFFId;
-                        }
-                        else if (CCFFId != string.Empty && !CCFFId.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase))
+                        if (CCFFId != string.Empty &&
+                                 !CCFFId.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
                         {
                             if (CCFF != string.Empty)
                             {
                                 cont++;
                                 DataRow dr = cargaBase.AsignarDatos(dt);
                                 dr["Secuencia"] = cont;
-                            
                                 dt.Rows.Add(dr);
                             }
                         }
-                        else
+                        else if (!CCFFId.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            dt.Select(string.Format("[Zona] = '{0}'", ""))
-                             .ToList<DataRow>()
-                             .ForEach(r =>
-                             {
-                                 r["Zona"] = Zona;
-                             });
-                            Zona = "";
+                            break;
                         }
 
                         rowNum++;

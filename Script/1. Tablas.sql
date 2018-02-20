@@ -81,24 +81,22 @@ GO
 ALTER TABLE [Comisiones].[ExcelHojaCampo]  WITH CHECK ADD  CONSTRAINT [FK_ExcelHojaCampo_ExcelHoja] FOREIGN KEY([ExcelHojaId])
 REFERENCES [Comisiones].[ExcelHoja] ([Id])
 GO
-
 ALTER TABLE [Comisiones].[ExcelHojaCampo] CHECK CONSTRAINT [FK_ExcelHojaCampo_ExcelHoja]
 GO
 
 CREATE TABLE [Comisiones].[Productividad](
 	CargaId int NOT NULL,
 	Secuencia int NOT NULL,
-	SupervisorId int NULL,
-	Supervisor nvarchar(250) NOT NULL,
 	GrupoId int NULL,
 	Grupo nvarchar(20) NOT NULL,
 	EmpleadoId int NULL,
 	Empleado nvarchar(250) NOT NULL,
-	DiasAsistencia int NOT NULL,
+	DiasAsistencia int NULL,
 	TotalProductividad decimal(8,2) NULL,
-	Logro decimal(8,2) NOT NULL,
+	Logro decimal(8,2) NULL,
 	MetaDiaria decimal(8,2) NULL,
 	MetaReal decimal(8,2) NULL,
+	AppAnd decimal(8,2) NULL,
  CONSTRAINT [PK_Productividad] PRIMARY KEY CLUSTERED 
 (
 	[CargaId] ASC,
@@ -116,12 +114,6 @@ ALTER TABLE [Comisiones].[Productividad]  WITH CHECK ADD  CONSTRAINT [FK_Product
 REFERENCES [Comisiones].[Empleado] ([Id])
 GO
 ALTER TABLE [Comisiones].[Productividad] CHECK CONSTRAINT [FK_Productividad_Empleado]
-GO
-
-ALTER TABLE [Comisiones].[Productividad]  WITH CHECK ADD  CONSTRAINT [FK_Productividad_Supervisor] FOREIGN KEY([SupervisorId])
-REFERENCES [Comisiones].[Empleado] ([Id])
-GO
-ALTER TABLE [Comisiones].[Productividad] CHECK CONSTRAINT [FK_Productividad_Supervisor]
 GO
 
 ALTER TABLE [Comisiones].[Productividad]  WITH CHECK ADD  CONSTRAINT [FK_Productividad_Grupo] FOREIGN KEY([GrupoId])
@@ -641,27 +633,41 @@ Observaciones:
 */
 
 CREATE TABLE [Comisiones].[Grupo](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CargaId] INT NOT NULL,
+	[Secuencia] INT NOT NULL,
 	[Nombre] [varchar](50) NOT NULL,
 	[ResponsableId] [int] NULL,
  CONSTRAINT [PK_Grupo] PRIMARY KEY CLUSTERED 
 (
-	[Id] ASC
+	[CargaId] ASC,
+	[Secuencia] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO --LISTO
 
 CREATE TABLE [Comisiones].[ErrorCarga](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[CargaId] [int] NOT NULL,
-	[NumFila] [int] NOT NULL,
-	[ExcelHojaCampoId] [int] NOT NULL,
-	[DetalleError] [varchar](100) NULL,
+	[FechaError] datetime NOT NULL,
+	[Secuencia] int NOT NULL,
+	[TipoError] char(1) NOT NULL,
+	[CargaId] [int] NULL,
+	[NumFila] [int] NULL,
+	[PosicionColumna] [nvarchar](4) NULL,
+	[ExcelHojaCampoId] [int] NULL,	
+	[DetalleError] [varchar](500) NULL,
  CONSTRAINT [PK_ErrorCarga] PRIMARY KEY CLUSTERED 
 (
-	[Id] ASC
+	[FechaError] ASC,
+	[Secuencia] ASC
 )) ON [PRIMARY]
+
+GO
+
+
+CREATE TABLE [Comisiones].[TipoComision](
+	[TipoComision] [int] NOT NULL,
+	[TipoArchivo] [int] NOT NULL
+) ON [PRIMARY]
 
 GO
 

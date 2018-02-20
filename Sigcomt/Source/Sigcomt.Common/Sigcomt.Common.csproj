@@ -84,7 +84,8 @@
     <Compile Include="ConfigurationAppSettings.cs" />
     <Compile Include="DataEmail.cs" />
     <Compile Include="Enums\TipoErrorCarga.cs" />
-    <Compile Include="ResponseCorrecto.cs" />
+    <Compile Include="ResponseInput.cs" />
+    <Compile Include="ResponseTipoComision.cs" />
     <Compile Include="DataTable\ColumnDataTableModel.cs" />
     <Compile Include="DataTable\DataTableModel.cs" />
     <Compile Include="DataTable\OrderDataTableModel.cs" />

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Hosting;
 
@@ -14,28 +15,48 @@ namespace Sigcomt.Scheduler.BulkFile.Core
         public static bool EnvioCorreo(List<DetalleErrorCarga> errorList)
         {
             bool success = true;
-            var listError = new List<ResponseError>();
-            var listCorrecto = new List<ResponseCorrecto>();
-            ResponseError Entityerror = null;
+            List<ResponseError> listError = new List<ResponseError>();
+            List<ResponseTipoComision> listaTipoComision = new List<ResponseTipoComision>();
+            List<ResponseInput> listaInput = new List<ResponseInput>();
 
-            foreach (var error in UtilsLocal.ErrorCargaList)
+            ResponseError Entityerror = null;
+            ResponseInput EntityInput = null;
+            ResponseTipoComision EntityTipoComision = null;
+
+            var groupTipoComisionList = errorList.GroupBy(p => p.TipoComision).ToList().FirstOrDefault();
+            var groupTipoArchivo = errorList.GroupBy(p => p.IdTipoArchivo).ToList().FirstOrDefault();
+            foreach (var error in errorList)
             {
                 Entityerror = new ResponseError();
-                Entityerror.NombreColumna = error.PosicionColumna;
-                Entityerror.NumeroFila = error.NumFila ?? 0;
+                Entityerror.TipoComision = error.TipoComision;
+                Entityerror.TipoArchivo = error.TipoArchivo;
+                Entityerror.NumeroFila = error.NumFila;
                 Entityerror.PosicionColumna = error.PosicionColumna;
                 Entityerror.Mensaje = error.DetalleError;
-                Entityerror.NombreHoja = "Prueba";
+                if (error.TipoError == "1") Entityerror.TipoError = "Validacion de Datos";
+                if (error.TipoError == "2") Entityerror.TipoError = "Carga de datos";
                 listError.Add(Entityerror);
+            }
+            foreach (var input in groupTipoArchivo)
+            {
+                EntityInput = new ResponseInput();
+                EntityInput.Input = input.TipoArchivo;
+                listaInput.Add(EntityInput);
+            }
+            foreach (var tipocomision in groupTipoComisionList)
+            {
+                EntityTipoComision = new ResponseTipoComision();
+                EntityTipoComision.Reporte = tipocomision.TipoComision;
+                listaTipoComision.Add(EntityTipoComision);
             }
 
             if (listError.Count > 0)
             {
                 bool estadoEnvio = SendWithTemplateModel(new DataEmail
                 {
-                    Reporte = "REPORTE AUTOMOTRIZ", //ejemplo
                     HoraEjecucion = Convert.ToDateTime(DateTime.Now).ToShortTimeString(),
-                    Mes = "JULIO",
+                    inputList = listaInput,
+                    tipoComisionList = listaTipoComision,
                     ErrorList = listError
                 });
 

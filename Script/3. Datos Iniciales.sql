@@ -10,27 +10,27 @@ SET @Id = (SELECT Id FROM @OutputTbl)
 -- DATOS EXCELHOJA --
 SET IDENTITY_INSERT [Comisiones].[ExcelHoja] ON
 
-INSERT [Comisiones].[ExcelHoja] ([Id], [ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (1, @Id, N'1', 7, N'Productividad', NULL)
-INSERT [Comisiones].[ExcelHoja] ([Id], [ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (2, @Id, N'5', 7, N'SLA', NULL)
+INSERT [Comisiones].[ExcelHoja] ([Id], [ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (1, @Id, N'1', 3, N'Productividad', NULL)
+INSERT [Comisiones].[ExcelHoja] ([Id], [ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (2, @Id, N'5', 3, N'SLA', NULL)
 
 SET IDENTITY_INSERT [Comisiones].[ExcelHoja] OFF
 
 -- DATOS EXCELHOJACAMPO --
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (1, N'DiasAsistencia', N'G', 1, NULL, NULL)
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (1, N'Empleado', N'C', 2, NULL, NULL)
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (1, N'Grupo', N'B', 1, NULL, NULL)
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (1, N'Logro', N'I', 1, NULL, NULL)
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (1, N'Supervisor', N'A', 1, NULL, NULL)
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (1, N'TotalProductividad', N'D', 1, NULL, NULL)
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (1, N'MetaDiaria', N'F', 1, NULL, NULL)
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (1, N'MetaReal', N'K', 1, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'DiasAsistencia', N'F', 1, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'Empleado', N'B', 2, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'Grupo', N'A', 2, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'Logro', N'I', 5, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'TotalProductividad', N'C', 5, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'MetaDiaria', N'E', 5, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'MetaReal', N'J', 5, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'AppAnd', N'M', 5, NULL, NULL, NULL)
 
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (2, N'DentroPlazo', N'E', 1, NULL, NULL)
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (2, N'Empleado', N'C', 1, NULL, NULL)
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (2, N'FueraPlazo', N'D', 1, NULL, NULL)
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (2, N'Grupo', N'B', 1, NULL, NULL)
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (2, N'Supervisor', N'A', 1, NULL, NULL)
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulos], [ValorDefecto]) VALUES (2, N'TotalGeneral', N'F', 1, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (2, N'DentroPlazo', N'E', 1, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (2, N'Empleado', N'C', 1, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (2, N'FueraPlazo', N'D', 1, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (2, N'Grupo', N'B', 2, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (2, N'Supervisor', N'A', 2, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (2, N'TotalGeneral', N'F', 1, NULL, NULL, NULL)
 
 DELETE FROM @OutputTbl
 -- DATOS EXCEL --

@@ -9,6 +9,6 @@
         public double Logro { get; set; }
         public double MetaMonto { get; set; }
         public double LogroProy { get; set; }
-        public string Zona { get; set; }
+        
     }
 }

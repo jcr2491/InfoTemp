@@ -28,8 +28,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.HSeguros
             string tipoArchivo = TipoArchivo.RISeguroVSC.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
 
             try
             {

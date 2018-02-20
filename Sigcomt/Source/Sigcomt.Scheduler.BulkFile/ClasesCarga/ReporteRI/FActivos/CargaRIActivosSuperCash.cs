@@ -28,8 +28,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.FActivos
             string tipoArchivo = TipoArchivo.RIActivosSuperCash.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
 
             try
             {
@@ -72,8 +70,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.FActivos
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;
-                    string Zona = string.Empty;
+                    cont = 0;                    
                     string CCFF = string.Empty;
                     while (row != null)
                     {
@@ -86,34 +83,20 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.FActivos
 
                         string CCFFId = excel.GetCellToString(row, cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna);
                         CCFF= Utils.GetValueColumn(excel.GetCellToString(row, cargaBase.PropiedadCol.First(p => p.Key == "CCFF").Value.PosicionColumna), "");
-                        if (CCFF.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            Zona = CCFF;
-                        }
-                        if (!string.IsNullOrWhiteSpace(CCFFId) && !string.IsNullOrWhiteSpace(CCFF) && 
-                            !CCFF.StartsWith("Total",StringComparison.InvariantCultureIgnoreCase) )
+                        
+                        if (!string.IsNullOrWhiteSpace(CCFFId) && !string.IsNullOrWhiteSpace(CCFF) &&
+                            !CCFF.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["CargaId"] = cabeceraId;
                             dr["Secuencia"] = cont;
-                            dr["CCFFId"] = CCFFId;
-                            dr["CCFF"] = CCFF;
-                            dr["Zona"] = Zona;
 
                             dt.Rows.Add(dr);
                         }
-                        else
+                        else if (!CCFF.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            dt.Select(string.Format("[Zona] = '{0}'", ""))
-                                                        .ToList<DataRow>()
-                                                        .ForEach(r =>
-                                                        {
-                                                            r["Zona"] = Zona;
-                                                        });
-                            Zona = "";
+                            break;
                         }
-
                    
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);

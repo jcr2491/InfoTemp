@@ -34,6 +34,11 @@ namespace Sigcomt.Scheduler.BulkFile
 
             try
             {
+                //CargaUAC.CargarArchivos();
+                //CargaDataAutomotriz.CargarArchivo();
+                CargaRI.CargaArchivos();
+
+
                 //var email = ParametrosBL.GetInstance().GetParametros("CorreoAnalistaBI");
 
 
@@ -42,7 +47,7 @@ namespace Sigcomt.Scheduler.BulkFile
                 //CargaBono.CargarArchivo();
                 //CargaMaestroAutomotriz.CargarArchivo();
 
-                CargaUAC.CargarArchivos();
+                //CargaUAC.CargarArchivos();
                 //CargaFFVV.CargarArchivos();
 
                 //Base
@@ -59,7 +64,6 @@ namespace Sigcomt.Scheduler.BulkFile
                 //Jefe Comercial
                 //CargaCierrePlanningJefeComercial.CargarArchivo();
                 //CargaPesoCCFF.CargarArchivo();
-
                 ////CCFF
                 //CargaEmpleadoCCFF.CargarArchivo();
                 //CargaAmpliacionesCCFF.CargarArchivo();
@@ -93,7 +97,7 @@ namespace Sigcomt.Scheduler.BulkFile
                 //CargaResumenSodimacRapicash.CargarArchivo();
                 //CargaDetalleSodimacRapicash.CargarArchivo();
                 //CargaPlanillaCajeroTottusRapicash.CargarArchivo();
-                CargaSodimacMetaRapicash.CargarArchivo();
+                //CargaSodimacMetaRapicash.CargarArchivo();
 
 
 
@@ -109,7 +113,7 @@ namespace Sigcomt.Scheduler.BulkFile
                 //CargaUACMonitoreo.CargarArchivo();
                 //CargaProductividad.CargarArchivo();
 
-          
+
 
                 #region Reporte RI
 
@@ -128,36 +132,14 @@ namespace Sigcomt.Scheduler.BulkFile
                 #region C. Tarjetas
                 //CargaRITarjetasAvanceZonales.CargarArchivo();
                 //CargaRITarjetaAdicional.CargarArchivo();
-                //CargaRITarjetaAdicional.CargarArchivo();
                 #endregion
 
-                #region D. Tiempo de Espera
-                //CargaRITECCFF.CargarArchivo();
-                //CargaRITEPlataforma.CargarArchivo();
-                //CargaRITECajero.CargarArchivo();                          //CARGÓ!
-                //CargaRITiempoEspera.CargarArchivo();
-                #endregion
 
-                #region E. Pasivos
-                //CargaRIPasivosCortoLagoPlazo.CargarArchivo();
-                //CargaRIPasivosCsdCsi.CargarArchivo();
-                #endregion
-
-                #region  F. Activos
-                //CargaRIActivosSuperCash.CargarArchivo();
-                //CargaRIActivosRapicashCCFF.CargarArchivo();
-                #endregion
-
-                #region H. Seguros
-                //CargaRISeguroCCFF.CargarArchivo();
-                //CargaRISeguroVSC.CargarArchivo();
-                //CargaRISeguroTP.CargarArchivo();
-                #endregion
-
+                //CargaRIParticipacionTR.CargaArchivo();   ULTIMO
                 #region I. CalidadAtencion
                 //CargaRICalidadAtencion1erContacto.CargarArchivo();
                 //CargaRICalidadCICCFF.CargarArchivo();
-                CargaRICalidadNPSCCFF.CargarArchivo();
+                //CargaRICalidadNPSCCFF.CargarArchivo();               CARGÓ!
                 //CargaRICalidadAtencion.CargarArchivo();                
                 #endregion
 
@@ -174,7 +156,10 @@ namespace Sigcomt.Scheduler.BulkFile
                 //CargaRIOperacionSF.CargarArchivo();                      //CARGÓ!
                 //CargaRIOperacionE.CargarArchivo();                       //CARGÓ! 
                 #endregion
+=======
+>>>>>>> 827d602595b253a598232e52d497bfc5a053a984
 
+               
                 #endregion
 
 

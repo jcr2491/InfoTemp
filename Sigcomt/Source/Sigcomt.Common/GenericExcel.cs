@@ -176,7 +176,14 @@ namespace Sigcomt.Common
                     }
                     break;
                 case CellType.Error:
-                    valor = cell.ErrorCellValue.ToString();
+<<<<<<< HEAD
+                    // valor = cell.StringCellValue.ToString();
+                    valor = cell.ToString();
+                    //valor = cell.ErrorCellValue.ToString();
+=======
+                    valor = cell.ErrorCellValue.ToString();    //Ouput: 7
+                    valor = cell.ToString();                  //Output: !DIV/0   -> Eso necesitamos para la reemplazarlo por el ValorIgnorar
+>>>>>>> 827d602595b253a598232e52d497bfc5a053a984
                     break;
                 default:
                     valor = GetCellToString(cell);

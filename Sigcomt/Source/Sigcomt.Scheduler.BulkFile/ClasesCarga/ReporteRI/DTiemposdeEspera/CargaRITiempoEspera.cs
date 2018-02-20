@@ -28,8 +28,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
             string tipoArchivo = TipoArchivo.RITiempoEspera.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
 
             try
             {

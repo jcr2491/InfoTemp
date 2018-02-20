@@ -6,7 +6,6 @@ namespace Sigcomt.Business.Entity
     {
         public int CargaId { get; set; }
         public int Secuencia { get; set; }
-        public string Zona { get; set; }
         public int CCFFId { get; set; }
         public string CCFF { get; set; }
         public double PifSolesLogro { get; set; }

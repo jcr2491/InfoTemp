@@ -25,14 +25,14 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion
         {
             Logger.Info("Se inició la carga del archivo RICalidadAtencion1erContacto");
             Console.WriteLine("Se inició la carga del archivo RICalidadAtencion1erContacto");
-            var cargaBase = new CargaBase<RIDerivacionCaja>();
+            var cargaBase = new CargaBase<RICalidadAtencion1erContacto>();
             string tipoArchivo = TipoArchivo.RICalidadAtencion1erContacto.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
             int num = 0;
             try
             {
-                cargaBase = new CargaBase<RIDerivacionCaja>(tipoArchivo);
+                cargaBase = new CargaBase<RICalidadAtencion1erContacto>(tipoArchivo);
                 var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
 
                 foreach (var fileName in filesNames)
@@ -95,7 +95,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ICalidadAtencion
                             dr["Secuencia"] = cont;
                             var logro = dr["Logro"];
                             var meta = dr["Meta"];
-                            if ((int)logro > 0 && (int)meta > 0)
+                            if (Convert.ToDouble(logro) > 0.0 && Convert.ToDouble(meta) > 0.0)
                             {
                                 dr["Cumplimiento"] =Convert.ToDouble(logro) / Convert.ToDouble(meta);
                             }

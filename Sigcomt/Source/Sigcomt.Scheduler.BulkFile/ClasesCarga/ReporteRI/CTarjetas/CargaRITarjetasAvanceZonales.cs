@@ -28,14 +28,11 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
             string tipoArchivo = TipoArchivo.RITarjetasAvanceZonales.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
 
             try
             {
                  cargaBase = new CargaBase<RITarjetasAvanceZonales>(tipoArchivo);
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
-          
+                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");         
 
                 foreach (var fileName in filesNames)
                 {

@@ -24,15 +24,14 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.EPasivos
         {
             Logger.Info("Se inició la carga del archivo RIPasivosCsdCsi");
             Console.WriteLine("Se inició la carga del archivo RIPasivosCsdCsi");
-            var cargaBase = new CargaBase<Productividad>();
+            var cargaBase = new CargaBase<RIPasivosCortoLargoPlazo>();
             string tipoArchivo = TipoArchivo.RIPasivosCortoLargoPlazo.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
-            bool fileError = true;
 
             try
             {
-                 cargaBase = new CargaBase<Productividad>(tipoArchivo);
+                cargaBase = new CargaBase<RIPasivosCortoLargoPlazo>(tipoArchivo);
                 var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
 
                 foreach (var fileName in filesNames)
@@ -88,29 +87,21 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.EPasivos
                         //CCFFId = excel.GetCellToString(row, _indexCol["CCFFId"]);
                         CCFF = excel.GetCellToString(row, cargaBase.PropiedadCol.First(p => p.Key == "CCFF").Value.PosicionColumna);
 
-                        if (CCFF.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            Zona = CCFF;
-
-                            dt.Select(string.Format("[Zona] = '{0}'", ""))
-                             .ToList<DataRow>()
-                             .ForEach(r => {
-                                 r["Zona"] = Zona;
-                             });
-                            Zona = "";
-                        }
-                        else if (CCFF != string.Empty && !CCFF.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase))
+                        if (CCFF != string.Empty && !CCFF.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
                         {
                             if (CCFF != string.Empty)
                             {
                                 cont++;
                                 DataRow dr = cargaBase.AsignarDatos(dt);
                                 dr["Secuencia"] = cont;
-                           
+
                                 dt.Rows.Add(dr);
                             }
                         }
-
+                        else if (!CCFF.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            break;
+                        }
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);

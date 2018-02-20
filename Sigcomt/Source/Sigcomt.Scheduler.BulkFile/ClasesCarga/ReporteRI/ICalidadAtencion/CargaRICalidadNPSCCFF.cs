@@ -12,7 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
+namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI
 {
     public class CargaRICalidadNPSCCFF
     {

@@ -729,3 +729,28 @@ BEGIN
 	select 'vacío'
 END
 GO
+
+CREATE PROCEDURE [Comisiones].[GetErrorCarga] 
+	@FechaError DATETIME
+AS    
+BEGIN
+	SELECT
+		FechaError,
+		TipoError,
+		NumFila,
+		PosicionColumna,
+		DetalleError,
+		Isnull(it.Nombre,'') TipoArchivo,
+		cc.TipoArchivo IdTipoArchivo,
+		Isnull(it2.Descripcion,'') TipoComision,
+	    tc.TipoComision AS IdTipoComisiones
+	FROM Comisiones.ErrorCarga ec
+	LEFT JOIN Comisiones.CabeceraCarga cc ON cc.Id = ec.CargaId
+	LEFT JOIN Comisiones.ItemTabla it ON it.TablaId = 2 AND it.Valor = cc.TipoArchivo
+	LEFT JOIN Comisiones.TipoComision tc  ON cc.TipoArchivo= tc.TipoArchivo
+	LEFT JOIN Comisiones.ItemTabla it2 ON it2.TablaId=1 AND it2.Valor= tc.TipoComision
+	WHERE FechaError = @FechaError
+END
+
+
+GO

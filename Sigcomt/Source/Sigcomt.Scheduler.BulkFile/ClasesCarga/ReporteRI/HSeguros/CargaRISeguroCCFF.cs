@@ -27,7 +27,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.HSeguros
             Console.WriteLine("Se inició la carga del archivo RISeguroCCFF");
             var cargaBase = new CargaBase<RISeguroCCFF>();
             string tipoArchivo = TipoArchivo.RISeguroCCFF.GetStringValue();
-
            
             int cabeceraId = 0;
             int cont = 0;
@@ -36,8 +35,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.HSeguros
 
             try
             {
-
-                 cargaBase = new CargaBase<RISeguroCCFF>(tipoArchivo);
+                cargaBase = new CargaBase<RISeguroCCFF>(tipoArchivo);
                 var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
               
 

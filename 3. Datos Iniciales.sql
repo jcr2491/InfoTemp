@@ -8,25 +8,29 @@ VALUES (N'Productividad.xlsx', N'Reporte de Productividad', N'D:\TEMP\Comisiones
 
 SET @Id = (SELECT Id FROM @OutputTbl)
 -- DATOS EXCELHOJA --
-INSERT [Comisiones].[ExcelHoja] ([ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (@Id, N'1', 7, N'Productividad', NULL)
-INSERT [Comisiones].[ExcelHoja] ([ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (@Id, N'5', 7, N'SLA', NULL)
+SET IDENTITY_INSERT [Comisiones].[ExcelHoja] ON
+
+INSERT [Comisiones].[ExcelHoja] ([Id], [ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (1, @Id, N'1', 3, N'Productividad', NULL)
+INSERT [Comisiones].[ExcelHoja] ([Id], [ExcelId], [TipoArchivo], [FilaIni], [NombreHoja], [Descripcion]) VALUES (2, @Id, N'5', 3, N'SLA', NULL)
+
+SET IDENTITY_INSERT [Comisiones].[ExcelHoja] OFF
 
 -- DATOS EXCELHOJACAMPO --
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'DiasAsistencia', N'G')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'Empleado', N'C')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'Grupo', N'B')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'Logro', N'I')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'Supervisor', N'A')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'TotalProductividad', N'D')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'MetaDiaria', N'F')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'1', N'MetaReal', N'K')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'DiasAsistencia', N'F', 1, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'Empleado', N'B', 2, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'Grupo', N'A', 2, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'Logro', N'I', 5, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'TotalProductividad', N'C', 5, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'MetaDiaria', N'E', 5, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'MetaReal', N'J', 5, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (1, N'AppAnd', N'M', 5, NULL, NULL, NULL)
 
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'5', N'DentroPlazo', N'E')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'5', N'Empleado', N'C')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'5', N'FueraPlazo', N'D')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'5', N'Grupo', N'B')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'5', N'Supervisor', N'A')
-INSERT [Comisiones].[ExcelHojaCampo] ([ExcelId], [TipoArchivo], [NombreCampo], [PosicionColumna]) VALUES (@Id, N'5', N'TotalGeneral', N'F')
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (2, N'DentroPlazo', N'E', 1, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (2, N'Empleado', N'C', 1, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (2, N'FueraPlazo', N'D', 1, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (2, N'Grupo', N'B', 2, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (2, N'Supervisor', N'A', 2, NULL, NULL, NULL)
+INSERT [Comisiones].[ExcelHojaCampo] ([ExcelHojaId], [NombreCampo], [PosicionColumna], [TipoDato], [PermiteNulo], [ValorDefecto], [ValorIgnorar]) VALUES (2, N'TotalGeneral', N'F', 1, NULL, NULL, NULL)
 
 DELETE FROM @OutputTbl
 -- DATOS EXCEL --
@@ -247,11 +251,11 @@ INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) 
 GO
 INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (3, 1, N'CASOS RESUELTOS', 1, 50)
 GO
-INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (4, 2, N'SLA POR TIPOLOGÍA', 1, 50)
+INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (4, 5, N'SLA POR TIPOLOGÍA', 1, 50)
 GO
-INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (5, 2, N'SLA POR TIPOLOGÍA', 2, 50)
+INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (5, 5, N'SLA POR TIPOLOGÍA', 2, 50)
 GO
-INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (7, 2, N'SLA POR TIPOLOGÍA', 3, 50)
+INSERT [Comisiones].[IndicadorKpi] ([Id], [KpiId], [Nombre], [CargoId], [Peso]) VALUES (7, 5, N'SLA POR TIPOLOGÍA', 3, 50)
 GO
 SET IDENTITY_INSERT [Comisiones].[IndicadorKpi] OFF
 GO
@@ -271,7 +275,7 @@ GO
 SET IDENTITY_INSERT [Comisiones].[ColumnaKpi] ON 
 
 GO
-INSERT [Comisiones].[ColumnaKpi] ([Id], [CampoMeta], [CampoAcumulado], [KpiId]) VALUES (1, 6, 8, 1)
+INSERT [Comisiones].[ColumnaKpi] ([Id], [ExcelHojaCampoMeta], [ExcelHojaCampoResultado], [KpiId]) VALUES (1, 6, 8, 1)
 GO
 SET IDENTITY_INSERT [Comisiones].[ColumnaKpi] OFF
 GO
@@ -281,4 +285,20 @@ GO
 INSERT [Comisiones].[Bono] ([Id], [CargoId], [Monto], [MontoMaximo]) VALUES (1, 1, 300, 396)
 GO
 SET IDENTITY_INSERT [Comisiones].[Bono] OFF
+GO
+
+/*** VISTA COMISION ***/
+INSERT [Comisiones].[VistaComision] ([Id], [Nombre], [TipoComision]) VALUES (1, N'ESPECIALISTA', 1)
+GO
+INSERT [Comisiones].[VistaComision] ([Id], [Nombre], [TipoComision]) VALUES (2, N'SUPERVISOR - JEFE', 1)
+GO
+INSERT [Comisiones].[VistaComisionCargo] ([VistaComisionId], [CargoId]) VALUES (1, 1)
+GO
+INSERT [Comisiones].[VistaComisionCargo] ([VistaComisionId], [CargoId]) VALUES (1, 2)
+GO
+INSERT [Comisiones].[VistaComisionCargo] ([VistaComisionId], [CargoId]) VALUES (1, 3)
+GO
+INSERT [Comisiones].[VistaComisionCargo] ([VistaComisionId], [CargoId]) VALUES (2, 4)
+GO
+INSERT [Comisiones].[VistaComisionCargo] ([VistaComisionId], [CargoId]) VALUES (2, 5)
 GO

@@ -92,7 +92,7 @@ namespace Sigcomt.DataAccess
 
             using (var comando = _database.GetStoredProcCommand($"{ConectionStringRepository.EsquemaName}.GetErrorCarga"))
             {
-                _database.AddInParameter(comando, "@FechaError", DbType.DateTime, fecha);
+                _database.AddInParameter(comando, "@FechaError", DbType.DateTime, "2018-02-19 12:03:35.627");
 
                 using (var lector = _database.ExecuteReader(comando))
                 {
@@ -101,11 +101,14 @@ namespace Sigcomt.DataAccess
                         list.Add(new DetalleErrorCarga
                         {
                             TipoArchivo = lector.GetString(lector.GetOrdinal("TipoArchivo")),
-                            FechaError = lector.GetDateTime(lector.GetOrdinal("FechaError")),
+                           //FechaError = lector.GetDateTime(lector.GetOrdinal("FechaError")),
                             DetalleError = lector.GetString(lector.GetOrdinal("DetalleError")),
-                            NumFila = lector.GetString(lector.GetOrdinal("NumFila")),
+                            NumFila = lector.GetInt32(lector.GetOrdinal("NumFila")),
                             PosicionColumna = lector.GetString(lector.GetOrdinal("PosicionColumna")),
-                            TipoError = lector.GetString(lector.GetOrdinal("TipoError"))
+                            TipoError = lector.GetString(lector.GetOrdinal("TipoError")),
+                            IdTipoArchivo= lector.GetString(lector.GetOrdinal("IdTipoArchivo")),
+                            TipoComision = lector.GetString(lector.GetOrdinal("TipoComision")),
+                            IdTipoComision = lector.GetInt32(lector.GetOrdinal("IdTipoComisiones")),
                         });
                     }
                 }

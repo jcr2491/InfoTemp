@@ -28,8 +28,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
             string tipoArchivo = TipoArchivo.RITiempoEsperaPlataforma.GetStringValue();
             int cabeceraId = 0;
             int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
 
             try
             {
@@ -44,8 +42,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
                     int dia = 1;
                     int mes = Convert.ToInt32(onlyName.Substring(0, 2));
                     int año = Convert.ToInt32(onlyName.Substring(2, 4));
-
-            
+                                
                     DateTime fechaFile = new DateTime(año, mes, dia);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 

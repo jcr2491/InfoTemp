@@ -1,35 +1,40 @@
-﻿using System;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using log4net;
+﻿using log4net;
+using NPOI.SS.UserModel;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
-namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.BParticipación
 {
-    public class CargaRITarjetaAdicional
+    public class CargaRIParticipacionTR
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         #region Métodos Públicos
 
-        public static void CargarArchivo()
+        public static void CargaArchivo()
         {
-            Logger.Info("Se inició la carga del archivo Tarjeta Adicional");
-            Console.WriteLine("Se inició la carga del archivo Tarjeta Adicional");
+            Logger.Info("Se inició la carga del archivo RIParticipacionSaga");
+            Console.WriteLine("Se inició la carga del archivo RIParticipacionSaga");
 
-            var cargaBase = new CargaBase<RITarjetaAdicional>();
-            string tipoArchivo = TipoArchivo.RITarjetaAdicional.GetStringValue();
+            var cargaBase = new CargaBase<RIParticipacion>();
+            string tipoArchivo = TipoArchivo.RIParticipacion.GetStringValue();
+            int cabeceraId = 0;
             int cont = 0;
-
+            bool fileError = true;
+            bool cargaError = true;
             try
             {
-                cargaBase = new CargaBase<RITarjetaAdicional>(tipoArchivo);
+                cargaBase = new CargaBase<RIParticipacion>(tipoArchivo);
                 var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
+
 
                 foreach (var fileName in filesNames)
                 {
@@ -49,7 +54,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    cargaBase.AgregarCabecera(new CabeceraCarga
+                    cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -60,46 +65,58 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
 
                     Console.WriteLine("Se está procesando el archivo: " + fileName);
                     Logger.InfoFormat("Se está procesando el archivo: " + fileName);
-
+         
                     FileStream fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-
                     GenericExcel excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<RITarjetaAdicional>();
+                    DataTable dt = Utils.CrearCabeceraDataTable<RIParticipacion>();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string CCFFId = string.Empty;
-
                     cont = 0;
-
+                    string Tienda = string.Empty;
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-
-                        if (!isValid)
-                        {
+                        if (!isValid) {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
                         };
 
-                        CCFFId = Utils.GetValueColumn(
-                                excel.GetCellToString(row,
-                                cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna), CCFFId);
+                        Tienda = Utils.GetValueColumn(
+                                excel.GetStringCellValue(row,
+                                    cargaBase.PropiedadCol.First(p => p.Key == "Tienda").Value.PosicionColumna),
+                                Tienda);
 
-                        if (CCFFId != string.Empty && Char.IsNumber(CCFFId, 0))
+                        if (!string.IsNullOrWhiteSpace(Tienda) &&
+                            !Tienda.StartsWith("Región", StringComparison.InvariantCultureIgnoreCase) &&
+                            !Tienda.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase)  &&
+                            !Tienda.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
+                            dr["CargaId"] = cabeceraId;
                             dr["Secuencia"] = cont;
+                            dr["Tienda"] = Tienda;
+                            if (Tienda.Contains("SAGA")) dr["TiendaRatail"] = TiendaRetail.SagaFalabella;
+                            if (Tienda.Contains("TOTTUS")) dr["TiendaRatail"] = TiendaRetail.Tottus;
+                            if (Tienda.Contains("SODIMAC")) dr["TiendaRatail"] = TiendaRetail.Sodimac;
+                            if (Tienda.Contains("MAESTRO")) dr["TiendaRatail"] = TiendaRetail.Maestro;
+
+                           // dr["TiendaRatail"] = TiendaRetail.SagaFalabella;
+                            dr["DiferenciaParticipacionMeta"] = (Convert.ToDouble(dr["ParticipacionCMR"]) - Convert.ToDouble(dr["CMRMeta"]));
                             dt.Rows.Add(dr);
                         }
+
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-
-                    cargaBase.RegistrarCarga(dt, "RITarjetaAdicional");
+                    cargaBase.RegistrarCarga(dt, "RIParticipacion");
+                    
+                    //Se coloca el Id del empleado a los registros
+                    CargaArchivoBL.GetInstance().AddSucursalId("RIParticipacion", "Tienda", "TiendaId");
                 }
+
             }
             catch (Exception ex)
             {
@@ -107,11 +124,11 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
-
-            Logger.Info("Se terminó la carga del archivo Tarjeta Adicional");
-            Console.WriteLine("Se terminó la carga del archivo Tarjeta Adicional");
+            Logger.Info("Se terminó la carga del archivo Participacion");
+            Console.WriteLine("Se terminó la carga del archivo Participacion");
         }
 
         #endregion
+
     }
 }

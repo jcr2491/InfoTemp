@@ -6,7 +6,6 @@
         public int Secuencia { get; set; }
         public string CCFFId { get; set; }
         public string CCFF { get; set; }
-        public string Zona { get; set; }
         public decimal ResultadoCP { get; set; }
         public decimal MetaCP { get; set; }
         public decimal CumplimientoCP { get; set; }

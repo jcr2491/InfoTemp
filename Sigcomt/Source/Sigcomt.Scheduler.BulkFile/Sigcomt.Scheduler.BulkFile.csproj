@@ -104,11 +104,11 @@
     <Compile Include="ClasesCarga\Rapicash\CargarMaestroRapicash.cs" />
     <Compile Include="ClasesCarga\Referido\CargaReferidoCCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\ADirectorio\CargaRICCFF.cs" />
-    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacion.cs" />
-    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionMaestro.cs" />
-    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionSodimac.cs" />
-    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionTottus.cs" />
-    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionSaga.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionTR.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionTR.cs" />
+
+    <Compile Include="ClasesCarga\ReporteRI\CargaRI.cs" />
+
     <Compile Include="ClasesCarga\ReporteRI\CTarjetas\CargaRITarjetaAdicional.cs" />
     <Compile Include="ClasesCarga\ReporteRI\CTarjetas\CargaRITarjetaCCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\DTiemposdeEspera\CargaRITiempoEspera.cs" />
@@ -121,6 +121,7 @@
     <Compile Include="ClasesCarga\ReporteRI\ICalidadAtencion\CargaRICalidadAtencion.cs" />
     <Compile Include="ClasesCarga\ReporteRI\ICalidadAtencion\CargaRICalidadAtencion1erContacto.cs" />
     <Compile Include="ClasesCarga\ReporteRI\ICalidadAtencion\CargaRICalidadCICCFF.cs" />
+    <Compile Include="ClasesCarga\Base\CargaEmpleadoCCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\ICalidadAtencion\CargaRICalidadNPSCCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\FActivos\CargaRIActivosRapicashCCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\CTarjetas\CargaRITarjetasAvanceZonales.cs" />

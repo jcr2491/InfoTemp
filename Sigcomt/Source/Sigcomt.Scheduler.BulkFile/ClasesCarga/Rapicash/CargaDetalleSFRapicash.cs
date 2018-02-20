@@ -96,10 +96,8 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["CargaId"] = cabeceraId;
                             dr["Secuencia"] = cont;
-                            dr["Sucursal"] = Sucursal;
-
+                 
                             dt.Rows.Add(dr);
                         }
 
