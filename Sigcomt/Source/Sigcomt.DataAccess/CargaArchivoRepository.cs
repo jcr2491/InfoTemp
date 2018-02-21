@@ -86,29 +86,30 @@ namespace Sigcomt.DataAccess
             }
         }
 
-        public List<DetalleErrorCarga> GetUltimaCargaPorArchivo(DateTime fecha)
+        public List<DetalleLogCarga> GetLogCarga(DateTime fecha)
         {
-            var list = new List<DetalleErrorCarga>();
+            var list = new List<DetalleLogCarga>();
 
-            using (var comando = _database.GetStoredProcCommand($"{ConectionStringRepository.EsquemaName}.GetErrorCarga"))
+            using (var comando = _database.GetStoredProcCommand($"{ConectionStringRepository.EsquemaName}.GetLogCarga"))
             {
-                _database.AddInParameter(comando, "@FechaError", DbType.DateTime, "2018-02-19 12:03:35.627");
+                _database.AddInParameter(comando, "@FechaLog", DbType.DateTime, fecha);
 
                 using (var lector = _database.ExecuteReader(comando))
                 {
                     while (lector.Read())
                     {
-                        list.Add(new DetalleErrorCarga
+                        list.Add(new DetalleLogCarga
                         {
                             TipoArchivo = lector.GetString(lector.GetOrdinal("TipoArchivo")),
-                           //FechaError = lector.GetDateTime(lector.GetOrdinal("FechaError")),
-                            DetalleError = lector.GetString(lector.GetOrdinal("DetalleError")),
+                            FechaLog = lector.GetDateTime(lector.GetOrdinal("FechaLog")),
+                            DetalleLog = lector.GetString(lector.GetOrdinal("DetalleLog")),
                             NumFila = lector.GetInt32(lector.GetOrdinal("NumFila")),
                             PosicionColumna = lector.GetString(lector.GetOrdinal("PosicionColumna")),
-                            TipoError = lector.GetString(lector.GetOrdinal("TipoError")),
-                            IdTipoArchivo= lector.GetString(lector.GetOrdinal("IdTipoArchivo")),
+                            TipoLog = lector.GetString(lector.GetOrdinal("TipoError")),
+                            TipoArchivoId = lector.GetString(lector.GetOrdinal("TipoArchivoId")),
                             TipoComision = lector.GetString(lector.GetOrdinal("TipoComision")),
-                            IdTipoComision = lector.GetInt32(lector.GetOrdinal("IdTipoComisiones")),
+                            TipoComisionId = lector.GetInt32(lector.GetOrdinal("TipoComisionId")),
+                            Archivo = lector.GetString(lector.GetOrdinal("Archivo"))
                         });
                     }
                 }

@@ -41,9 +41,9 @@
   <ItemGroup>
     <Compile Include="AmpliacionesCCFF.cs" />
     <Compile Include="Bono.cs" />
-    <Compile Include="DetalleErrorCarga.cs" />
+    <Compile Include="DetalleLogCarga.cs" />
     <Compile Include="DetalleTottusRapicash.cs" />
-    <Compile Include="ErrorCarga.cs" />
+    <Compile Include="LogCarga.cs" />
     <Compile Include="MaestroAutomotriz.cs" />
     <Compile Include="Parametros.cs" />
     <Compile Include="PlanillaTottusRapicash.cs" />

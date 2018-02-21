@@ -730,27 +730,28 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE [Comisiones].[GetErrorCarga] 
-	@FechaError DATETIME
+CREATE PROCEDURE [Comisiones].[GetLogCarga] 
+	@FechaLog DATETIME
 AS    
 BEGIN
 	SELECT
-		FechaError,
-		TipoError,
+		FechaLog,
+		TipoLog,
 		NumFila,
 		PosicionColumna,
-		DetalleError,
-		Isnull(it.Nombre,'') TipoArchivo,
-		cc.TipoArchivo IdTipoArchivo,
-		Isnull(it2.Descripcion,'') TipoComision,
-	    tc.TipoComision AS IdTipoComisiones
-	FROM Comisiones.ErrorCarga ec
-	LEFT JOIN Comisiones.CabeceraCarga cc ON cc.Id = ec.CargaId
-	LEFT JOIN Comisiones.ItemTabla it ON it.TablaId = 2 AND it.Valor = cc.TipoArchivo
-	LEFT JOIN Comisiones.TipoComision tc  ON cc.TipoArchivo= tc.TipoArchivo
-	LEFT JOIN Comisiones.ItemTabla it2 ON it2.TablaId=1 AND it2.Valor= tc.TipoComision
-	WHERE FechaError = @FechaError
+		DetalleLog,
+		ISNULL(it.Nombre,'') TipoArchivo,
+		cc.TipoArchivo TipoArchivoId,
+		ISNULL(it2.Descripcion,'') TipoComision,
+	    tc.TipoComision AS TipoComisionId,
+		('Archivo: '+ e.Nombre + ' - Hoja: '+ eh.NombreHoja  + ' - Input: '+ it.Nombre)  Archivo
+	FROM Comisiones.LogCarga lc
+		LEFT JOIN Comisiones.CabeceraCarga cc ON cc.Id = lc.CargaId
+		LEFT JOIN Comisiones.ItemTabla it ON it.TablaId = 2 AND it.Valor = lc.TipoArchivo
+		LEFT JOIN Comisiones.TipoComision tc ON tc.TipoArchivo = lc.TipoArchivo
+		LEFT JOIN Comisiones.ItemTabla it2 ON it2.TablaId = 1 AND it2.Valor = tc.TipoComision
+		LEFT JOIN Comisiones.ExcelHoja eh ON eh.TipoArchivo = cc.TipoArchivo
+		LEFT JOIN Comisiones.Excel e ON e.Id = eh.ExcelId
+	WHERE FechaLog = @FechaLog
 END
-
-
 GO

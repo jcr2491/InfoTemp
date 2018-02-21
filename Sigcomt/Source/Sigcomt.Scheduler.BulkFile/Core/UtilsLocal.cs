@@ -6,19 +6,18 @@ using NPOI.SS.Util;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
-using Sigcomt.DataAccess;
 
 namespace Sigcomt.Scheduler.BulkFile.Core
 {
     public class UtilsLocal
     {
         public static List<Excel> ExcelList;
-        public static List<ErrorCarga> ErrorCargaList;
+        public static List<LogCarga> LogCargaList;
 
         public static void CargarDatosIniciales()
         {
            ExcelList = ExcelBL.GetInstance().GetExcel();
-           ErrorCargaList = new List<ErrorCarga>();
+           LogCargaList = new List<LogCarga>();
         }
 
         public static Dictionary<string, PropiedadColumna> GetPropiedadesColumna<T>(ExcelHoja excelHoja)
@@ -53,39 +52,42 @@ namespace Sigcomt.Scheduler.BulkFile.Core
             return columnas;
         }
 
-        public static List<DetalleErrorCarga> RegistrarErrorCarga()
+        public static List<DetalleLogCarga> RegistrarLogCarga()
         {            
             int secuencia = 0;
-            DataTable dt = Utils.CrearCabeceraDataTable<ErrorCarga>();
+            DataTable dt = Utils.CrearCabeceraDataTable<LogCarga>();
             DateTime fecha = DateTime.Now;
 
-            foreach (var error in ErrorCargaList)
+            foreach (var log in LogCargaList)
             {
                 secuencia++;
 
                 DataRow dr = dt.NewRow();
-                dr["FechaError"] = fecha;
+                dr["FechaLog"] = fecha;
                 dr["Secuencia"] = secuencia;
-                dr["TipoError"] = error.TipoError;                
-                dr["PosicionColumna"] = error.PosicionColumna;                
-                dr["DetalleError"] = error.DetalleError;
+                dr["TipoLog"] = log.TipoLog;                
+                dr["PosicionColumna"] = log.PosicionColumna;                
+                dr["DetalleLog"] = log.DetalleLog;
 
-                if (error.CargaId != null)
-                    dr["CargaId"] = error.CargaId;
+                if (log.CargaId != null)
+                    dr["CargaId"] = log.CargaId;
 
-                if (error.NumFila != null)
-                    dr["NumFila"] = error.NumFila;
+                if (log.TipoArchivo != null)
+                    dr["TipoArchivo"] = log.TipoArchivo;
 
-                if (error.ExcelHojaCampoId != null)
-                    dr["ExcelHojaCampoId"] = error.ExcelHojaCampoId;
+                if (log.NumFila != null)
+                    dr["NumFila"] = log.NumFila;
+
+                if (log.ExcelHojaCampoId != null)
+                    dr["ExcelHojaCampoId"] = log.ExcelHojaCampoId;
 
                 dt.Rows.Add(dr);
             }
 
-            CargaArchivoRepository.GetInstance().Add(dt, "ErrorCarga");
+            CargaArchivoBL.GetInstance().Add(dt, "LogCarga");
 
             // Obtenemos los errores
-            return CargaArchivoRepository.GetInstance().GetUltimaCargaPorArchivo(fecha);
+            return CargaArchivoBL.GetInstance().GetLogCarga(fecha);
         }
 
         public static string GetMessageError(bool fileError, string[] campos, int numLinea, string messageException)

@@ -34,7 +34,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
                 cargaBase = new CargaBase<TECCFF_>(tipoArchivo);
                 var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
 
-
                 foreach (var fileName in filesNames)
                 {
                     var split = fileName.Split('\\');

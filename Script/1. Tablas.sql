@@ -184,23 +184,32 @@ GO
 ALTER TABLE [Comisiones].[Empleado] CHECK CONSTRAINT [FK_Empleado_Cargo]
 GO
 
-CREATE TABLE [Comisiones].[Cargo](
+REATE TABLE [Comisiones].[Cargo](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Nombre] [varchar](100) NOT NULL,
-	[TipoComision] int NOT NULL,
+	[Codigo] [int] NULL,
+	[Descripcion] [nvarchar](250) NULL,
+	[TipoComision] [int] NULL,
  CONSTRAINT [PK_Cargo] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )) ON [PRIMARY]
 GO
 
+/*
+Reporte: UAC
+Descripción: Grupo Supervisor - Mantenimiento UAC
+*/
+
 CREATE TABLE [Comisiones].[Grupo](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CargaId] [int] NOT NULL,
+	[Secuencia] [int] NOT NULL,
 	[Nombre] [varchar](50) NOT NULL,
 	[ResponsableId] [int] NULL,
  CONSTRAINT [PK_Grupo] PRIMARY KEY CLUSTERED 
 (
-	[Id] ASC
+	[CargaId] ASC,
+	[Secuencia] ASC
 )) ON [PRIMARY]
 GO
 
@@ -343,19 +352,25 @@ GO
 --)) ON [PRIMARY]
 --GO
 
-create table Comisiones.CCFF
+CREATE TABLE [Comisiones].[CCFF](
+	[CargaId] [int] NOT NULL,
+	[Secuencia] [int] NOT NULL,
+	[Id] [int] NOT NULL,
+	[CCFF] [nvarchar](100) NULL,
+	[Formato] [char](3) NULL,
+	[GerenteOJefeCCFF] [nvarchar](100) NULL,
+	[Cargo] [nvarchar](100) NULL,
+	[Caja] [int] NULL,
+	[Direccion] [nvarchar](max) NULL,
+	[Departamento] [nvarchar](100) NULL,
+	[Provincia] [nvarchar](100) NULL,
+	[Distrito] [nvarchar](100) NULL,
+ CONSTRAINT [PK_CCFF] PRIMARY KEY CLUSTERED 
 (
-Id int primary key,
-CCFF nvarchar(100) null,
-Formato char(3)  null,
-GerenteOJefeCCFF nvarchar(100)  null,
-Cargo nvarchar(100)  null,
-Caja bit null,
-Direccion nvarchar(max)  null,
-Departamento  nvarchar(100)  null,
-Provincia nvarchar(100)  null,
-Distrito nvarchar(100)  null
-)
+	[CargaId] ASC,
+	[Secuencia] ASC
+)) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
 go
 
 CREATE TABLE [Comisiones].[Parametros](
@@ -571,13 +586,10 @@ CREATE TABLE [Comisiones].[DiasAusencia](
 	[CargaId] [int] NOT NULL,
 	[Secuencia] [int] NOT NULL,
 	[EmpleadoId] [int] NULL,
-	[EmpresaId] [tinyint] NULL,
-	[Empresa] [varchar](250) NULL,
 	[Empleado] [nvarchar](250) NULL,
+	[CCFFId] [varchar](5) NULL,
 	[Anio] [int] NULL,
 	[Mes] [tinyint] NULL,
-	[Correlativo] [int] NULL,
-	[FechaProc] [nvarchar](50) NULL,
 	[TotDiasNoLabor] [decimal](5, 2) NULL,
  CONSTRAINT [PK_Dias_Ausencia] PRIMARY KEY CLUSTERED 
 (
@@ -646,18 +658,19 @@ CREATE TABLE [Comisiones].[Grupo](
 
 GO --LISTO
 
-CREATE TABLE [Comisiones].[ErrorCarga](
-	[FechaError] datetime NOT NULL,
+CREATE TABLE [Comisiones].[LogCarga](
+	[FechaLog] datetime NOT NULL,
 	[Secuencia] int NOT NULL,
-	[TipoError] char(1) NOT NULL,
+	[TipoLog] char(1) NOT NULL,
 	[CargaId] [int] NULL,
+	[TipoArchivo] varchar(2) NULL,
 	[NumFila] [int] NULL,
 	[PosicionColumna] [nvarchar](4) NULL,
 	[ExcelHojaCampoId] [int] NULL,	
-	[DetalleError] [varchar](500) NULL,
- CONSTRAINT [PK_ErrorCarga] PRIMARY KEY CLUSTERED 
+	[DetalleLog] [varchar](500) NULL,
+ CONSTRAINT [PK_LogCarga] PRIMARY KEY CLUSTERED 
 (
-	[FechaError] ASC,
+	[FechaLog] ASC,
 	[Secuencia] ASC
 )) ON [PRIMARY]
 
@@ -671,3 +684,135 @@ CREATE TABLE [Comisiones].[TipoComision](
 
 GO
 
+
+/* 
+Reporte: Base Homologación CCFF - Sucursales
+Descripción: Carga base para homologar CCFF - Sucursales
+*/
+CREATE TABLE [Comisiones].[HomologacionSucursal](
+	[CargaId] int NOT NULL,
+	[Secuencia] int NOT NULL,
+	[Zona] varchar(10) NULL,
+	[Formato] varchar(5) NULL,
+	[CCFFId] [varchar](5) NULL,
+	[CCFF] [varchar](100) NULL,
+	[Tienda] [varchar](50) NULL,
+	[SucursalId] [nvarchar](5) NULL,
+	[Sucursal] [nvarchar](150) NULL,
+ CONSTRAINT [PK_HomologacionSucursal] PRIMARY KEY CLUSTERED 
+(
+	[CargaId] ASC,
+	[Secuencia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/*
+Reporte: Automotriz
+Descripción: Maestro Automotriz
+ */
+ CREATE TABLE [Comisiones].[MaestroAutomotriz](
+	[CargaId] [int] NOT NULL,
+	[Secuencia] [int] NOT NULL,
+	[TipoComision] [int] NULL,
+	[CodigoEmpleado] [int] NULL,
+	[Empleado] [nvarchar](100) NULL,
+	[CargoId] [int] NULL,
+	[Meta] [decimal](12, 3) NULL,
+	[CumplimientoInicio] [decimal](12, 3) NULL,
+	[CumplimientoFin] [decimal](12, 3) NULL,
+	[Comision] [decimal](12, 3) NULL,
+	[SinSeguro] [decimal](12, 3) NULL,
+	[ConSeguro] [decimal](12, 3) NULL,
+	[Intermediacion] [decimal](12, 3) NULL,
+ CONSTRAINT [PK_MaestroAutomotriz] PRIMARY KEY CLUSTERED 
+(
+	[CargaId] ASC,
+	[Secuencia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+/*  
+	Reporte: Rapicash
+	Meta: De todas las tiendas Retail Rapicash
+*/
+
+CREATE TABLE [Comisiones].[MetaTiendaRapicash](
+	[CargaId] [int] NOT NULL,
+	[Secuencia] [int] NOT NULL,
+	[TiendaId] [int] NULL,
+	[SucursalId] [int] NULL,
+	[Sucursal] [nvarchar](150) NULL,
+	[MetaMes] [decimal](18, 6) NULL,
+	[Logro] [decimal](18, 6) NULL,
+	[Cumplimiento] [decimal](18, 6) NULL,
+ CONSTRAINT [PK_MetaTiendaRapicash] PRIMARY KEY CLUSTERED 
+(
+	[CargaId] ASC,
+	[Secuencia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/*
+Reporte: UAC
+Descripción: Input Monitoreo - Formato BI
+ */
+
+CREATE TABLE [Comisiones].[Monitoreo](
+	[CargaId] [int] NOT NULL,
+	[Secuencia] [int] NOT NULL,
+	[Empleado] [varchar](250) NULL,
+	[Nota] [decimal](12, 3) NULL,
+ CONSTRAINT [PK_Monitoreo] PRIMARY KEY CLUSTERED 
+(
+	[CargaId] ASC,
+	[Secuencia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/*
+Reporte: Jefes y Gerentes CCFF: RI Participacion
+Descripcion: Participacion de cada tienda
+*/
+
+CREATE TABLE [Comisiones].[RIParticipacion](
+	[CargaId] [int] NOT NULL,
+	[Secuencia] [int] NOT NULL,
+	[TiendaRatail] [int] NULL,
+	[TiendaId] [int] NULL,
+	[Tienda] [nvarchar](100) NULL,
+	[VentaTotal] [decimal](12, 3) NULL,
+	[VentaCMR] [decimal](12, 3) NULL,
+	[ParticipacionCMR] [decimal](12, 3) NULL,
+	[CMRMeta] [decimal](12, 3) NULL,
+	[DiferenciaParticipacionMeta] [decimal](12, 3) NULL,
+	[MetaVentaTotal] [decimal](12, 3) NULL,
+	[MetaVentaCMR] [decimal](12, 3) NULL,
+ CONSTRAINT [PK_RIParticipacion] PRIMARY KEY CLUSTERED 
+(
+	[CargaId] ASC,
+	[Secuencia] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+
+/* 
+Reporte: Jefes y Gerentes CCFF:
+Descripción Input RI Tarjetas Adicionales
+*/
+CREATE TABLE [Comisiones].[RITarjetaAdicional](
+	[CargaId] [int] NOT NULL,
+	[Secuencia] [int] NOT NULL,
+	[CCFFId] [int] NULL,
+	[LogroAdicional] [decimal](12, 3) NULL,
+	[Meta] [decimal](12, 3) NULL,
+	[Activacion] [decimal](12, 3) NULL,
+ CONSTRAINT [PK_RITarjetaAdicional] PRIMARY KEY CLUSTERED 
+(
+	[CargaId] ASC,
+	[Secuencia] ASC
+)WITH (PAD_INDEX = 

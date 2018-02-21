@@ -12,7 +12,7 @@ namespace Sigcomt.Scheduler.BulkFile.Core
 {
     public class EnvioEmail
     {
-        public static bool EnvioCorreo(List<DetalleErrorCarga> errorList)
+        public static bool EnvioCorreo(List<DetalleLogCarga> errorList)
         {
             bool success = true;
             List<ResponseError> listError = new List<ResponseError>();
@@ -24,7 +24,8 @@ namespace Sigcomt.Scheduler.BulkFile.Core
             ResponseTipoComision EntityTipoComision = null;
 
             var groupTipoComisionList = errorList.GroupBy(p => p.TipoComision).ToList().FirstOrDefault();
-            var groupTipoArchivo = errorList.GroupBy(p => p.IdTipoArchivo).ToList().FirstOrDefault();
+            var groupTipoArchivo = errorList.GroupBy(p => p.TipoArchivoId).ToList().FirstOrDefault();
+      
             foreach (var error in errorList)
             {
                 Entityerror = new ResponseError();
@@ -32,18 +33,18 @@ namespace Sigcomt.Scheduler.BulkFile.Core
                 Entityerror.TipoArchivo = error.TipoArchivo;
                 Entityerror.NumeroFila = error.NumFila;
                 Entityerror.PosicionColumna = error.PosicionColumna;
-                Entityerror.Mensaje = error.DetalleError;
-                if (error.TipoError == "1") Entityerror.TipoError = "Validacion de Datos";
-                if (error.TipoError == "2") Entityerror.TipoError = "Carga de datos";
+                Entityerror.Mensaje = error.DetalleLog;
+                if (error.TipoLog == "1") Entityerror.TipoError = "Validacion de Datos";
+                if (error.TipoLog == "2") Entityerror.TipoError = "Carga de datos";
                 listError.Add(Entityerror);
             }
-            foreach (var input in groupTipoArchivo)
+            foreach (var input in groupTipoArchivo.ToList())
             {
                 EntityInput = new ResponseInput();
-                EntityInput.Input = input.TipoArchivo;
+                EntityInput.Input = input.Archivo;
                 listaInput.Add(EntityInput);
             }
-            foreach (var tipocomision in groupTipoComisionList)
+            foreach (var tipocomision in groupTipoComisionList.ToList())
             {
                 EntityTipoComision = new ResponseTipoComision();
                 EntityTipoComision.Reporte = tipocomision.TipoComision;

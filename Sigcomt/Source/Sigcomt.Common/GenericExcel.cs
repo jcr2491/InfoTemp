@@ -161,29 +161,13 @@ namespace Sigcomt.Common
                                 ? cell.DateCellValue.ToString()
                                 : cell.NumericCellValue.ToString();
                             break;
-                        case CellType.Error:
-                            valor = cell.ErrorCellValue.ToString();
-                            break;
                         case CellType.String:
                             valor = cell.StringCellValue.Trim();
-                            break;
-                        case CellType.Boolean:
-                            valor = cell.BooleanCellValue.ToString();
                             break;
                         default:
                             valor = GetCellToString(cell);
                             break;
                     }
-                    break;
-                case CellType.Error:
-<<<<<<< HEAD
-                    // valor = cell.StringCellValue.ToString();
-                    valor = cell.ToString();
-                    //valor = cell.ErrorCellValue.ToString();
-=======
-                    valor = cell.ErrorCellValue.ToString();    //Ouput: 7
-                    valor = cell.ToString();                  //Output: !DIV/0   -> Eso necesitamos para la reemplazarlo por el ValorIgnorar
->>>>>>> 827d602595b253a598232e52d497bfc5a053a984
                     break;
                 default:
                     valor = GetCellToString(cell);

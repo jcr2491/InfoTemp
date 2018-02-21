@@ -302,3 +302,84 @@ INSERT [Comisiones].[VistaComisionCargo] ([VistaComisionId], [CargoId]) VALUES (
 GO
 INSERT [Comisiones].[VistaComisionCargo] ([VistaComisionId], [CargoId]) VALUES (2, 5)
 GO
+
+
+/*** DATOS DE TIPOCOMISIONES ***/
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (1, 1)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (1, 2)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (1, 3)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (1, 5)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (2, 6)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (4, 24)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (4, 25)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (13, 68)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (13, 51)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (13, 49)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (13, 48)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (14, 26)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (14, 27)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (15, 72)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (15, 73)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 45)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 70)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 81)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 37)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 36)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 34)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 35)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 71)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 63)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 52)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 38)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 13)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 33)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 72)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 74)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 66)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 77)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 15)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 16)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 56)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 53)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 44)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 47)
+GO
+INSERT [Comisiones].[TipoComision] ([TipoComision], [TipoArchivo]) VALUES (5, 46)
+GO

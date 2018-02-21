@@ -35,9 +35,9 @@ namespace Sigcomt.Business.Logic
             CargaArchivoRepository.GetInstance().AddCCFFSucursal(nombreTabla, campoComparar, campoActualizar);
         }
 
-        public List<DetalleErrorCarga> GetUltimaCargaPorArchivo(DateTime fecha)
+        public List<DetalleLogCarga> GetLogCarga(DateTime fecha)
         {
-            return CargaArchivoRepository.GetInstance().GetUltimaCargaPorArchivo(fecha);
+            return CargaArchivoRepository.GetInstance().GetLogCarga(fecha);
         }
     }
 }

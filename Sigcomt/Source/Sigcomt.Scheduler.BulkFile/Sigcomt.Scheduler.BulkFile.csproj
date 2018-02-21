@@ -105,10 +105,7 @@
     <Compile Include="ClasesCarga\Referido\CargaReferidoCCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\ADirectorio\CargaRICCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionTR.cs" />
-    <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionTR.cs" />
-
     <Compile Include="ClasesCarga\ReporteRI\CargaRI.cs" />
-
     <Compile Include="ClasesCarga\ReporteRI\CTarjetas\CargaRITarjetaAdicional.cs" />
     <Compile Include="ClasesCarga\ReporteRI\CTarjetas\CargaRITarjetaCCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\DTiemposdeEspera\CargaRITiempoEspera.cs" />
@@ -175,10 +172,6 @@
     <ProjectReference Include="..\Sigcomt.Common\Sigcomt.Common.csproj">
       <Project>{d42a0d10-1e4e-4035-b518-20d227f09593}</Project>
       <Name>Sigcomt.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sigcomt.DataAccess\Sigcomt.DataAccess.csproj">
-      <Project>{2F621E12-F808-4B68-ACB2-73B51B35CC2F}</Project>
-      <Name>Sigcomt.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -36,7 +36,7 @@ namespace Sigcomt.Scheduler.BulkFile
             {
                 //CargaUAC.CargarArchivos();
                 //CargaDataAutomotriz.CargarArchivo();
-                CargaRI.CargaArchivos();
+                //CargaRI.CargaArchivos();
 
 
                 //var email = ParametrosBL.GetInstance().GetParametros("CorreoAnalistaBI");
@@ -156,14 +156,13 @@ namespace Sigcomt.Scheduler.BulkFile
                 //CargaRIOperacionSF.CargarArchivo();                      //CARGÓ!
                 //CargaRIOperacionE.CargarArchivo();                       //CARGÓ! 
                 #endregion
-=======
->>>>>>> 827d602595b253a598232e52d497bfc5a053a984
+
 
                
                 #endregion
 
 
-                var errorList = UtilsLocal.RegistrarErrorCarga();
+                var errorList = UtilsLocal.RegistrarLogCarga();
 
                 //Envio Correo
 

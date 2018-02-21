@@ -83,7 +83,7 @@
     <Compile Include="Comun.cs" />
     <Compile Include="ConfigurationAppSettings.cs" />
     <Compile Include="DataEmail.cs" />
-    <Compile Include="Enums\TipoErrorCarga.cs" />
+    <Compile Include="Enums\TipoLogCarga.cs" />
     <Compile Include="ResponseInput.cs" />
     <Compile Include="ResponseTipoComision.cs" />
     <Compile Include="DataTable\ColumnDataTableModel.cs" />

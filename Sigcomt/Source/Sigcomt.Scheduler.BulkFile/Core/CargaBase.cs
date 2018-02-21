@@ -8,7 +8,6 @@ using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
-using Sigcomt.DataAccess;
 
 namespace Sigcomt.Scheduler.BulkFile.Core
 {
@@ -16,10 +15,11 @@ namespace Sigcomt.Scheduler.BulkFile.Core
     {
         public Dictionary<string, PropiedadColumna> PropiedadCol { get; private set; }
         public Dictionary<string, Func<string, bool>> MetodoTipoDato { get; private set; }
-        public List<ErrorCarga> ErrorCargaList;
+        public List<LogCarga> ErrorCargaList;
         public Excel ExcelBd { get; }
         public ExcelHoja HojaBd { get; }
         public int CabeceraCargaId { get; private set; }
+        public string TipoArchivo { get; private set; }
 
         #region Método Constructor
 
@@ -32,7 +32,8 @@ namespace Sigcomt.Scheduler.BulkFile.Core
         {
             ExcelBd = UtilsLocal.ExcelList.First(p => p.HojasList.Any(q => q.TipoArchivo == tipoArchivo));
             HojaBd = ExcelBd.HojasList.First(p => p.TipoArchivo == tipoArchivo);
-            ErrorCargaList = new List<ErrorCarga>();
+            ErrorCargaList = new List<LogCarga>();
+            TipoArchivo = tipoArchivo;
 
             InicializarDiccionario();
         }
@@ -102,17 +103,17 @@ namespace Sigcomt.Scheduler.BulkFile.Core
                 if (!isValid)
                 {
                     isAllValid = false;
-                    var errorCarga = new ErrorCarga
+                    var errorCarga = new LogCarga
                     {
-                        TipoError = TipoErrorCarga.ValidacionDatos.GetStringValue(),
+                        TipoLog = TipoLogCarga.ValidacionDatos.GetStringValue(),
                         CargaId = CabeceraCargaId,
                         NumFila = numFila,
                         PosicionColumna = propCol.Value.LetraColumna ?? Convert.ToString(propCol.Value.PosicionColumna + 1),
                         ExcelHojaCampoId = propCol.Value.ExcelHojaCampoId,
-                        DetalleError = $"El valor es incorrecto: {propCol.Value.Valor}"
+                        DetalleLog = $"El valor es incorrecto: {propCol.Value.Valor}"
                     };
                     ErrorCargaList.Add(errorCarga);
-                    UtilsLocal.ErrorCargaList.Add(errorCarga);
+                    UtilsLocal.LogCargaList.Add(errorCarga);
                 }
             }
 
@@ -170,7 +171,7 @@ namespace Sigcomt.Scheduler.BulkFile.Core
             {
                 if (!ErrorCargaList.Any())
                 {
-                    CargaArchivoRepository.GetInstance().Add(dt, nameTable);
+                    CargaArchivoBL.GetInstance().Add(dt, nameTable);
                     ActualizarCabecera(EstadoCarga.Procesado);
                 }
                 else
@@ -181,14 +182,15 @@ namespace Sigcomt.Scheduler.BulkFile.Core
             catch (Exception ex)
             {
                 ActualizarCabecera(EstadoCarga.Fallido);
-                var errorCarga = new ErrorCarga
+                var logCarga = new LogCarga
                 {
-                    TipoError = TipoErrorCarga.CargaDatos.GetStringValue(),
+                    TipoLog = TipoLogCarga.CargaDatos.GetStringValue(),
                     CargaId = CabeceraCargaId,
-                    DetalleError = $"Error al cargar los datos: {ex.Message}"
+                    TipoArchivo = TipoArchivo,
+                    DetalleLog = $"Error al cargar los datos: {ex.Message}"
                 };
 
-                UtilsLocal.ErrorCargaList.Add(errorCarga);
+                UtilsLocal.LogCargaList.Add(logCarga);
 
                 throw new Exception(ex.Message, ex);
             }

@@ -10,6 +10,6 @@ namespace Sigcomt.Business.Logic.Interfaces
         void Add(DataTable dt, string nameTable);
         void AddEmpleadoId(string nombreTabla, string campoComparar, string campoActualizar);
         void AddGrupoId(string nombreTabla);
-        List<DetalleErrorCarga> GetUltimaCargaPorArchivo(DateTime fecha);
+        List<DetalleLogCarga> GetLogCarga(DateTime fecha);
     }
 }
