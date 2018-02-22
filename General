@@ -1,10 +1,14 @@
-- Ticket C0019-18  - Corrección en voucher con saldo negativo ahorros (Pruebas Unitarias) (12/02/2018)
-- ANEXO Nº 4 - Análisis y Diseño del Proyecto (12/02/2018)
-- ANEXO Nº 9 - Archivos modificados (13/02/2018)
-- ANEXO Nº 6 - Pruebas Unitarias y de funcionalidad (13/02/2018)
-- Solución de incidente: Cuando se crea un contacto este debe estar activo por defecto, caso no se quiera que sea activo se quitara el check
-- Solución de incidente: Si el empleador es compartamos, no se valida que los trabajadores, sean de compartamos, permitiendo que se aperture cuentas y se vincule a compartamos 
-- Solución de incidente: La grilla no permite copiar con combinacion de teclas pero si haciendo clic derecho y pegar
-- Solución de incidente: El formulario AHO1033 me permite dejar el blanco el apellido materno, pero para poder absorverlo en para aperturar cuenta, me pide que ese campo no sea vacio
-- Solución de incidente: Se esta validando los campos Nro de documento cuando son de tipo carnet de extranjeria y pasaporte, solo permitiendo que sea numericos, pero estos campos pueden recibir datos alfanumericos
-- 18500-02: ACTUALIZAR RCC
+MotorReglasAhorro.cs	Se tiene la propiedad PNCuatroSueldos, pnMonto MotorInvocacionAhorroBRMSRQT en el esquema MotorInvocacionAhorroBRMSRQT
+AHO1008.cs	Se tiene el metodo mxLlenarDatosCuenta en la cual se determina los datos de la cuenta como el tipo de abono de interes la modalidad de tasa entre otros los cuales son datos que deben ser obtenidos por el codigo de producto
+AHO1009.cs	El telefono solo se valida que exista un valor pero no se valida con el almacenado en la base de datos
+AHO1009.cs	Los numeros de documentos aplicados se pueden aplicar mas de una vez, se debe determinar si queda saldo en los numeros de documentos o no
+AHO1034.cs	Cuando no existen registros de abono se muestra el mensaje pero luego se muestra el mensaje en el que se indica desea continuar con el registro de datos que no presentan errores, se recomienda no mostrar dicho mensaje ya que no existen registros que procesar
+AHO1034.cs	En el config falta la cadena de conexión a wsPlanillas agregar en el anexo 12
+AHO1034.cs	Cuando se procesa El archivo se muestra el mensaje No existen provisiones para los empleados 
+AHO1034.cs	Falta agregar al app.config de transacciones la cadena de conexión a la base de datos RRHH indicarlo en el anexo 12
+AHO1034.cs	Se asume que solo se tendra dos cuentas CTS una de soles y una de dolares si se tiene mas cuentas se tomara de la primera que encuentre, se recomienda mostrar las cuentas por moneda para debitar de las mismas
+Aperturas y Abonos	Cuando se realizan validaciones a nivel de negocio no se devuelven todos los errores encontrados sino que al primer error se detiene el proceso se recomienda devolver todos los errores en una sola pasada
+AHO1402.cs	El asiento contable cuando es de proviciones de CTS compartamos se muestra cuenta contable no existe y se muestra la por defectio
+AHO1402.cs	El codigo de operación con el que se genera los depositos provenientes de provisiones es D008 el cual es deposito de apertura se recomienda consultar con contabilidad y determinar que asiento contable debe ser tomada para realizar el asiento
+CUENTASCTSCN.cs	En el metodo mxAsignarDatosCuenta no se valida que las tasas para el producto existan
+CUENTASCTSCN.cs	En el metodo mxAsignarDatosCuenta Para traer la tasa por rango de montos se debe considerar al limite superior la condicion es menor que el monto ingresado
