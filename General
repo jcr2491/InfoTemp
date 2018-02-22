@@ -12,3 +12,10 @@ AHO1402.cs	El asiento contable cuando es de proviciones de CTS compartamos se mu
 AHO1402.cs	El codigo de operación con el que se genera los depositos provenientes de provisiones es D008 el cual es deposito de apertura se recomienda consultar con contabilidad y determinar que asiento contable debe ser tomada para realizar el asiento
 CUENTASCTSCN.cs	En el metodo mxAsignarDatosCuenta no se valida que las tasas para el producto existan
 CUENTASCTSCN.cs	En el metodo mxAsignarDatosCuenta Para traer la tasa por rango de montos se debe considerar al limite superior la condicion es menor que el monto ingresado
+AHO1001 - apertura de cuentas	Cuando se apertura una cuanta pasiva para compartamos, no permite que la cuenta que se crea, tenga una tasa de interes de 0 %, debido a que posee una validacion al momento de ser creada la cuenta
+AHO1001 - apertura de cuentas	Cuando apertura una cuenta para una persona jurídica, al momento de graba me muestra un error no controlado, y en la traza se muestra el mensaje de la imagen, pero este error no bloquea el proceso y continua con la apertura de la cuenta
+AHO1033	Cuando se crea un contacto, se registra estado civil como "no aplica", no permitiendo que en el formulario de individualizacion sea modificado, y poder seguir con el proceso
+AHO1009	Cuando se abona a un cliente que es contacto y en el formulario de mantenimiento empleador cts, se permitio crearlo sin apellido materno, no se le permite el abono por que ese campo es obligatorio
+AHO1009	Cuando el abono es exitoso, muestra el mensaje para salir del formulario, deberia limpiarse los campos y poder permitir que se siga abonando mas clientes
+AHO1009	Cuando se genera un error en el excel(un campo vacio de un registro) se puede seguir insertando abonos de los demas registros, lo que ocacionaria que se tenga que generar un nuevo excel para ingresar los otros registros
+- Validacion que se pueda ingresar un apellido como minimo.
