@@ -35,7 +35,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
             {
 
                 cargaBase = new CargaBase<SLAContactenos>(tipoArchivo);
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
+                var filesNames = cargaBase.GetNombreArchivos();
                 //Se cargan las posiciones de las columnas del excel
               
 

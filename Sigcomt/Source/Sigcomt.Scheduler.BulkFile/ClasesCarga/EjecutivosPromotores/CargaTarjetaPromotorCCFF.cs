@@ -34,7 +34,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.EjecutivosPromotores
                 //Nota: estamos asumiendo que delante vendra la fecha del archivo
                  cargaBase = new CargaBase<TarjetaPromotorCCFF>(tipoArchivo);
 
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
+                var filesNames = cargaBase.GetNombreArchivos();
 
 
                 foreach (var fileName in filesNames)

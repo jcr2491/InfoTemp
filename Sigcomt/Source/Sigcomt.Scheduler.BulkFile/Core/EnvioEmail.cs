@@ -38,19 +38,27 @@ namespace Sigcomt.Scheduler.BulkFile.Core
                 if (error.TipoLog == "2") Entityerror.TipoError = "Carga de datos";
                 listError.Add(Entityerror);
             }
-            foreach (var input in groupTipoArchivo.ToList())
+            if (groupTipoArchivo !=null)
             {
-                EntityInput = new ResponseInput();
-                EntityInput.Input = input.Archivo;
-                listaInput.Add(EntityInput);
-            }
-            foreach (var tipocomision in groupTipoComisionList.ToList())
-            {
-                EntityTipoComision = new ResponseTipoComision();
-                EntityTipoComision.Reporte = tipocomision.TipoComision;
-                listaTipoComision.Add(EntityTipoComision);
+                foreach (var input in groupTipoArchivo.ToList())
+                {
+                    EntityInput = new ResponseInput();
+                    EntityInput.Input = input.Archivo;
+                    EntityInput.TipoLog = input.TipoLog;
+                    listaInput.Add(EntityInput);
+                }
             }
 
+            if (groupTipoComisionList!=null )
+            {
+                foreach (var tipocomision in groupTipoComisionList.ToList())
+                {
+                    EntityTipoComision = new ResponseTipoComision();
+                    EntityTipoComision.Reporte = tipocomision.TipoComision;
+                    listaTipoComision.Add(EntityTipoComision);
+                }
+            }
+           
             if (listError.Count > 0)
             {
                 bool estadoEnvio = SendWithTemplateModel(new DataEmail

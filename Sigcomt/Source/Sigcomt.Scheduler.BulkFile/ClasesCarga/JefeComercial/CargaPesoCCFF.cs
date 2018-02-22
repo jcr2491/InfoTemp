@@ -37,7 +37,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
                  cargaBase = new CargaBase<PesoCCFF>(tipoArchivo);
 
 
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
+                var filesNames = cargaBase.GetNombreArchivos();
 
 
                 foreach (var fileName in filesNames)

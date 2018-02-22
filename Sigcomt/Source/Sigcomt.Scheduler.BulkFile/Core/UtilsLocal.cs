@@ -39,10 +39,10 @@ namespace Sigcomt.Scheduler.BulkFile.Core
                         PermiteNulo = campo.PermiteNulo,
                         ValorDefecto = campo.ValorDefecto,
                         ValorIgnorar = campo.ValorIgnorar,
-                        LetraColumna = Utils.IsNumber(campo.PosicionColumna)
+                        LetraColumna = Utils.EsEntero(campo.PosicionColumna)
                             ? null
                             : campo.PosicionColumna,
-                        PosicionColumna = Utils.IsNumber(campo.PosicionColumna)
+                        PosicionColumna = Utils.EsEntero(campo.PosicionColumna)
                             ? Convert.ToInt32(campo.PosicionColumna)
                             : CellReference.ConvertColStringToIndex(campo.PosicionColumna)
                     });

@@ -9,5 +9,6 @@ namespace Sigcomt.Common
     public class ResponseInput
     {
         public string Input { get; set; }
+        public string TipoLog { get; set; }
     }
 }

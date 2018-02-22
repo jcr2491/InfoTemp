@@ -37,7 +37,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
             {
                 string tipoArchivo = TipoArchivo.RIDerivacionCajaAtencionesCaja.GetStringValue();
                  cargaBase = new CargaBase<RIDerivacionCaja>(tipoArchivo);
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
+                var filesNames = cargaBase.GetNombreArchivos();
                 int col = 0;
                 foreach (var fileName in filesNames)
                 {

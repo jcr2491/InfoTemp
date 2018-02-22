@@ -105,7 +105,7 @@ namespace Sigcomt.DataAccess
                             DetalleLog = lector.GetString(lector.GetOrdinal("DetalleLog")),
                             NumFila = lector.GetInt32(lector.GetOrdinal("NumFila")),
                             PosicionColumna = lector.GetString(lector.GetOrdinal("PosicionColumna")),
-                            TipoLog = lector.GetString(lector.GetOrdinal("TipoError")),
+                            TipoLog = lector.GetString(lector.GetOrdinal("TipoLog")),
                             TipoArchivoId = lector.GetString(lector.GetOrdinal("TipoArchivoId")),
                             TipoComision = lector.GetString(lector.GetOrdinal("TipoComision")),
                             TipoComisionId = lector.GetInt32(lector.GetOrdinal("TipoComisionId")),

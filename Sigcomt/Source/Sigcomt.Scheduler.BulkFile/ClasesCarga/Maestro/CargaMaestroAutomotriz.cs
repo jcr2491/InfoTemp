@@ -31,7 +31,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Maestro
             try
             {
                 cargaBase = new CargaBase<MaestroAutomotriz>(tipoArchivo);
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
+                var filesNames = cargaBase.GetNombreArchivos();
 
                 foreach (var fileName in filesNames)
                 {

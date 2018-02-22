@@ -29,17 +29,11 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
 
             try
             {
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
+                var filesNames = cargaBase.GetNombreArchivos();
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
@@ -108,6 +102,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);

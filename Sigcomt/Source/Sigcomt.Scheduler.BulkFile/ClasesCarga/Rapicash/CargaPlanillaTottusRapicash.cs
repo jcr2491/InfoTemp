@@ -35,7 +35,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
             try
             {
                  cargaBase = new CargaBase<PlanillaTottusRapicash>(tipoArchivo);
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
+                var filesNames = cargaBase.GetNombreArchivos();
    
 
                 foreach (var fileName in filesNames)

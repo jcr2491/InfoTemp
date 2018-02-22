@@ -36,7 +36,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.CCFF
             {
                  cargaBase = new CargaBase<EmpleadoCCFF>(tipoArchivo);
 
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
+                var filesNames = cargaBase.GetNombreArchivos();
                 //Se cargan las posiciones de las columnas del archivo
  
 

@@ -34,7 +34,7 @@ namespace Sigcomt.Scheduler.BulkFile
 
             try
             {
-                //CargaUAC.CargarArchivos();
+                CargaUAC.CargarArchivos();
                 //CargaDataAutomotriz.CargarArchivo();
                 //CargaRI.CargaArchivos();
 
@@ -55,7 +55,7 @@ namespace Sigcomt.Scheduler.BulkFile
                 //CargaRICCFF.CargarArchivo();
 
                 //Automotriz
-                //CargaDataAutomotriz.CargarArchivo();
+                CargaDataAutomotriz.CargarArchivo();
 
 
                 //Ejecutivo Promotores
@@ -116,49 +116,7 @@ namespace Sigcomt.Scheduler.BulkFile
 
 
                 #region Reporte RI
-
-                #region Directorio
-                // 
-                #endregion
-
-                #region B. Participacion
-                //CargaRIParticipacionMaestro.CargarArchivo();
-                //CargaRIParticipacionSaga.CargarArchivo();
-                //CargaRIParticipacionSodimac.CargarArchivo();
-                //CargaRIParticipacionTottus.CargarArchivo();
-                //CargaRIParticipacion.CargaArchivo();
-                #endregion
-
-                #region C. Tarjetas
-                //CargaRITarjetasAvanceZonales.CargarArchivo();
-                //CargaRITarjetaAdicional.CargarArchivo();
-                #endregion
-
-
-                //CargaRIParticipacionTR.CargaArchivo();   ULTIMO
-                #region I. CalidadAtencion
-                //CargaRICalidadAtencion1erContacto.CargarArchivo();
-                //CargaRICalidadCICCFF.CargarArchivo();
-                //CargaRICalidadNPSCCFF.CargarArchivo();               CARGÓ!
-                //CargaRICalidadAtencion.CargarArchivo();                
-                #endregion
-
-                #region J. Derivación de Canales Electrónicos
-                //CargaRIDerivacionHeavyPlataforma.CargarArchivo();         //CARGÓ
-                //CargaRIDerivacionCaja.CargarArchivo();                  //CARGÓ
-                #endregion
-
-                #region L. Ampliaciones de Línea
-                //CargaRIAmpliacionLinea.CargarArchivo();                 //CARGÓ
-                #endregion
-
-                #region M. Operaciones
-                //CargaRIOperacionSF.CargarArchivo();                      //CARGÓ!
-                //CargaRIOperacionE.CargarArchivo();                       //CARGÓ! 
-                #endregion
-
-
-               
+                //CargaRI.CargasArchivos();   
                 #endregion
 
 

@@ -33,7 +33,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
             try
             {
                  cargaBase = new CargaBase<MetaTiendaRetail>(tipoArchivo);
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
+                var filesNames = cargaBase.GetNombreArchivos();
                 //Se cargan las posiciones de las columnas del excel
 
                 foreach (var fileName in filesNames)

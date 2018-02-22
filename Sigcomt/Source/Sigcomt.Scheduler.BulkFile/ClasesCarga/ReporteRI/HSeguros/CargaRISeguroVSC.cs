@@ -32,7 +32,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.HSeguros
             try
             {
                 cargaBase = new CargaBase<RISeguroVSC>(tipoArchivo);
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
+                var filesNames = cargaBase.GetNombreArchivos();
                 //Se cargan las posiciones de las columnas del excel
 
                 foreach (var fileName in filesNames)

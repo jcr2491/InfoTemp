@@ -21,13 +21,13 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI
     {
         #region Métodos Públicos
 
-        public static void CargaArchivos()
+        public static void CargasArchivos()
         {
-            CargaRITarjetaAdicional.CargarArchivo();              //CARGÓ
+            CargaRITarjetaAdicional.CargarArchivo();                //CARGÓ
             CargaRITEPlataforma.CargarArchivo();                    //CARGÓ
-            CargaRITECCFF.CargarArchivo();                        //CARGÓ
-            CargaRITECajero.CargarArchivo();                      //CARGÓ
-            CargaRITiempoEspera.CargarArchivo();                  //CARGÓ
+            CargaRITECCFF.CargarArchivo();                          //CARGÓ
+            CargaRITECajero.CargarArchivo();                        //CARGÓ
+            //CargaRITiempoEspera.CargarArchivo();                  //CARGÓ
             CargaRIPasivosCortoLagoPlazo.CargarArchivo();         //CARGÓ
             CargaRIPasivosCsdCsi.CargarArchivo();                 //CARGÓ
             CargaRIActivosSuperCash.CargarArchivo();              //CARGÓ
@@ -36,12 +36,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI
             CargaRISeguroTP.CargarArchivo();                      //CARGÓ
             CargaRICalidadAtencion1erContacto.CargarArchivo();    //CARGÓ
             CargaRICalidadNPSCCFF.CargarArchivo();                //CARGÓ!
-            CargaRICalidadAtencion.CargarArchivo();               //CARGÓ!
-            CargaRIDerivacionHeavyPlataforma.CargarArchivo();         //CARGÓ
+            //CargaRICalidadAtencion.CargarArchivo();               //CARGÓ!
+            CargaRIDerivacionHeavyPlataforma.CargarArchivo();       //CARGÓ
             CargaRIDerivacionCaja.CargarArchivo();                  //CARGÓ
             CargaRIAmpliacionLinea.CargarArchivo();                 //CARGÓ
-            CargaRIOperacionSF.CargarArchivo();                      //CARGÓ!
-            CargaRIOperacionE.CargarArchivo();                        //CARGÓ!
+            CargaRIOperacionSF.CargarArchivo();                     //CARGÓ!
+            CargaRIOperacionE.CargarArchivo();                      //CARGÓ!
         }
         #endregion
     }

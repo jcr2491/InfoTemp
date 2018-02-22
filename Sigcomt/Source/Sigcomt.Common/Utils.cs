@@ -177,7 +177,6 @@ namespace Sigcomt.Common
             return fecha.ToString("dd/MM/yyyy");
         }
 
-
         /// <summary>
         /// Obtiene la fecha en cadena
         /// </summary>
@@ -190,10 +189,7 @@ namespace Sigcomt.Common
             fecha_ = DateTime.Parse(fechaRegistro);
 
             return fecha_.ToString("dd/MM/yyyy");
-        }
-
-
-
+        }        
 
         /// <summary>
         /// Obtiene la fecha en cadena
@@ -240,6 +236,19 @@ namespace Sigcomt.Common
         public static DateTime GetDateFirstDay(this DateTime fecha)
         {
             return new DateTime(fecha.Year, fecha.Month, 1);
+        }
+
+        public static bool EsFecha(string valor)
+        {
+            // dd/mm/yyyy o dd-mm-yyyy
+            string pattern = @"^(?:(?:0?[1-9]|1\d|2[0-8])(\/|-)(?:0?[1-9]|1[0-2]))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(?:(?:31(\/|-)(?:0?[13578]|1[02]))|(?:(?:29|30)(\/|-)(?:0?[1,3-9]|1[0-2])))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(29(\/|-)0?2)(\/|-)(?:(?:0[48]00|[13579][26]00|[2468][048]00)|(?:\d\d)?(?:0[48]|[2468][048]|[13579][26]))$";
+            if (Regex.IsMatch(valor, pattern)) return true;
+
+            // mm/dd/yyyy o mm-dd-yyyy
+            pattern = @"^(?:(?:(?:0?[13578]|1[02])(\/|-)31)|(?:(?:0?[1,3-9]|1[0-2])(\/|-)(?:29|30)))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(?:(?:0?[1-9]|1[0-2])(\/|-)(?:0?[1-9]|1\d|2[0-8]))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(0?2(\/|-)29)(\/|-)(?:(?:0[48]00|[13579][26]00|[2468][048]00)|(?:\d\d)?(?:0[48]|[2468][048]|[13579][26]))$";
+            if (Regex.IsMatch(valor, pattern)) return true;
+
+            return false;
         }
 
         #endregion
@@ -335,10 +344,28 @@ namespace Sigcomt.Common
             return DBNull.Value;
         }
 
-        public static bool IsNumber(string valor)
+        public static bool EsEntero(string valor)
         {
-            Regex regex = new Regex(@"^\d+$");
-            return regex.IsMatch(valor);
+            string pattern = @"^-?[0-9]+$";
+            return Regex.IsMatch(valor, pattern);
+        }
+
+        public static bool EsDecimal(string valor)
+        {
+            string pattern = @"^-?[0-9]+([.,][0-9]+)?$";
+            return Regex.IsMatch(valor, pattern);
+        }
+
+        public static bool EsSoloLetras(string valor)
+        {
+            string pattern = @"^[a-zA-ZÒ—\s]";
+            return Regex.IsMatch(valor, pattern);
+        }
+
+        public static bool EsNumeroYLetras(string valor)
+        {
+            string pattern = @"[A-Z0-9 a-z]*$";
+            return Regex.IsMatch(valor, pattern);
         }
 
         #endregion

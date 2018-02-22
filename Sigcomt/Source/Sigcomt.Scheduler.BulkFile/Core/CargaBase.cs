@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.IO;
 using NPOI.SS.UserModel;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
+
 
 namespace Sigcomt.Scheduler.BulkFile.Core
 {
@@ -20,6 +22,8 @@ namespace Sigcomt.Scheduler.BulkFile.Core
         public ExcelHoja HojaBd { get; }
         public int CabeceraCargaId { get; private set; }
         public string TipoArchivo { get; private set; }
+        private bool errorAgregado = false;
+        private string nombreArchivo;
 
         #region Método Constructor
 
@@ -41,43 +45,6 @@ namespace Sigcomt.Scheduler.BulkFile.Core
         #endregion
 
         #region Métodos Públicos
-
-        public bool EsEntero(string valor)
-        {
-            string pattern = @"^-?[0-9]+$";
-            return Regex.IsMatch(valor, pattern);
-        }
-
-        public bool EsDecimal(string valor)
-        {
-            string pattern = @"^-?[0-9]+([.,][0-9]+)?$";
-            return Regex.IsMatch(valor, pattern);
-        }
-
-        public bool EsSoloLetras(string valor)
-        {
-            string pattern = @"^[a-zA-ZñÑ\s]";
-            return Regex.IsMatch(valor, pattern);
-        }
-
-        public bool EsNumeroYLetras(string valor)
-        {
-            string pattern = @"[A-Z0-9 a-z]*$";
-            return Regex.IsMatch(valor, pattern);
-        }
-
-        public bool EsFecha(string valor)
-        {
-            // dd/mm/yyyy o dd-mm-yyyy
-            string pattern = @"^(?:(?:0?[1-9]|1\d|2[0-8])(\/|-)(?:0?[1-9]|1[0-2]))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(?:(?:31(\/|-)(?:0?[13578]|1[02]))|(?:(?:29|30)(\/|-)(?:0?[1,3-9]|1[0-2])))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(29(\/|-)0?2)(\/|-)(?:(?:0[48]00|[13579][26]00|[2468][048]00)|(?:\d\d)?(?:0[48]|[2468][048]|[13579][26]))$";
-            if (Regex.IsMatch(valor, pattern)) return true;
-
-            // mm/dd/yyyy o mm-dd-yyyy
-            pattern = @"^(?:(?:(?:0?[13578]|1[02])(\/|-)31)|(?:(?:0?[1,3-9]|1[0-2])(\/|-)(?:29|30)))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(?:(?:0?[1-9]|1[0-2])(\/|-)(?:0?[1-9]|1\d|2[0-8]))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(0?2(\/|-)29)(\/|-)(?:(?:0[48]00|[13579][26]00|[2468][048]00)|(?:\d\d)?(?:0[48]|[2468][048]|[13579][26]))$";
-            if (Regex.IsMatch(valor, pattern)) return true;
-
-            return false;
-        }
 
         /// <summary>
         /// Valida que todos los datos estén correctos
@@ -118,6 +85,72 @@ namespace Sigcomt.Scheduler.BulkFile.Core
             }
 
             return isAllValid;
+        }
+
+        public string[] GetNombreArchivos()
+        {
+            try
+            {
+                var filesNames = Directory.GetFiles(ExcelBd.Ruta, $"*{ExcelBd.Nombre}");
+
+                if (!filesNames.Any())
+                {
+                    var logCarga = new LogCarga
+                    {
+                        TipoLog = TipoLogCarga.NoExisteArchivo.GetStringValue(),
+                        TipoArchivo = TipoArchivo,
+                        DetalleLog = $"No existen archivos para cargar"
+                    };
+
+                    UtilsLocal.LogCargaList.Add(logCarga);
+                }
+
+                return filesNames;
+            }
+            catch (Exception ex)
+            {
+                var logCarga = new LogCarga
+                {
+                    TipoLog = TipoLogCarga.NoExisteArchivo.GetStringValue(),
+                    TipoArchivo = TipoArchivo,
+                    DetalleLog = $"Error al intentar leer el archivo: {ex.Message}"
+                };
+
+                UtilsLocal.LogCargaList.Add(logCarga);
+                errorAgregado = true;
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public DateTime GetFechaArchivo(string fileName)
+        {
+            try
+            {
+                var split = fileName.Split('\\');
+                string onlyName = split[split.Length - 1];
+                nombreArchivo = onlyName;
+
+                int dia = 1;
+                int mes = Convert.ToInt32(onlyName.Substring(0, 2));
+                int año = Convert.ToInt32(onlyName.Substring(2, 4));
+                DateTime fechaFile = new DateTime(año, mes, dia);
+
+                return fechaFile;
+            }
+            catch (Exception ex)
+            {
+                var logCarga = new LogCarga
+                {
+                    TipoLog = TipoLogCarga.NombreArchivoInvalido.GetStringValue(),
+                    TipoArchivo = TipoArchivo,
+                    DetalleLog = $"El formato del nombre del archivo a cargar es incorrecto, " +
+                        $"se espera mes y año (mmyyyy) delante del archivo. Archivo: {nombreArchivo}"
+                };
+
+                UtilsLocal.LogCargaList.Add(logCarga);
+                errorAgregado = true;
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         /// <summary>
@@ -173,6 +206,16 @@ namespace Sigcomt.Scheduler.BulkFile.Core
                 {
                     CargaArchivoBL.GetInstance().Add(dt, nameTable);
                     ActualizarCabecera(EstadoCarga.Procesado);
+
+                    var logCarga = new LogCarga
+                    {
+                        TipoLog = TipoLogCarga.ArchivoCargaOk.GetStringValue(),
+                        CargaId = CabeceraCargaId,
+                        TipoArchivo = TipoArchivo,
+                        DetalleLog = $"Archivo Cargado Correctamente. Archivo: {nombreArchivo}"
+                    };
+
+                    UtilsLocal.LogCargaList.Add(logCarga);
                 }
                 else
                 {
@@ -191,8 +234,23 @@ namespace Sigcomt.Scheduler.BulkFile.Core
                 };
 
                 UtilsLocal.LogCargaList.Add(logCarga);
-
+                errorAgregado = true;
                 throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public void AgregarErrorGeneral(Exception ex)
+        {
+            if (!errorAgregado)
+            {
+                var logCarga = new LogCarga
+                {
+                    TipoLog = TipoLogCarga.ErrorGeneral.GetStringValue(),
+                    TipoArchivo = TipoArchivo,
+                    DetalleLog = $"Error General: {ex.Message}"
+                };
+
+                UtilsLocal.LogCargaList.Add(logCarga);
             }
         }
 
@@ -205,11 +263,11 @@ namespace Sigcomt.Scheduler.BulkFile.Core
             PropiedadCol = UtilsLocal.GetPropiedadesColumna<T>(HojaBd);
             MetodoTipoDato = new Dictionary<string, Func<string, bool>>
             {
-                {TipoDato.Entero.GetStringValue(), EsEntero},
-                {TipoDato.Letras.GetStringValue(), EsSoloLetras},
-                {TipoDato.NumeroYLetras.GetStringValue(), EsNumeroYLetras},
-                {TipoDato.Fecha.GetStringValue(), EsFecha},
-                {TipoDato.Decimal.GetStringValue(), EsDecimal}
+                {TipoDato.Entero.GetStringValue(), Utils.EsEntero},
+                {TipoDato.Letras.GetStringValue(), Utils.EsSoloLetras},
+                {TipoDato.NumeroYLetras.GetStringValue(), Utils.EsNumeroYLetras},
+                {TipoDato.Fecha.GetStringValue(), Utils.EsFecha},
+                {TipoDato.Decimal.GetStringValue(), Utils.EsDecimal}
             };
         }
 

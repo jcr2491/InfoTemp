@@ -22,37 +22,31 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
         {
             Logger.Info("Se inició la carga del archivo DataAutomotriz");
             Console.WriteLine("Se inició la carga del archivo Productividad");
-            var cargaBase = new CargaBase<DataAutomotriz>(); 
+
             string tipoArchivo = TipoArchivo.DataAutomotriz.GetStringValue();
-            int cabeceraId = 0;
+            var cargaBase = new CargaBase<DataAutomotriz>(tipoArchivo);            
             int cont = 0;
-            bool fileError = true;
 
             try
-            {
-                 cargaBase = new CargaBase<DataAutomotriz>(tipoArchivo);
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
-            
+            {                
+                var filesNames = cargaBase.GetNombreArchivos();
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
                     if (cabecera != null)
                     {
                         if (fechaModificacion.GetDateTimeToString() ==
-                            cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
+                            cabecera.FechaModificacionArchivo.GetDateTimeToString())
+                        {
+                            continue;
+                        }
                     }
 
-                    cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
+                    cargaBase.AgregarCabecera(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -65,18 +59,15 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
                     Logger.InfoFormat("Se está procesando el archivo: " + fileName);
                  
                     var fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    var excel = new GenericExcel(fileBase, 0);
+                    var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
                     DataTable dt = Utils.CrearCabeceraDataTable<DataAutomotriz>();
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     cont = 0;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string NroPrestamo = string.Empty;
-
-                    //TODO: Aqui se debe hacer la logica para consumir de la tabla excel de configuracion
+                    string NroPrestamo = string.Empty;                    
 
                     while (row != null)
                     {
-                        //Validation row
                         bool isValid = cargaBase.ValidarDatos(excel, row);
 
                         if (!isValid) {
@@ -84,6 +75,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
                         };
+
                         NroPrestamo = Utils.GetValueColumn(
                            excel.GetCellToString(row,
                                cargaBase.PropiedadCol.First(p => p.Key == "NroPrestamo").Value.PosicionColumna),
@@ -109,6 +101,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
@@ -118,11 +111,6 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
             Console.WriteLine("Se terminó la carga del archivo DataAutomotriz");
         }
 
-
-        
-
-        #endregion
- 
+        #endregion 
     }
-
 }

@@ -34,7 +34,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.ADirectorio
             try
             {
                  cargaBase = new CargaBase<RICCFF>(tipoArchivo);
-                var filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
+                var filesNames = cargaBase.GetNombreArchivos();
         
 
                 foreach (var fileName in filesNames)
