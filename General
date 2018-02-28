@@ -19,3 +19,6 @@ AHO1009	Cuando se abona a un cliente que es contacto y en el formulario de mante
 AHO1009	Cuando el abono es exitoso, muestra el mensaje para salir del formulario, deberia limpiarse los campos y poder permitir que se siga abonando mas clientes
 AHO1009	Cuando se genera un error en el excel(un campo vacio de un registro) se puede seguir insertando abonos de los demas registros, lo que ocacionaria que se tenga que generar un nuevo excel para ingresar los otros registros
 - Validacion que se pueda ingresar un apellido como minimo.
+
+
+-Operaciones logísticas
