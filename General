@@ -1,24 +1,5 @@
-MotorReglasAhorro.cs	Se tiene la propiedad PNCuatroSueldos, pnMonto MotorInvocacionAhorroBRMSRQT en el esquema MotorInvocacionAhorroBRMSRQT
-AHO1008.cs	Se tiene el metodo mxLlenarDatosCuenta en la cual se determina los datos de la cuenta como el tipo de abono de interes la modalidad de tasa entre otros los cuales son datos que deben ser obtenidos por el codigo de producto
-AHO1009.cs	El telefono solo se valida que exista un valor pero no se valida con el almacenado en la base de datos
-AHO1009.cs	Los numeros de documentos aplicados se pueden aplicar mas de una vez, se debe determinar si queda saldo en los numeros de documentos o no
-AHO1034.cs	Cuando no existen registros de abono se muestra el mensaje pero luego se muestra el mensaje en el que se indica desea continuar con el registro de datos que no presentan errores, se recomienda no mostrar dicho mensaje ya que no existen registros que procesar
-AHO1034.cs	En el config falta la cadena de conexión a wsPlanillas agregar en el anexo 12
-AHO1034.cs	Cuando se procesa El archivo se muestra el mensaje No existen provisiones para los empleados 
-AHO1034.cs	Falta agregar al app.config de transacciones la cadena de conexión a la base de datos RRHH indicarlo en el anexo 12
-AHO1034.cs	Se asume que solo se tendra dos cuentas CTS una de soles y una de dolares si se tiene mas cuentas se tomara de la primera que encuentre, se recomienda mostrar las cuentas por moneda para debitar de las mismas
-Aperturas y Abonos	Cuando se realizan validaciones a nivel de negocio no se devuelven todos los errores encontrados sino que al primer error se detiene el proceso se recomienda devolver todos los errores en una sola pasada
-AHO1402.cs	El asiento contable cuando es de proviciones de CTS compartamos se muestra cuenta contable no existe y se muestra la por defectio
-AHO1402.cs	El codigo de operación con el que se genera los depositos provenientes de provisiones es D008 el cual es deposito de apertura se recomienda consultar con contabilidad y determinar que asiento contable debe ser tomada para realizar el asiento
-CUENTASCTSCN.cs	En el metodo mxAsignarDatosCuenta no se valida que las tasas para el producto existan
-CUENTASCTSCN.cs	En el metodo mxAsignarDatosCuenta Para traer la tasa por rango de montos se debe considerar al limite superior la condicion es menor que el monto ingresado
-AHO1001 - apertura de cuentas	Cuando se apertura una cuanta pasiva para compartamos, no permite que la cuenta que se crea, tenga una tasa de interes de 0 %, debido a que posee una validacion al momento de ser creada la cuenta
-AHO1001 - apertura de cuentas	Cuando apertura una cuenta para una persona jurídica, al momento de graba me muestra un error no controlado, y en la traza se muestra el mensaje de la imagen, pero este error no bloquea el proceso y continua con la apertura de la cuenta
-AHO1033	Cuando se crea un contacto, se registra estado civil como "no aplica", no permitiendo que en el formulario de individualizacion sea modificado, y poder seguir con el proceso
-AHO1009	Cuando se abona a un cliente que es contacto y en el formulario de mantenimiento empleador cts, se permitio crearlo sin apellido materno, no se le permite el abono por que ese campo es obligatorio
-AHO1009	Cuando el abono es exitoso, muestra el mensaje para salir del formulario, deberia limpiarse los campos y poder permitir que se siga abonando mas clientes
-AHO1009	Cuando se genera un error en el excel(un campo vacio de un registro) se puede seguir insertando abonos de los demas registros, lo que ocacionaria que se tenga que generar un nuevo excel para ingresar los otros registros
-- Validacion que se pueda ingresar un apellido como minimo.
-
-
 -Operaciones logísticas
+- 18044-4-2 - Cartilla CTS
+- 18044-4-2 - Cartilla de Información cuenta CTS
+- REP0170
+- 17044-2-6 - Operaciones con PINPADs
