@@ -3,3 +3,21 @@
 - 18044-4-2 - Cartilla de Información cuenta CTS
 - REP0170
 - 17044-2-6 - Operaciones con PINPADs
+
+[GetMetaRefinanciadoPorMes
+
+ALTER PROCEDURE [Cobranzas].[GetMetaRefinanciadoPorMes]
+	@FechaMeta Date
+AS    
+BEGIN
+    SET @FechaMeta = DATEADD(mm, DATEDIFF(mm, 0, @FechaMeta), 0)
+
+	SELECT TOP 1
+	    FechaMeta,
+        Meta,
+        ISNULL(IntervaloInferior, 1) IntervaloInferior,
+        ISNULL(IntervaloSuperior, 1) IntervaloSuperior,
+        IntervaloSeleccionado
+	FROM [Cobranzas].[MetaRefinanciado]
+	WHERE FechaMeta = @FechaMeta
+END
