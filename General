@@ -21,3 +21,6 @@ BEGIN
 	FROM [Cobranzas].[MetaRefinanciado]
 	WHERE FechaMeta = @FechaMeta
 END
+
+- Dapper (ORM)
+- 18044-4-3 - Validación de reportes Normativos a SBS por SUCAVE
