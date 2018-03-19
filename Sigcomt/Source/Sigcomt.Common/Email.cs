@@ -205,11 +205,11 @@ namespace Sigcomt.Common
             return this;
         }
 
-        //public Email UseSsl()
-        //{
-        //    _useSsl = true;
-        //    return this;
-        //}
+        public Email UseSsl()
+        {
+            _useSsl = true;
+            return this;
+        }
 
         public Email UsingClient(SmtpClient client)
         {

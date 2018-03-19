@@ -8,5 +8,7 @@
         public int SucursalId { get; set; }
         public string Sucursal { get; set; }
         public double MetaMes { get; set; }
+        public double Logro { get; set; }
+        public double Cumplimiento { get; set; }
     }
 }

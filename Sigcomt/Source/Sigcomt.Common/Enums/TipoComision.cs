@@ -16,6 +16,8 @@ namespace Sigcomt.Common.Enums
         Referidos = 12, //NO SE CARGA
         RapicashTT = 13, 
         RapicashM = 14,
-        RapicashSD = 15
+        RapicashSD = 15,
+        BaseCarga = 16,
+        Mantenimiento = 17
     }
 }

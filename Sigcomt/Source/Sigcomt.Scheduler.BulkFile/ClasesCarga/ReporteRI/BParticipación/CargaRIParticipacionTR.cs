@@ -1,16 +1,15 @@
 ﻿using log4net;
-using NPOI.SS.UserModel;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+
 namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.BParticipación
 {
     public class CargaRIParticipacionTR
@@ -24,27 +23,17 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.BParticipación
             Logger.Info("Se inició la carga del archivo RIParticipacionSaga");
             Console.WriteLine("Se inició la carga del archivo RIParticipacionSaga");
 
-            var cargaBase = new CargaBase<RIParticipacion>();
             string tipoArchivo = TipoArchivo.RIParticipacion.GetStringValue();
-            int cabeceraId = 0;
-            int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
+            var cargaBase = new CargaBase(tipoArchivo, "RIParticipacion");
+
             try
             {
-                cargaBase = new CargaBase<RIParticipacion>(tipoArchivo);
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
-
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
@@ -54,7 +43,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.BParticipación
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    var cabeceraId = cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -63,72 +54,78 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.BParticipación
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
-         
-                    FileStream fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    GenericExcel excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<RIParticipacion>();
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;
-                    string Tienda = string.Empty;
+                    int cont = 0;
+
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-                        if (!isValid) {
+                        if (!isValid)
+                        {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        Tienda = Utils.GetValueColumn(
-                                excel.GetStringCellValue(row,
-                                    cargaBase.PropiedadCol.First(p => p.Key == "Tienda").Value.PosicionColumna),
-                                Tienda);
+                        string tienda = Utils.GetValueColumn(
+                            excel.GetStringCellValue(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "Tienda").Value.PosicionColumna),
+                            string.Empty);
 
-                        if (!string.IsNullOrWhiteSpace(Tienda) &&
-                            !Tienda.StartsWith("Región", StringComparison.InvariantCultureIgnoreCase) &&
-                            !Tienda.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase)  &&
-                            !Tienda.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
+                        if (!string.IsNullOrWhiteSpace(tienda) &&
+                            !tienda.StartsWith("Región", StringComparison.InvariantCultureIgnoreCase) &&
+                            !tienda.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase) &&
+                            !tienda.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
                             dr["CargaId"] = cabeceraId;
                             dr["Secuencia"] = cont;
-                            dr["Tienda"] = Tienda;
-                            if (Tienda.Contains("SAGA")) dr["TiendaRatail"] = TiendaRetail.SagaFalabella;
-                            if (Tienda.Contains("TOTTUS")) dr["TiendaRatail"] = TiendaRetail.Tottus;
-                            if (Tienda.Contains("SODIMAC")) dr["TiendaRatail"] = TiendaRetail.Sodimac;
-                            if (Tienda.Contains("MAESTRO")) dr["TiendaRatail"] = TiendaRetail.Maestro;
+                            dr["Tienda"] = tienda;
+                            if (tienda.ToUpper().Contains("SAGA") || tienda.ToUpper().Contains("SF"))
+                                dr["TiendaRatail"] = TiendaRetail.SagaFalabella;
+                            if (tienda.ToUpper().Contains("TOTTUS") || tienda.ToUpper().Contains("TT"))
+                                dr["TiendaRatail"] = TiendaRetail.Tottus;
+                            if (tienda.ToUpper().Contains("SODIMAC")) dr["TiendaRatail"] = TiendaRetail.Sodimac;
+                            if (tienda.ToUpper().Contains("MAESTRO")) dr["TiendaRatail"] = TiendaRetail.Maestro;
 
-                           // dr["TiendaRatail"] = TiendaRetail.SagaFalabella;
-                            dr["DiferenciaParticipacionMeta"] = (Convert.ToDouble(dr["ParticipacionCMR"]) - Convert.ToDouble(dr["CMRMeta"]));
+                            // dr["TiendaRatail"] = TiendaRetail.SagaFalabella;
+                            dr["DiferenciaParticipacionMeta"] =
+                                (Convert.ToDouble(dr["ParticipacionCMR"]) - Convert.ToDouble(dr["CMRMeta"]));
                             dt.Rows.Add(dr);
                         }
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
+                        tienda = string.Empty;
                     }
+
                     cargaBase.RegistrarCarga(dt, "RIParticipacion");
-                    
+
                     //Se coloca el Id del empleado a los registros
                     CargaArchivoBL.GetInstance().AddSucursalId("RIParticipacion", "Tienda", "TiendaId");
                 }
-
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
             }
+
             Logger.Info("Se terminó la carga del archivo Participacion");
             Console.WriteLine("Se terminó la carga del archivo Participacion");
         }
-
+    
         #endregion
-
     }
 }

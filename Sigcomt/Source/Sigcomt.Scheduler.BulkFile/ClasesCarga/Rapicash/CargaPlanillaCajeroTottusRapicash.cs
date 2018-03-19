@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using log4net;
-using NPOI.SS.UserModel;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
@@ -24,28 +22,18 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
         {
             Logger.Info("Se inició la carga del archivo Planilla Maestro");
             Console.WriteLine("Se inició la carga del archivo Planilla Maestro");
-            var cargaBase = new CargaBase<CajeroTottusRapicash>();
-            string tipoArchivo = TipoArchivo.PlanillaMaestroRapicash.GetStringValue();
-            int cabeceraId = 0;
-            int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
+
+            string tipoArchivo = TipoArchivo.PlanillaCajeroTottusRapicash.GetStringValue();
+            var cargaBase = new CargaBase(tipoArchivo, "PlanillaCajeroTottusRapicash");
 
             try
             {
-                 cargaBase = new CargaBase<CajeroTottusRapicash>(tipoArchivo);
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
-
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
@@ -55,7 +43,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -63,40 +53,53 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
                         FechaModificacionArchivo = fechaModificacion,
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
-                    //cabeceraId = cargaBase.AgregarCabecera(TipoArchivo.MetaTottusRapicash, EstadoCarga.Iniciado, fechaFile);
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    var fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<CajeroTottusRapicash>();
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;
-                    string Tienda = string.Empty;
+                    int cont = 0;
+
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-                        if (!isValid) {
+                        if (!isValid)
+                        {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        Tienda = Utils.GetValueColumn(
-                           excel.GetStringCellValue(row,
-                               cargaBase.PropiedadCol.First(p => p.Key == "Tienda").Value.PosicionColumna),
-                           Tienda);
+                        string sucursalId = Utils.GetValueColumn(
+                            excel.GetCellToString(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "SucursalId").Value.PosicionColumna),
+                            string.Empty);
 
-                        if (!string.IsNullOrWhiteSpace(Tienda))
+
+                        if (!string.IsNullOrWhiteSpace(sucursalId) && char.IsNumber(sucursalId, 0))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["CargaId"] = cabeceraId;
                             dr["Secuencia"] = cont;
-                            dr["Tienda"] = Tienda;
+
+                            string estado = Utils.GetValueColumn(
+                                excel.GetCellToString(row,
+                                    cargaBase.PropiedadCol.First(p => p.Key == "Estado").Value.PosicionColumna),
+                                sucursalId);
+
+                            if (estado == "ACT" || estado == "ACTIVO")
+                            {
+                                dr["Estado"] = "1";
+                            }
+                            else
+                            {
+                                dr["Estado"] = "0";
+                            }
 
                             dt.Rows.Add(dr);
                         }
@@ -104,11 +107,13 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
+
                     cargaBase.RegistrarCarga(dt, "PlanillaCajeroTottusRapicash");
                 }
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);

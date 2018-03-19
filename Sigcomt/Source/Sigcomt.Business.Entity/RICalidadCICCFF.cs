@@ -6,20 +6,23 @@
         public int Secuencia { get; set; }
         public int CCFFId { get; set; }
         public string CCFF { get; set; }
-        public int LogroREL { get; set; }
-        public int MetaREL { get; set; }
-        public double PorcentajeLogroREL { get; set; }
-        public int LogroEECC { get; set; }
-        public int MetaEECC { get; set; }
-        public double PorcentajeLogroEECC { get; set; }
-        public int LogroCAJ { get; set; }
-        public int MetaCAJ { get; set; }
-        public double PorcentajeLogroCAJ { get; set; }
-        public int LogroPRO { get; set; }
-        public int MetaPRO { get; set; }
-        public double PorcentajeLogroPRO { get; set; }
-        public int LogroTotal { get; set; }
-        public int MetaTotal { get; set; }
-        public double PorcentajeLogroTotal { get; set; }
+        public decimal LogroREL { get; set; }
+        public decimal MetaREL { get; set; }
+        public decimal PorcentajeLogroREL { get; set; }
+        public decimal LogroCCFF { get; set; }
+        public decimal MetaCCFF { get; set; }
+        public decimal PorcentajeLogroCCFF { get; set; }
+        public decimal LogroEECC { get; set; }
+        public decimal MetaEECC { get; set; }
+        public decimal PorcentajeLogroEECC { get; set; }
+        public decimal LogroCAJ { get; set; }
+        public decimal MetaCAJ { get; set; }
+        public decimal PorcentajeLogroCAJ { get; set; }
+        public decimal LogroPRO { get; set; }
+        public decimal MetaPRO { get; set; }
+        public decimal PorcentajeLogroPRO { get; set; }
+        public decimal LogroTotal { get; set; }
+        public decimal MetaTotal { get; set; }
+        public decimal PorcentajeLogroTotal { get; set; }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using log4net;
-using NPOI.SS.UserModel;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -24,27 +22,18 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
         {
             Logger.Info("Se inició la carga del archivo RITarjetasAvanceZonales");
             Console.WriteLine("Se inició la carga del archivo RITarjetasAvanceZonales");
-            var cargaBase = new CargaBase<RITarjetasAvanceZonales>();
+
             string tipoArchivo = TipoArchivo.RITarjetasAvanceZonales.GetStringValue();
-            int cabeceraId = 0;
-            int cont = 0;
+            var cargaBase = new CargaBase(tipoArchivo, "RITarjetasAvanceZonales");
 
             try
             {
-                 cargaBase = new CargaBase<RITarjetasAvanceZonales>(tipoArchivo);
-                var filesNames = cargaBase.GetNombreArchivos();         
+                cargaBase.ValidarExisteDirectorio();
+                var filesNames = cargaBase.GetNombreArchivos();
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-
-                   
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
@@ -53,7 +42,10 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
                         if (fechaModificacion.GetDateTimeToString() ==
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
-                    cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
+
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -62,51 +54,49 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    var fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<RITarjetasAvanceZonales>();
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;
-                    string zona = string.Empty;
-                    int number;
-                    string CCFFId = string.Empty;
-                    string Nro = string.Empty;
+                    int cont = 0;
+
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-                        if (!isValid) {
+                        if (!isValid)
+                        {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        CCFFId = Utils.GetValueColumn(
-                                excel.GetStringCellValue(row,
-                                    cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna),
-                                CCFFId);
-                        Nro = Utils.GetValueColumn(
-                             excel.GetStringCellValue(row,
-                                 cargaBase.PropiedadCol.First(p => p.Key == "Nro").Value.PosicionColumna),
-                             Nro);
-            
-
-                        if (!string.IsNullOrWhiteSpace(Nro))
+                        string id = Utils.GetValueColumn(
+                            excel.GetStringCellValue(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna),
+                            string.Empty);
+                        string numero = Utils.GetValueColumn(
+                            excel.GetStringCellValue(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "Nro").Value.PosicionColumna),
+                            string.Empty);
+                        
+                        if (!string.IsNullOrWhiteSpace(numero))
                         {
-                            if (CCFFId.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
+                            if (id.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
                             {
-                                zona = CCFFId;
                             }
-                            if (Int32.TryParse(Nro, out number))
+
+                            int number;
+                            if (int.TryParse(numero, out number))
                             {
                                 cont++;
                                 DataRow dr = cargaBase.AsignarDatos(dt);
                                 dr["Secuencia"] = cont;
-                               
+
                                 dt.Rows.Add(dr);
                             }
                         }
@@ -115,11 +105,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
-                    cargaBase.RegistrarCarga(dt, "RITarjetasAvanceZonales");                    
+                    cargaBase.RegistrarCarga(dt, "RITarjetasAvanceZonales");
                 }
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
@@ -130,6 +121,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
         }
 
         #endregion
-
     }
 }

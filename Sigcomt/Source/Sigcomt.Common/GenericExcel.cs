@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using NPOI.HSSF.UserModel;
@@ -28,7 +29,6 @@ namespace Sigcomt.Common
             {
                 _workBook = new HSSFWorkbook(s);
             }
-
             _sheet = _workBook.GetSheet(nombreHoja);
         }
 
@@ -144,22 +144,24 @@ namespace Sigcomt.Common
         public string GetCellToString(IRow row, int cellNumber)
         {
             ICell cell = row?.GetCell(cellNumber);
-            string valor = string.Empty;
+            string valor;
+
+            if (cell == null) return string.Empty;
 
             switch (cell.CellType)
             {
                 case CellType.Numeric:
                     valor = DateUtil.IsCellDateFormatted(cell)
                         ? cell.DateCellValue.ToString("dd/MM/yyyy")
-                        : cell.NumericCellValue.ToString();
+                        : cell.NumericCellValue.ToString(CultureInfo.InvariantCulture);
                     break;
                 case CellType.Formula:
                     switch (cell.CachedFormulaResultType)
                     {
                         case CellType.Numeric:
                             valor = DateUtil.IsCellDateFormatted(cell)
-                                ? cell.DateCellValue.ToString()
-                                : cell.NumericCellValue.ToString();
+                                ? cell.DateCellValue.ToString(CultureInfo.InvariantCulture)
+                                : cell.NumericCellValue.ToString(CultureInfo.InvariantCulture);
                             break;
                         case CellType.String:
                             valor = cell.StringCellValue.Trim();

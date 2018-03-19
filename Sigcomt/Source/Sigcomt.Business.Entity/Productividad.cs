@@ -13,6 +13,6 @@ namespace Sigcomt.Business.Entity
         public decimal Logro { get; set; }
         public decimal MetaDiaria { get; set; }
         public decimal MetaReal { get; set; }
-        public decimal AppAnd { get; set; }
+        public decimal APPAND { get; set; }
     }
 }

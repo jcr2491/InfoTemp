@@ -10,5 +10,6 @@ namespace Sigcomt.Scheduler.BulkFile.Core
         public string Valor { get; set; }
         public string ValorDefecto { get; set; }
         public string ValorIgnorar { get; set; }
+        public bool OmitirPropiedad { get; set; }
     }
 }

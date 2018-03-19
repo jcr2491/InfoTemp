@@ -1,90 +1,55 @@
 ﻿<!DOCTYPE html>
-<html lang="en" style="font-family: sans-serif; font-size: 10px;" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="es">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
     <title>Proceso de Carga Proyecto Comisiones</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
 <body style="background-color: #fff; color: #333; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 10px; line-height: 1;">
     <div style="background-color: #fff; border: 1px solid transparent; border-color: #ddd; border-radius: 4px; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); margin-bottom: 20px; max-width: 1000px">
 
-        <div style="padding: 15px;">
-            <div style="margin-left: -15px; margin-right: -15px;">
-                <div style="min-height: 1px; padding-left: 15px; padding-right: 15px; position: relative;">
+        <div style="padding: 15px !important;width: 800px;">
+            <div style="margin-left: -15px !important; margin-right: -15px !important;">
+                <div style="min-height: 1px !important; padding-left: 15px !important; padding-right: 15px !important; position: relative;">
 
                     <h2>Proceso de Carga Inputs Comisiones</h2>
                     <p>Hora de ejecución: @Model.HoraEjecucion</p>
-                    <h3>Inputs con Errores en carga</h3>
 
-                    @foreach(var tipoComision in Model.tipoComisionList)
+                    <h4>Archivos cargados correctamente: @Model.ArchivosCorrecto</h4>
+                    <h4>Archivos cargados incorrectamente: @Model.ArchivosIncorrecto</h4>
+
+                    @if(Model.ArchivosIncorrecto==0)
                     {
-                    <table>
-                        <thead>
+                    <h2>Se cargaron todos los archivos correctamente.</h2>
+                    }else
+                    {
+                    <h4>Para mas detalle verifique el archivo en la siguiente ruta:<a href="@Model.Ruta">@Model.Ruta</a> </h4>
+                    <table cellpadding="0" cellspacing="0" style="background-color: transparent; border: 1px solid #ddd; border-collapse: collapse; border-spacing: 0; margin-bottom: 0px !important; max-width: 100%; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Archivo</th>
+                            <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Estado</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                            @foreach(var archivo in Model.ArchivosEstado)
+                            {
                             <tr>
-                                <th colspan="6" style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1;  min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Tipo Comision  : @tipoComision.Reporte</th>
+                                <td style="border: 1px solid #ddd; border-top: 1px  solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@archivo.NombreArchivo</td>
+                                @if(archivo.Estado==1)
+                                {
+                                <td style="border: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">Procesado</td>
+                                }
+                                else
+                                {
+                                <td style="border: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">Fallido</td>
+                                }
                             </tr>
-
-                        </thead>
-                        <tbody>
-                            @foreach(var input in Model.inputList)
-                            {
-                               if(input.TipoLog == "2")
-                            {
-                            <table style="background-color: transparent; border: 1px solid #ddd; border-collapse: collapse; border-spacing: 0; margin-bottom: 20px; max-width: 100%; width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th colspan="6" style="background-color: #00ad49c7; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; padding: 2px; text-align: left; vertical-align: bottom;">@input.Input</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Tipo Error</th>
-                                        <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Posicion Columna</th>
-                                        <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Fila</th>
-                                        <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Error</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach(var error in Model.ErrorList)
-                                    {
-                                    <tr>
-                                        <td style="border: 1px solid #ddd; border-top: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@error.TipoError</td>
-                                        <td style="border: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@error.PosicionColumna</td>
-                                        <td style="border: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@error.NumeroFila</td>
-                                        <td style="border: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@error.Mensaje</td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
-                             }
-                            if(input.TipoLog=="1" || input.TipoLog=="3" || input.TipoLog=="4")
-                            {
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th colspan="6" style="background-color: #00ad49c7; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; padding: 2px; text-align: left; vertical-align: bottom;">@input.Input</th>
-                                    </tr>
-                                    <tr>
-                                        <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Tipo Carga</th>
-                                        <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Descripci&oacute;n</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach(var error in Model.ErrorList)
-                                    {
-                                    <tr>
-                                        <td style="border: 1px solid #ddd; border-top: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@error.TipoError</td>
-                                        <td style="border: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@error.Mensaje</td>
-                                    </tr>
-                                    }
-                                </tbody>
-                            </table>
-                            
                             }
-                            }
-                        <tbody>
+                        </tbody>
                     </table>
-                    }
-                </div>
+                        }
+             </div>
             </div>
 
         </div>

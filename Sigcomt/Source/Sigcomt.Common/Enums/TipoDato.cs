@@ -7,6 +7,7 @@
         NumeroYLetras = 3,
         Fecha = 4,
         Decimal = 5,
-        Cadena = 6
+        //Cadena = 6,
+        _default=7
     }
 }

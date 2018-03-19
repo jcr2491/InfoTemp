@@ -4,10 +4,11 @@
     {
         public int CargaId { get; set; }
         public int Secuencia { get; set; }
+        public int SucursalId { get; set; }
         public string Sucursal { get; set; }
-        public string CodCajero { get; set; }
-        public string Cajero { get; set; }
-        public decimal Total { get; set; }
+        public string CodigoEmpleado { get; set; }
+        public string Empleado { get; set; }
+        public decimal Monto { get; set; }
 
     }
 }

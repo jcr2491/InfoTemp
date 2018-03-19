@@ -13,5 +13,6 @@ namespace Sigcomt.Business.Entity
         public string PosicionColumna { get; set; }
         public int? ExcelHojaCampoId { get; set; }        
         public string DetalleLog { get; set; }
+        public string NombreCampo { get; set; }
     }
 }

@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using log4net;
-using NPOI.SS.UserModel;
+﻿using log4net;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
+using System;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.MOperaciones
 {
     public class CargaRIOperacionSF
     {
-        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);        
+        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         #region Métodos Públicos
 
@@ -24,26 +22,18 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.MOperaciones
         {
             Logger.Info("Se inició la carga del archivo Operaciones");
             Console.WriteLine("Se inició la carga del archivo Operaciones");
-            var cargaBase = new CargaBase<RIOperacionSF>();
+
             string tipoArchivo = TipoArchivo.RIOperacionSF.GetStringValue();
-            int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
+            var cargaBase = new CargaBase(tipoArchivo, "RIOperacionSF");
 
             try
             {
-                cargaBase = new CargaBase<RIOperacionSF>(tipoArchivo);
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
@@ -53,7 +43,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.MOperaciones
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -62,31 +54,32 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.MOperaciones
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    FileStream fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-
-                    GenericExcel excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<RIOperacionSF>();
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string CCFFId = string.Empty;
-                    cont = 0;
+                    int cont = 0;
 
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-                        if (!isValid) {
+                        if (!isValid)
+                        {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        CCFFId = Utils.GetValueColumn(excel.GetCellToString(row, cargaBase.PropiedadCol.First(p => p.Key == "OPCodCCFF").Value.PosicionColumna), CCFFId);
-                        
-                        if (!string.IsNullOrWhiteSpace(CCFFId))
+                        string id = Utils.GetValueColumn(
+                            excel.GetCellToString(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "OPCodCCFF").Value.PosicionColumna), string.Empty);
+
+                        if (!string.IsNullOrWhiteSpace(id))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
@@ -96,17 +89,18 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.MOperaciones
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
-
                     }
+
                     cargaBase.RegistrarCarga(dt, "RIOperacionSF");
                 }
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
-            }        
+            }
 
             Logger.Info("Se terminó la carga del archivo Operaciones");
             Console.WriteLine("Se terminó la carga del archivo Operaciones");

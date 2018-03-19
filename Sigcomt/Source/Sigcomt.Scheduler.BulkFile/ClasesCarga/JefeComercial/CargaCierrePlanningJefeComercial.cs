@@ -1,5 +1,5 @@
 ﻿using log4net;
-using NPOI.SS.UserModel;
+using NPOI.SS.Util;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
@@ -24,29 +24,19 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
         {
             Logger.Info("Se inició la carga del archivo Cierre Planning");
             Console.WriteLine("Se inició la carga del archivo Cierre Planning");
-            var cargaBase = new CargaBase<CargaCierrePlanningJefeComercial>();
+
             string tipoArchivo = TipoArchivo.CierrePlanningJefeComercial.GetStringValue();
-            int cabeceraId = 0;
+            var cargaBase = new CargaBase(tipoArchivo, "CierrePlanningJefeComercial");
             int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
 
             try
             {
-                 cargaBase = new CargaBase<CargaCierrePlanningJefeComercial>(tipoArchivo);
-
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
-
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
@@ -56,7 +46,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -64,41 +56,73 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
                         FechaModificacionArchivo = fechaModificacion,
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
-                    //cabeceraId = cargaBase.AgregarCabecera(TipoArchivo.CierrePlanningJefeComercial, EstadoCarga.Iniciado, fechaFile);
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    var fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<CierrePlanningJefeComercial>();
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string Zona = string.Empty;
-                    cont = 0;
+                    var kpiList = ObtenerKpiId(excel, cargaBase);
 
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-                        if (!isValid) {
+                        if (!isValid)
+                        {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        Zona = Utils.GetValueColumn(
-                           excel.GetStringCellValue(row,
-                               cargaBase.PropiedadCol.First(p => p.Key == "Zona").Value.PosicionColumna),
-                           Zona);
-
-                        if (! string.IsNullOrWhiteSpace(Zona))
+                        foreach (var kpi in kpiList)
                         {
+                            var propLogro = cargaBase.PropiedadCol.First(p => p.Value.PosicionColumna == kpi.Value);
+                            var propMeta = cargaBase.PropiedadCol.First(p => p.Value.PosicionColumna == kpi.Value + 1);
+                            var propCumplimiento =
+                                cargaBase.PropiedadCol.First(p => p.Value.PosicionColumna == kpi.Value + 2);
+
+                            if (string.IsNullOrEmpty(propLogro.Value.Valor) &&
+                                string.IsNullOrEmpty(propMeta.Value.Valor) &&
+                                string.IsNullOrEmpty(propCumplimiento.Value.Valor))
+                            {
+                                continue;
+                            }
+
+                            bool continuar = true;
+
+                            if (string.IsNullOrEmpty(propLogro.Value.Valor))
+                            {
+                                cargaBase.AgregarLogValidacionDatos(propLogro, rowNum + 1, "Falta ingresar valor");
+                                continuar = false;
+                            }
+
+                            if (string.IsNullOrEmpty(propMeta.Value.Valor))
+                            {
+                                cargaBase.AgregarLogValidacionDatos(propMeta, rowNum + 1, "Falta ingresar valor");
+                                continuar = false;
+                            }
+
+                            if (string.IsNullOrEmpty(propCumplimiento.Value.Valor))
+                            {
+                                cargaBase.AgregarLogValidacionDatos(propCumplimiento, rowNum + 1,
+                                    "Falta ingresar valor");
+                                continuar = false;
+                            }
+
+                            if (!continuar) continue;
+
                             cont++;
+                            cargaBase.PropiedadCol["Logro"].Valor = propLogro.Value.Valor;
+                            cargaBase.PropiedadCol["Meta"].Valor = propMeta.Value.Valor;
+                            cargaBase.PropiedadCol["Cumplimiento"].Valor = propCumplimiento.Value.Valor;
+
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["CargaId"] = cabeceraId;
                             dr["Secuencia"] = cont;
-                            dr["Zona"] = Zona;
+                            dr["IndicadorId"] = kpi.Key;
 
                             dt.Rows.Add(dr);
                         }
@@ -106,11 +130,13 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-                    cargaBase.RegistrarCarga(dt, "CierrePlanningJefeComercial");              
+
+                    cargaBase.RegistrarCarga(dt, "CierrePlanningJefeComercial");
                 }
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
@@ -122,5 +148,52 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
 
         #endregion
 
+        #region
+
+        private static List<KeyValuePair<int, int>> ObtenerKpiId(GenericExcel excel, CargaBase cargaBase)
+        {
+            var row = excel.Sheet.GetRow(cargaBase.HojaBd.FilaIni - 3);
+            var propLogro = cargaBase.PropiedadCol["Logro"];
+            var propMeta = cargaBase.PropiedadCol["Meta"];
+            var propCumplimiento = cargaBase.PropiedadCol["Cumplimiento"];
+            int numCol = propLogro.PosicionColumna;
+            var kpiList = new List<KeyValuePair<int, int>>();
+            char separador = '_';
+            string valor = excel.GetCellToString(row, numCol);
+
+            while (valor != string.Empty)
+            {
+                var kpi = valor.Split(separador);
+                kpiList.Add(new KeyValuePair<int, int>(Convert.ToInt32(kpi[0]), numCol));
+
+                if (propLogro.PosicionColumna != numCol)
+                {
+                    cargaBase.AgregarPropiedadCol($"{kpi[1]} - Logro", AddPropiedadCol(propLogro, numCol));
+                    cargaBase.AgregarPropiedadCol($"{kpi[1]} - Meta", AddPropiedadCol(propMeta, numCol + 1));
+                    cargaBase.AgregarPropiedadCol($"{kpi[1]} - Cumplimiento", AddPropiedadCol(propCumplimiento, numCol + 2));
+                }
+
+                numCol += 3;
+                valor = excel.GetCellToString(row, numCol);
+            }
+
+            return kpiList;
+        }
+
+        private static PropiedadColumna AddPropiedadCol(PropiedadColumna prop, int numCol)
+        {
+            return new PropiedadColumna
+            {
+                TipoDato = prop.TipoDato,
+                PermiteNulo = prop.PermiteNulo,
+                ValorDefecto = prop.ValorDefecto,
+                ValorIgnorar = prop.ValorIgnorar,
+                LetraColumna = CellReference.ConvertNumToColString(numCol),
+                PosicionColumna = numCol,
+                OmitirPropiedad = true
+            };
+        }
+
+        #endregion
     }
 }

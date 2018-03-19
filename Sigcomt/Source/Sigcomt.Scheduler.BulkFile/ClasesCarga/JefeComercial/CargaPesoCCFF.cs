@@ -1,17 +1,14 @@
 ﻿using log4net;
-using NPOI.SS.UserModel;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
 
 namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
 {
@@ -25,30 +22,19 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
         {
             Logger.Info("Se inició la carga del archivo PesoCCFF");
             Console.WriteLine("Se inició la carga del archivo PesoCCFF");
-            var cargaBase = new CargaBase<PesoCCFF>();
-            string tipoArchivo = TipoArchivo.PesoCCFF.GetStringValue();
-            int cabeceraId = 0;
-            int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
+
+            //string tipoArchivo = TipoArchivo.PesoCCFF.GetStringValue();
+            string tipoArchivo = "";
+            var cargaBase = new CargaBase(tipoArchivo, "PesoCCFF");
 
             try
             {
-                 cargaBase = new CargaBase<PesoCCFF>(tipoArchivo);
-
-
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
-
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
@@ -58,8 +44,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    //cabeceraId = cargaBase.AgregarCabecera(TipoArchivo.PesoCCFF, EstadoCarga.Iniciado, fechaFile);
-                    cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -68,53 +55,53 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    var fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<PesoCCFF>();
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;
-                    string CodigoCCFF = string.Empty;
+                    int cont = 0;
 
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-                        if (!isValid) {
+                        if (!isValid)
+                        {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        CodigoCCFF = Utils.GetValueColumn(
-                           excel.GetStringCellValue(row,
-                               cargaBase.PropiedadCol.First(p => p.Key == "CodigoCCFF").Value.PosicionColumna),
-                           CodigoCCFF);
+                        string codigo = Utils.GetValueColumn(
+                            excel.GetStringCellValue(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "CodigoCCFF").Value.PosicionColumna),
+                            string.Empty);
 
 
-                        if (!string.IsNullOrWhiteSpace(CodigoCCFF))
+                        if (!string.IsNullOrWhiteSpace(codigo))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["CargaId"] = cabeceraId;
                             dr["Secuencia"] = cont;
-                            dr["CodigoCCFF"] = CodigoCCFF;
                             dt.Rows.Add(dr);
                         }
+
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
-                    cargaBase.RegistrarCarga(dt, "PesoCCFF");                                       
+                    cargaBase.RegistrarCarga(dt, "PesoCCFF");
                     //Se coloca el Id del empleado a los registros
                     //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
                 }
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
@@ -125,6 +112,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.JefeComercial
         }
 
         #endregion
-
     }
 }

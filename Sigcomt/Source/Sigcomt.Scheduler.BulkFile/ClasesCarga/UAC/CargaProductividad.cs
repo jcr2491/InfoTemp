@@ -1,14 +1,14 @@
-﻿using System;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using log4net;
+﻿using log4net;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
+using System;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
 {
@@ -22,13 +22,13 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
         {
             Logger.Info("Se inició la carga del archivo Productividad");
             Console.WriteLine("Se inició la carga del archivo Productividad");
-            
+
             string tipoArchivo = TipoArchivo.Productividad.GetStringValue();
-            var cargaBase = new CargaBase<Productividad>(tipoArchivo);
-            int cont = 0;
+            var cargaBase = new CargaBase(tipoArchivo, "Productividad");
 
             try
             {
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
 
                 foreach (var fileName in filesNames)
@@ -43,7 +43,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -52,45 +54,45 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    FileStream fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-
-                    GenericExcel excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<Productividad>();
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string grupo = string.Empty;
-                    string supervisor = string.Empty;
-                    cont = 0;
+                    int cont = 0;
 
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-
-                        if (isValid)
+                        if (!isValid)
                         {
-                            grupo = Utils.GetValueColumn(
-                                excel.GetStringCellValue(row,
-                                    cargaBase.PropiedadCol.First(p => p.Key == "Grupo").Value.PosicionColumna), grupo);
+                            rowNum++;
+                            row = excel.Sheet.GetRow(rowNum);
+                            continue;
+                        }
 
-                            if (!grupo.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                cont++;
-                                DataRow dr = cargaBase.AsignarDatos(dt);
-                                dr["Secuencia"] = cont;
-                                dr["Grupo"] = grupo;
+                        string empleado = Utils.GetValueColumn(
+                            excel.GetStringCellValue(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "Empleado").Value.PosicionColumna),
+                            string.Empty);
 
-                                dt.Rows.Add(dr);
-                            }
+                        if (!string.IsNullOrWhiteSpace(empleado))
+                        {
+                            cont++;
+                            DataRow dr = cargaBase.AsignarDatos(dt);
+                            dr["Secuencia"] = cont;
+
+                            dt.Rows.Add(dr);
                         }
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-                    
+
                     cargaBase.RegistrarCarga(dt, "Productividad");
 
                     //Se coloca el Id del empleado a los registros

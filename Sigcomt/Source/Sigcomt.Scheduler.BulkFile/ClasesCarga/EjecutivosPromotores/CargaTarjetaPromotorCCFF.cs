@@ -5,7 +5,6 @@ using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -23,29 +22,20 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.EjecutivosPromotores
         {
             Logger.Info("Se inició la carga del archivo TarjetaPromotorCCFF");
             Console.WriteLine("Se inició la carga del archivo TarjetaPromotorCCFF");
-            var cargaBase = new CargaBase<TarjetaPromotorCCFF>();
-            string tipoArchivo = TipoArchivo.TarjetaPromotorCCFF.GetStringValue();
-            int cabeceraId = 0;
-            int cont = 0;
-            bool fileError = true;
+
+            // string tipoArchivo = TipoArchivo.TarjetaPromotorCCFF.GetStringValue();
+            string tipoArchivo = "";
+
+            var cargaBase = new CargaBase(tipoArchivo, "TarjetaPromotorCCFF");
 
             try
             {
-                //Nota: estamos asumiendo que delante vendra la fecha del archivo
-                 cargaBase = new CargaBase<TarjetaPromotorCCFF>(tipoArchivo);
-
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
-
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
@@ -55,7 +45,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.EjecutivosPromotores
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    var cabeceraId = cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -63,55 +55,54 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.EjecutivosPromotores
                         FechaModificacionArchivo = fechaModificacion,
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
-                    //cabeceraId = cargaBase.AgregarCabecera(TipoArchivo.TarjetaPromotorCCFF, EstadoCarga.Iniciado, fechaFile);
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    var fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    var excel = new GenericExcel(fileBase, "Captación");
-                    DataTable dt = Utils.CrearCabeceraDataTable<TarjetaPromotorCCFF>();
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
-                    cont = 0;
+                    int cont = 0;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string EmpleadoId = string.Empty; ;
-
-                    //TODO: Aqui se debe hacer la logica para consumir de la tabla excel de configuracion
 
                     while (row != null)
                     {
                         //Validation row
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-                        if (!isValid) {
+                        if (!isValid)
+                        {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
-                        EmpleadoId = Utils.GetValueColumn(
-                           excel.GetStringCellValue(row,
-                               cargaBase.PropiedadCol.First(p => p.Key == "EmpleadoId").Value.PosicionColumna),
-                           EmpleadoId);
-            
+                        }
 
-                        if (! string.IsNullOrWhiteSpace(EmpleadoId))
+                        string empleadoId = Utils.GetValueColumn(
+                            excel.GetStringCellValue(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "EmpleadoId").Value.PosicionColumna),
+                            string.Empty);
+
+                        if (!string.IsNullOrWhiteSpace(empleadoId))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
                             dr["CargaId"] = cabeceraId;
                             dr["Secuencia"] = cont;
-                            dr["EmpleadoId"] = EmpleadoId;
+                            dr["EmpleadoId"] = empleadoId;
                             dt.Rows.Add(dr);
                         }
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
-                    cargaBase.RegistrarCarga(dt, "TarjetaPromotorCCFF");                 
+
+                    cargaBase.RegistrarCarga(dt, "TarjetaPromotorCCFF");
                 }
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
@@ -122,6 +113,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.EjecutivosPromotores
         }
 
         #endregion
-
     }
 }

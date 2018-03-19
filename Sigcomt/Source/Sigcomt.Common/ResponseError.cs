@@ -18,7 +18,7 @@
         public string Mensaje { get; set; }
         public string PosicionColumna { get; set; }
         public string NombreColumna { get; set; }
-      
+        public string TipoLog { get; set; }
         public string TipoError { get; set; }
     }
 }

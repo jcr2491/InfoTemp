@@ -32,12 +32,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.86.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ClosedXML.0.86.0\lib\net40\ClosedXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Core.Extensions, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CSharp.Portable-Singleton.2.0.0.4\lib\Core.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Core.Singleton, Version=2.0.6074.9804, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CSharp.Portable-Singleton.2.0.0.4\lib\Core.Singleton.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
@@ -48,6 +56,7 @@
       <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
       <Private>True</Private>
@@ -85,25 +94,38 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClasesCarga\Automotriz\CargaDataAutomotriz.cs" />
+    <Compile Include="ClasesCarga\Base\CargaBaseArchivo.cs" />
+    <Compile Include="ClasesCarga\Base\CargaHomologacionCCFF.cs" />
+    <Compile Include="ClasesCarga\Base\CargaHomologacionEmpleado.cs" />
+    <Compile Include="ClasesCarga\Maestro\CargaMantenimientoRapicash.cs" />
+    <Compile Include="ClasesCarga\MatenimientoIndicador\CargaEscalaFormatoCCFF.cs" />
+    <Compile Include="ClasesCarga\MatenimientoIndicador\CargaHomologacionIndicador.cs" />
+    <Compile Include="ClasesCarga\MatenimientoIndicador\CargaIndicador.cs" />
+    <Compile Include="ClasesCarga\MatenimientoIndicador\CargaKPIIndicador.cs" />
+    <Compile Include="ClasesCarga\MatenimientoIndicador\CargaMantenimientoIndicador.cs" />
+    <Compile Include="ClasesCarga\MatenimientoIndicador\CargaPesoKPI.cs" />
+    <Compile Include="ClasesCarga\MatenimientoIndicador\CargaPotenciarKPI.cs" />
+    <Compile Include="ClasesCarga\MatenimientoIndicador\CargaTarifarioIndicador.cs" />
     <Compile Include="ClasesCarga\Maestro\CargaBono.cs" />
+    <Compile Include="ClasesCarga\Maestro\CargaUACGrupoSupervisor.cs" />
     <Compile Include="ClasesCarga\Maestro\CargaPuntajeKPI.cs" />
-    <Compile Include="ClasesCarga\Maestro\CargaMaestroAutomotriz.cs" />
-    <Compile Include="ClasesCarga\Rapicash\CargaDetalleMaestroRapicash.cs" />
-    <Compile Include="ClasesCarga\Rapicash\CargaDetalleSodimacRapicash.cs" />
+    <Compile Include="ClasesCarga\Automotriz\CargaMaestroAutomotriz.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaGanadoresMaestroRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaGanadoresSodimacRapicash.cs" />
     <Compile Include="ClasesCarga\Rapicash\CargaDetalleTottusRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaMaestroSagaTottus.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaMaestroSodimacMaestro.cs" />
     <Compile Include="ClasesCarga\Rapicash\CargaMetaMaestroRapicash.cs" />
     <Compile Include="ClasesCarga\Rapicash\CargaMetaSodimacRapicash.cs" />
-    <Compile Include="ClasesCarga\Rapicash\CargaMetaSagaRapicash.cs" />
     <Compile Include="ClasesCarga\Rapicash\CargaPlanillaCajeroTottusRapicash.cs" />
     <Compile Include="ClasesCarga\Rapicash\CargaPlanillaTottusRapicash.cs" />
-    <Compile Include="ClasesCarga\Rapicash\CargaResumenMaestroRapicash.cs" />
-    <Compile Include="ClasesCarga\Rapicash\CargaResumenSodimacRapicash.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaRapicashMaestro.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaRapicashSaga.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaRapicashSodimac.cs" />
+    <Compile Include="ClasesCarga\Rapicash\CargaRapicashTottus.cs" />
     <Compile Include="ClasesCarga\Rapicash\CargaResumenTottusRapicash.cs" />
-    <Compile Include="ClasesCarga\Rapicash\CargaSodimacGanadorRapicash.cs" />
-    <Compile Include="ClasesCarga\Rapicash\CargaSodimacMetaRapicash.cs" />
-    <Compile Include="ClasesCarga\Rapicash\CargarMaestroRapicash.cs" />
     <Compile Include="ClasesCarga\Referido\CargaReferidoCCFF.cs" />
-    <Compile Include="ClasesCarga\ReporteRI\ADirectorio\CargaRICCFF.cs" />
+    <Compile Include="ClasesCarga\Base\CargaRICCFF.cs" />
     <Compile Include="ClasesCarga\ReporteRI\BParticipación\CargaRIParticipacionTR.cs" />
     <Compile Include="ClasesCarga\ReporteRI\CargaRI.cs" />
     <Compile Include="ClasesCarga\ReporteRI\CTarjetas\CargaRITarjetaAdicional.cs" />
@@ -130,15 +152,13 @@
     <Compile Include="ClasesCarga\Rapicash\CargaResumenSFRapicash.cs" />
     <Compile Include="ClasesCarga\ReporteRI\JDerivacióndeCanalesElectrónicos\CargaRIDerivacionHeavyPlataforma.cs" />
     <Compile Include="ClasesCarga\ReporteRI\JDerivacióndeCanalesElectrónicos\CargaRIDerivacionCaja.cs" />
+    <Compile Include="ClasesCarga\ReporteRI\JDerivacióndeCanalesElectrónicos\DerivacionCaja.cs" />
     <Compile Include="ClasesCarga\ReporteRI\LAmpliacionesdeLínea\CargaRIAmpliacionLinea.cs" />
     <Compile Include="ClasesCarga\ReporteRI\MOperaciones\CargaRIOperacionE.cs" />
     <Compile Include="ClasesCarga\ReporteRI\MOperaciones\CargaRIOperacionSF.cs" />
     <Compile Include="ClasesCarga\UAC\CargaDiasAusencia.cs" />
-    <Compile Include="ClasesCarga\UAC\CargaMonitoreo.cs" />
-    <Compile Include="ClasesCarga\UAC\CargaProducContactenos.cs" />
     <Compile Include="ClasesCarga\UAC\CargaSlaUac.cs" />
     <Compile Include="ClasesCarga\UAC\CargaProductividad.cs" />
-    <Compile Include="ClasesCarga\UAC\CargaSLAContactenos.cs" />
     <Compile Include="ClasesCarga\UAC\CargaUAC.cs" />
     <Compile Include="ClasesCarga\UAC\CargaUACMonitoreo.cs" />
     <Compile Include="Core\Constantes.cs" />
@@ -151,6 +171,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Archivo\In\LogCarga.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -170,6 +193,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Archivo\Out\" />
+    <Folder Include="ClasesCarga\ReporteRI\ADirectorio\" />
     <Folder Include="ClasesCarga\ReporteRI\GServicio\" />
     <Folder Include="ClasesCarga\ReporteRI\KAuditoríayTransparencia\" />
   </ItemGroup>

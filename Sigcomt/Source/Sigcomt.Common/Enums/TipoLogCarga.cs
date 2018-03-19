@@ -8,6 +8,8 @@
         ArchivoCargaOk = 4,
         NoExisteArchivo = 5,
         NombreArchivoInvalido = 6,
-        ErrorGeneral = 7
+        ErrorGeneral = 7,
+        HojaExcelNoExiste = 8,
+        NoExisteDirectorio = 9
     }
 }

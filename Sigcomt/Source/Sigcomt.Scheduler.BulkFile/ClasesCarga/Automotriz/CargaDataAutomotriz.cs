@@ -21,16 +21,15 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
         public static void CargarArchivo()
         {
             Logger.Info("Se inició la carga del archivo DataAutomotriz");
-            Console.WriteLine("Se inició la carga del archivo Productividad");
+            Console.WriteLine("Se inició la carga del archivo DataAutomotriz");
 
             string tipoArchivo = TipoArchivo.DataAutomotriz.GetStringValue();
-            var cargaBase = new CargaBase<DataAutomotriz>(tipoArchivo);            
-            int cont = 0;
+            var cargaBase = new CargaBase(tipoArchivo, "DataAutomotriz");
 
             try
-            {                
+            {
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
-
                 foreach (var fileName in filesNames)
                 {
                     DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
@@ -46,7 +45,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
                         }
                     }
 
-                    cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -55,48 +56,54 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Automotriz
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
-                 
-                    var fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<DataAutomotriz>();
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
+
+                    //DataTable dt = Utils.CrearCabeceraDataTable<DataAutomotriz>();
+
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
-                    cont = 0;
+                    int cont = 0;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string NroPrestamo = string.Empty;                    
+                    string empleado = string.Empty;
 
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
 
-                        if (!isValid) {
+                        if (!isValid)
+                        {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        NroPrestamo = Utils.GetValueColumn(
-                           excel.GetCellToString(row,
-                               cargaBase.PropiedadCol.First(p => p.Key == "NroPrestamo").Value.PosicionColumna),
-                           NroPrestamo);
+                        empleado = Utils.GetValueColumn(
+                            excel.GetCellToString(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "Empleado").Value.PosicionColumna),
+                            empleado);
 
-                        if(!string.IsNullOrWhiteSpace(NroPrestamo))
+                        if (!string.IsNullOrWhiteSpace(empleado))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["Secuencia"] = cont;                            
-                            dr["Moneda"] = Utils.GetValueColumn("Soles");  
+                            dr["Secuencia"] = cont;
                             dt.Rows.Add(dr);
                         }
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
+                        empleado = string.Empty;
                     }
 
-                    CargaArchivoBL.GetInstance().Add(dt, "DataAutomotriz");
+                    cargaBase.RegistrarCarga(dt, "DataAutomotriz");
                     //Se coloca el Id del empleado a los registros
                     CargaArchivoBL.GetInstance().AddEmpleadoId("DataAutomotriz", "Empleado", "EmpleadoId");
+                    CargaArchivoBL.GetInstance().AddEmpleadoId("DataAutomotriz", "Promotor", "PromotorId");
+                    CargaArchivoBL.GetInstance().AddEmpleadoId("DataAutomotriz", "Asistente", "AsistenteId");
                 }
             }
             catch (Exception ex)

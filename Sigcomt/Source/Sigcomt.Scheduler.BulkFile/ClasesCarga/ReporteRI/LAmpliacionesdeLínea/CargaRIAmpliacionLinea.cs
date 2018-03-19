@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using log4net;
-using NPOI.SS.UserModel;
+﻿using log4net;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
-
+using System;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.LAmpliacionesdeLínea
 {
-   public class CargaRIAmpliacionLinea
+    public class CargaRIAmpliacionLinea
     {
-        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);        
+        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         #region Métodos Públicos
 
@@ -25,32 +22,26 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.LAmpliacionesdeLínea
         {
             Logger.Info("Se inició la carga del archivo Ampliacion de Linea");
             Console.WriteLine("Se inició la carga del archivo Ampliacion de Linea");
-            var cargaBase = new CargaBase<RIAmpliacionLinea>();
+
             string tipoArchivo = TipoArchivo.RIAmpliacionLinea.GetStringValue();
-            int cabeceraId = 0;
-            int cont = 0;
-            bool cargaError = true;
+            var cargaBase = new CargaBase(tipoArchivo, "RIAmpliacionLinea");
 
             try
             {
-                 cargaBase = new CargaBase<RIAmpliacionLinea>(tipoArchivo);
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
                     if (cabecera != null && cabecera.FechaModificacionArchivo == fechaModificacion) continue;
 
-                    cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -59,38 +50,40 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.LAmpliacionesdeLínea
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    FileStream fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-
-                    GenericExcel excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<RIAmpliacionLinea>();
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string CCFF = string.Empty;
-                    cont = 0;
+                    int cont = 0;
 
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-                        if (!isValid) {
+                        if (!isValid)
+                        {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        CCFF = Utils.GetValueColumn(excel.GetStringCellValue(row, cargaBase.PropiedadCol.First(p => p.Key == "CCFF").Value.PosicionColumna), CCFF);
+                        string ccff = Utils.GetValueColumn(
+                            excel.GetStringCellValue(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "CCFF").Value.PosicionColumna), string.Empty);
 
-                        if (!(CCFF.StartsWith("ZONA", StringComparison.InvariantCultureIgnoreCase)))
+                        if (!(ccff.StartsWith("ZONA", StringComparison.InvariantCultureIgnoreCase)))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
                             dr["Secuencia"] = cont;
                             dt.Rows.Add(dr);
                         }
-                        else if (!(CCFF.StartsWith("TOTAL", StringComparison.InvariantCultureIgnoreCase))) {
+                        else if (!(ccff.StartsWith("TOTAL", StringComparison.InvariantCultureIgnoreCase)))
+                        {
                             break;
                         }
 
@@ -98,12 +91,12 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.LAmpliacionesdeLínea
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
-                    cargaBase.RegistrarCarga(dt, "RIAmpliacionLinea");                    
-
+                    cargaBase.RegistrarCarga(dt, "RIAmpliacionLinea");
                 }
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);

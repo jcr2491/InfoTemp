@@ -1,12 +1,10 @@
 ﻿using log4net;
-using NPOI.SS.UserModel;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -14,7 +12,7 @@ using System.Reflection;
 
 namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
 {
-   public class CargaRITECajero
+    public class CargaRITECajero
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -24,46 +22,30 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
         {
             Logger.Info("Se inició la carga del archivo Tiempo de Espera - Cajero");
             Console.WriteLine("Se inició la carga del archivo Tiempo de Espera - Cajero");
-            var cargaBase = new CargaBase<RITECajero>();
+
             string tipoArchivo = TipoArchivo.RITiempoEsperaCajero.GetStringValue();
-            int cabeceraId = 0;
-            int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
+            var cargaBase = new CargaBase(tipoArchivo, "RITECajero");
 
             try
             {
-                 cargaBase = new CargaBase<RITECajero>(tipoArchivo);
-               
-                var filesNames = Directory.GetFiles( cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
-                //Se cargan las posiciones de las columnas del excel
-                if (filesNames.Length == 0)
-                {
-                    tipoArchivo = TipoArchivo.RITiempoEsperaCajero.GetStringValue();
-                     cargaBase = new CargaBase<RITECajero>(tipoArchivo);
-                    filesNames = Directory.GetFiles(cargaBase.ExcelBd.Ruta, $"*{cargaBase.ExcelBd.Nombre}");
-                }
+                cargaBase.ValidarExisteDirectorio();
+                var filesNames = cargaBase.GetNombreArchivos();
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-
-                 
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
+
                     if (cabecera != null)
                     {
                         if (fechaModificacion.GetDateTimeToString() ==
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -72,39 +54,40 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
-                   // cabeceraId = cargaBase.AgregarCabecera(TipoArchivo.RITiempoEsperaCajero, EstadoCarga.Iniciado, fechaFile);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
-                    var fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<RITECajero>();
-                    
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;
-                    string TECCFFId = string.Empty;
+                    int cont = 0;
+
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-                        if (!isValid) {
+                        if (!isValid)
+                        {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        TECCFFId = Utils.GetValueColumn(
-                                excel.GetCellToString(row,
-                                    cargaBase.PropiedadCol.First(p => p.Key == "TECCFFId").Value.PosicionColumna),
-                                TECCFFId);
-         
-                       if (!(string.IsNullOrWhiteSpace(TECCFFId)) && !(TECCFFId.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase)) && !(TECCFFId.StartsWith("Banco", StringComparison.InvariantCultureIgnoreCase)))
+                        string id = Utils.GetValueColumn(
+                            excel.GetCellToString(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "TECCFFId").Value.PosicionColumna),
+                            string.Empty);
+
+                        if (!(string.IsNullOrWhiteSpace(id)) &&
+                            !(id.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase)) &&
+                            !(id.StartsWith("Banco", StringComparison.InvariantCultureIgnoreCase)))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
                             dr["Secuencia"] = cont;
-                        
+
                             dt.Rows.Add(dr);
                         }
 
@@ -117,6 +100,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
@@ -127,6 +111,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.DTiemposdeEspera
         }
 
         #endregion
-
     }
 }

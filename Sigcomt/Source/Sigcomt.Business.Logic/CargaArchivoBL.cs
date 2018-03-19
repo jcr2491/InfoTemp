@@ -39,5 +39,15 @@ namespace Sigcomt.Business.Logic
         {
             return CargaArchivoRepository.GetInstance().GetLogCarga(fecha);
         }
+
+        public List<TablaColumna> GetColumnasTabla(string tabla)
+        {
+            return CargaArchivoRepository.GetInstance().GetColumnasTabla(tabla);
+        }
+
+        public List<Archivo> GetArchivosEstado(DateTime fecha)
+        {
+            return CargaArchivoRepository.GetInstance().GetArchivosEstado(fecha);
+        }
     }
 }

@@ -9,6 +9,7 @@ using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
+
 namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
 {
     public class CargaRITarjetaAdicional
@@ -21,25 +22,18 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
         {
             Logger.Info("Se inició la carga del archivo Tarjeta Adicional");
             Console.WriteLine("Se inició la carga del archivo Tarjeta Adicional");
-
-            var cargaBase = new CargaBase<RITarjetaAdicional>();
+            
             string tipoArchivo = TipoArchivo.RITarjetaAdicional.GetStringValue();
-            int cont = 0;
+            var cargaBase = new CargaBase(tipoArchivo, "RITarjetaAdicional");
 
             try
             {
-                cargaBase = new CargaBase<RITarjetaAdicional>(tipoArchivo);
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
@@ -49,7 +43,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -58,19 +54,16 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    FileStream fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-
-                    GenericExcel excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<RITarjetaAdicional>();
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string CCFFId = string.Empty;
-
-                    cont = 0;
+                    int cont = 0;
 
                     while (row != null)
                     {
@@ -81,21 +74,23 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        CCFFId = Utils.GetValueColumn(
-                                excel.GetCellToString(row,
-                                cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna), CCFFId);
+                        string id = Utils.GetValueColumn(
+                            excel.GetCellToString(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna), string.Empty);
 
-                        if (CCFFId != string.Empty && Char.IsNumber(CCFFId, 0))
+                        if (!string.IsNullOrEmpty(id) && char.IsNumber(id, 0))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
                             dr["Secuencia"] = cont;
                             dt.Rows.Add(dr);
                         }
+
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
+                        id = string.Empty;
                     }
 
                     cargaBase.RegistrarCarga(dt, "RITarjetaAdicional");
@@ -103,6 +98,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.CTarjetas
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);

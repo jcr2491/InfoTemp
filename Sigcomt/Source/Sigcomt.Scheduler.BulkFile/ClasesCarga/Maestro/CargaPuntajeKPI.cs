@@ -23,25 +23,17 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Maestro
             Logger.Info("Se inició la carga del archivo PuntajeKPI");
             Console.WriteLine("Se inició la carga del archivo PuntajeKPI");
 
-            var cargaBase = new CargaBase<PuntajeKPI>();
             string tipoArchivo = TipoArchivo.PuntajeKPI.GetStringValue();
-            int cont = 0;
-            bool cargaError = true;
+            var cargaBase = new CargaBase(tipoArchivo, "PuntajeKPI");
 
             try
             {
-                cargaBase = new CargaBase<PuntajeKPI>(tipoArchivo);
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
@@ -51,7 +43,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Maestro
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -60,19 +54,15 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Maestro
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    FileStream fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-
-                    GenericExcel excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<PuntajeKPI>();
-
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string KpiId = string.Empty;
-        
-                    cont = 0;
+                    int cont = 0;
 
                     while (row != null)
                     {
@@ -83,29 +73,30 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Maestro
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        KpiId = Utils.GetValueColumn(
-                                excel.GetCellToString(row,
-                                cargaBase.PropiedadCol.First(p => p.Key == "KpiId").Value.PosicionColumna), KpiId);
+                        string kpiId = Utils.GetValueColumn(
+                            excel.GetCellToString(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "KpiId").Value.PosicionColumna), string.Empty);
 
-                        if (KpiId!=string.Empty && Char.IsNumber(KpiId,0))
+                        if (kpiId != string.Empty && Char.IsNumber(kpiId, 0))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
-                      
+
                             dt.Rows.Add(dr);
                         }
+
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
                     cargaBase.RegistrarCarga(dt, "PuntajeKpi");
-
                 }
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
@@ -116,8 +107,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Maestro
         }
 
         #endregion
-
-
-
     }
 }

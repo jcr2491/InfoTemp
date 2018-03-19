@@ -1,4 +1,5 @@
-﻿namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
+﻿using Sigcomt.Scheduler.BulkFile.ClasesCarga.Maestro;
+namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.UAC
 {
     public class CargaUAC
     {
@@ -8,10 +9,9 @@
         {
             CargaProductividad.CargarArchivo();
             CargaSlaUac.CargarArchivo();
-            CargaMonitoreo.CargarArchivo();
-            CargaDiasAusencia.CargarArchivo();
-            //CargaProducContactenos.CargarArchivo();
-            //CargaSLAContactenos.CargarArchivo();
+            CargaUACMonitoreo.CargarArchivo();
+            CargaDiasAusencia.CargarArchivo();     
+            CargaUACGrupoSupervisor.CargarArchivo();
         }
 
         #endregion

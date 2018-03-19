@@ -40,11 +40,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmpliacionesCCFF.cs" />
+    <Compile Include="Archivo.cs" />
     <Compile Include="Bono.cs" />
     <Compile Include="DetalleLogCarga.cs" />
     <Compile Include="DetalleTottusRapicash.cs" />
     <Compile Include="LogCarga.cs" />
     <Compile Include="MaestroAutomotriz.cs" />
+    <Compile Include="GrupoSupervisorUAC.cs" />
     <Compile Include="Parametros.cs" />
     <Compile Include="PlanillaTottusRapicash.cs" />
     <Compile Include="CajeroTottusRapicash.cs" />
@@ -56,7 +58,7 @@
     <Compile Include="RIAmpliacionLinea.cs" />
     <Compile Include="RICalidadAtencion.cs" />
     <Compile Include="RICalidadAtencion1erContacto.cs" />
-    <Compile Include="RICCFF.cs" />
+    <Compile Include="InfoComercial.cs" />
     <Compile Include="RIDerivacionCaja.cs" />
     <Compile Include="RIDerivacionHeavyPlataforma.cs" />
     <Compile Include="RIOperacionE.cs" />
@@ -85,7 +87,7 @@
     <Compile Include="Core\EntityAuditable.cs" />
     <Compile Include="Core\EntityBase.cs" />
     <Compile Include="DerivacionCCFF.cs" />
-    <Compile Include="DetalleMaestroRapicash.cs" />
+    <Compile Include="GanadoresRetailRapicash.cs" />
     <Compile Include="DetalleSagaRapicash.cs" />
     <Compile Include="DetalleSodimacRapicash.cs" />
     <Compile Include="DiasAusencia.cs" />
@@ -112,16 +114,15 @@
     <Compile Include="Productividad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RIActivosRapicashCCFF.cs" />
-    <Compile Include="ResumenMaestroRapicash.cs" />
     <Compile Include="ResumenSagaRapicash.cs" />
     <Compile Include="RISeguroVSC.cs" />
     <Compile Include="RITarjetasAvanceTarjetasZonales.cs" />
     <Compile Include="RITarjetasAvanceZonales.cs" />
     <Compile Include="Rol.cs" />
     <Compile Include="SegurosCCFF.cs" />
-    <Compile Include="SLAContactenos.cs" />
     <Compile Include="SlaUac.cs" />
     <Compile Include="Tabla.cs" />
+    <Compile Include="TablaColumna.cs" />
     <Compile Include="TarjetaPromotorCCFF.cs" />
     <Compile Include="TCumplimiento.cs" />
     <Compile Include="RITECajero.cs" />

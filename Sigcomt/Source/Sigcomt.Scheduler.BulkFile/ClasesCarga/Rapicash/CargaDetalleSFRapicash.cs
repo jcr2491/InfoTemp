@@ -1,12 +1,10 @@
 ﻿using log4net;
-using NPOI.SS.UserModel;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -24,28 +22,18 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
         {
             Logger.Info("Se inició la carga del archivo DetalleSagaRapicash");
             Console.WriteLine("Se inició la carga del archivo DetalleSagaRapicash");
-            var cargaBase = new CargaBase<CargaDetalleSFRapicash>();
+
             string tipoArchivo = TipoArchivo.DetalleSagaRapicash.GetStringValue();
-            int cabeceraId = 0;
-            int cont = 0;
-            bool fileError = true;
-            bool cargaError = true;
+            var cargaBase = new CargaBase(tipoArchivo, "DetalleSagaRapicash");
 
             try
             {
-                 cargaBase = new CargaBase<CargaDetalleSFRapicash>(tipoArchivo);     
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
-
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
@@ -55,7 +43,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -63,19 +53,18 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
                         FechaModificacionArchivo = fechaModificacion,
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
-                    //cabeceraId = cargaBase.AgregarCabecera(TipoArchivo.DetalleSagaRapicash, EstadoCarga.Iniciado, fechaFile);
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    var fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<DetalleSagaRapicash>();
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
-                    int rowNum =cargaBase.HojaBd.FilaIni - 1;
+                    int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;
-                    string Sucursal = string.Empty;
+                    int cont = 0;
+
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
@@ -84,20 +73,19 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        Sucursal = Utils.GetValueColumn(
-                           excel.GetStringCellValue(row,
-                               cargaBase.PropiedadCol.First(p => p.Key == "Sucursal").Value.PosicionColumna),
-                           Sucursal);
+                        string sucursal = Utils.GetValueColumn(
+                            excel.GetStringCellValue(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "Sucursal").Value.PosicionColumna),
+                            string.Empty);
 
-
-                        if (!string.IsNullOrWhiteSpace(Sucursal))
+                        if (!string.IsNullOrWhiteSpace(sucursal))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
                             dr["Secuencia"] = cont;
-                 
+
                             dt.Rows.Add(dr);
                         }
 
@@ -106,10 +94,13 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
                     }
 
                     cargaBase.RegistrarCarga(dt, "DetalleSagaRapicash");
+                    CargaArchivoBL.GetInstance().AddSucursalId("DetalleSagaRapicash", "Sucursal", "SucursalId");
+
                 }
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
@@ -120,6 +111,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.Rapicash
         }
 
         #endregion
-
     }
 }

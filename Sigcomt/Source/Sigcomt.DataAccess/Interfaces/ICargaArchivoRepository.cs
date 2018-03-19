@@ -10,6 +10,10 @@ namespace Sigcomt.DataAccess.Interfaces
         void Add(DataTable dt, string nameTable);
         void AddEmpleadoId(string nombreTabla, string campoComparar, string campoActualizar);
         void AddGrupoId(string nombreTabla);
+        void AddSucursalId(string nombreTabla, string campoComparar, string campoActualizar);
+        void AddCCFFSucursal(string nombreTabla, string campoComparar, string campoActualizar);
         List<DetalleLogCarga> GetLogCarga(DateTime fecha);
+        List<TablaColumna> GetColumnasTabla(string tabla);
+        List<Archivo> GetArchivosEstado(DateTime fecha);
     }
 }

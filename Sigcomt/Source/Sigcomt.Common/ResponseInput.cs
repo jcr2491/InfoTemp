@@ -10,5 +10,7 @@ namespace Sigcomt.Common
     {
         public string Input { get; set; }
         public string TipoLog { get; set; }
+        public string TipoComision { get; set; }
+        public string  Archivo { get; set; }
     }
 }

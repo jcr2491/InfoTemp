@@ -1,12 +1,10 @@
 ﻿using log4net;
-using NPOI.SS.UserModel;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
 using Sigcomt.Common.Enums;
 using Sigcomt.Scheduler.BulkFile.Core;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -16,7 +14,7 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.FActivos
 {
     public class CargaRIActivosSuperCash
     {
-        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);        
+        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         #region Métodos Públicos
 
@@ -24,25 +22,18 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.FActivos
         {
             Logger.Info("Se inició la carga del archivo RIActivosSuperCash");
             Console.WriteLine("Se inició la carga del archivo RIActivosSuperCash");
-            var cargaBase = new CargaBase<RIActivosSuperCash>();
+
             string tipoArchivo = TipoArchivo.RIActivosSuperCash.GetStringValue();
-            int cabeceraId = 0;
-            int cont = 0;
+            var cargaBase = new CargaBase(tipoArchivo, "RIActivosSuperCash");
 
             try
             {
-                 cargaBase = new CargaBase<RIActivosSuperCash>(tipoArchivo);
+                cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
 
                 foreach (var fileName in filesNames)
                 {
-                    var split = fileName.Split('\\');
-                    string onlyName = split[split.Length - 1];
-
-                    int dia = 1;
-                    int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                    int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                    DateTime fechaFile = new DateTime(año, mes, dia);
+                    DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
@@ -52,7 +43,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.FActivos
                             cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
                     }
 
-                    cabeceraId = cargaBase.AgregarCabecera(new CabeceraCarga
+                    GenericExcel excel = cargaBase.GetHojaExcel(fileName);
+
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -61,31 +54,34 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.FActivos
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
-                    Console.WriteLine("Se está procesando el archivo: " + fileName);
-                    Logger.InfoFormat("Se está procesando el archivo: " + fileName);
+                    Console.WriteLine("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
+                    Logger.InfoFormat("Se está procesando el archivo: " + fileName + " Hoja: " +
+                                      cargaBase.HojaBd.NombreHoja);
 
-                    var fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    var excel = new GenericExcel(fileBase, cargaBase.HojaBd.NombreHoja);
-                    DataTable dt = Utils.CrearCabeceraDataTable<RIActivosSuperCash>();
+                    DataTable dt = cargaBase.CrearCabeceraDataTable();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    cont = 0;                    
-                    string CCFF = string.Empty;
+                    int cont = 0;
                     while (row != null)
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
-                        if (!isValid) {
+                        if (!isValid)
+                        {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
-                        };
+                        }
 
-                        string CCFFId = excel.GetCellToString(row, cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna);
-                        CCFF= Utils.GetValueColumn(excel.GetCellToString(row, cargaBase.PropiedadCol.First(p => p.Key == "CCFF").Value.PosicionColumna), "");
-                        
-                        if (!string.IsNullOrWhiteSpace(CCFFId) && !string.IsNullOrWhiteSpace(CCFF) &&
-                            !CCFF.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
+                        string id = excel.GetCellToString(row,
+                            cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna);
+                        string ccff = Utils.GetValueColumn(
+                            excel.GetCellToString(row,
+                                cargaBase.PropiedadCol.First(p => p.Key == "CCFF").Value.PosicionColumna), string.Empty);
+
+                        if (!string.IsNullOrWhiteSpace(id) && !string.IsNullOrWhiteSpace(ccff) &&
+                            !ccff.StartsWith("Zona", StringComparison.InvariantCultureIgnoreCase))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
@@ -93,20 +89,21 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.FActivos
 
                             dt.Rows.Add(dr);
                         }
-                        else if (!CCFF.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase))
+                        else if (!ccff.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase))
                         {
                             break;
                         }
-                   
+
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
+
                     cargaBase.RegistrarCarga(dt, "RIActivosSuperCash");
-                    
                 }
             }
             catch (Exception ex)
             {
+                cargaBase.AgregarErrorGeneral(ex);
                 string messageError = UtilsLocal.GetMessageError(ex.Message);
                 Console.WriteLine(messageError);
                 Logger.Error(messageError);
@@ -117,6 +114,5 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.FActivos
         }
 
         #endregion
-
     }
 }
