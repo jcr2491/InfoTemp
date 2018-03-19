@@ -1,4 +1,4 @@
-﻿using log4net;
+using log4net;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
@@ -42,7 +42,8 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                     if (cabecera != null)
                     {
                         if (fechaModificacion.GetDateTimeToString() ==
-                            cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
+                            cabecera.FechaModificacionArchivo.GetDateTimeToString())
+                            continue;
                     }
 
                     cargaBase.AgregarCabeceraCarga(new CabeceraCarga
@@ -54,6 +55,9 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
+                    int contAnterior = 0;
+                    int cont = 0;
+
                     foreach (var hoja in cargaBase.ExcelBd.HojasList)
                     {
                         cargaBase.AsignarHojaBd(hoja.TipoArchivo);
@@ -62,11 +66,13 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                         Console.WriteLine($"Se está procesando el archivo: {fileName} Hoja: {cargaBase.HojaBd.NombreHoja}");
 
                         int rowNum = cargaBase.HojaBd.FilaIni - 1;
-                        var row = excel.Sheet.GetRow(rowNum);
+                        var row = excel.Sheet.GetRow(rowNum);                        
 
                         while (row != null)
                         {
+                            cont++;
                             bool isValid = cargaBase.ValidarDatos(excel, row);
+
                             if (!isValid)
                             {
                                 rowNum++;
@@ -94,17 +100,43 @@ namespace Sigcomt.Scheduler.BulkFile.ClasesCarga.ReporteRI.JDerivacióndeCanales
                             row = excel.Sheet.GetRow(rowNum);
                         }
 
+                        if(contAnterior == 0) contAnterior = cont;
+
+                        if (cont != contAnterior)
+                        {
+                            cargaBase.AgregarLogValidacionDatos($"El número de elementos de la hoja \"{cargaBase.HojaBd.NombreHoja}\" es diferente a las demás");
+                        }                        
+
                         Console.WriteLine($"Se terminó la lectura del archivo: {fileName} Hoja: {cargaBase.HojaBd.NombreHoja}");
                     }
 
                     if (!cargaBase.ErrorCargaList.Any())
                     {
                         DataTable dt = cargaBase.CrearCabeceraDataTable();
-                        int cont = 0;
-                        //TODO: falta logica de guardar
-                        foreach (var item in derivacionCajaList)
-                        {
+                        cont = 0;
 
+                        var idList = derivacionCajaList.Select(p => p.PropiedadCol["CCFFId"].Valor).Distinct().ToList();
+
+                        foreach (var id in idList)
+                        {
+                            cont++;
+                            DataRow dr = dt.NewRow();
+                            dr["CargaId"] = cargaBase.CabeceraCargaId;
+                            dr["Secuencia"] = cont;
+
+                            foreach (var hoja in cargaBase.ExcelBd.HojasList)
+                            {
+                                var derivacion = derivacionCajaList.FirstOrDefault(p => p.PropiedadCol["CCFFId"].Valor == id && p.TipoArchivo == hoja.TipoArchivo);
+
+                                if(derivacion != null)
+                                {
+                                    cargaBase.AsignarDatos(dr, derivacion.PropiedadCol);
+                                }
+                                else
+                                {
+                                    cargaBase.AgregarLogValidacionDatos($"Falta el Centro Financiero \"{id}\" en la hoja \"{cargaBase.HojaBd.NombreHoja}\"");
+                                }
+                            }
                         }
 
                         cargaBase.RegistrarCarga(dt, "RIDerivacionCaja");
