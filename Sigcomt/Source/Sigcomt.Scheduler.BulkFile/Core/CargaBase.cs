@@ -23,7 +23,7 @@ namespace Sigcomt.Scheduler.BulkFile.Core
         private bool _errorAgregado;
         private string _nombreArchivo;
 
-        #region Método Constructor
+        #region MÃ©todo Constructor
 
         public CargaBase(string tipoArchivo, string tabla)
         {
@@ -36,10 +36,10 @@ namespace Sigcomt.Scheduler.BulkFile.Core
 
         #endregion
 
-        #region Métodos Públicos
+        #region MÃ©todos PÃºblicos
 
         /// <summary>
-        /// Valida que todos los datos del excel estén correctos
+        /// Valida que todos los datos del excel estÃ©n correctos
         /// </summary>
         /// <param name="excel"></param>
         /// <param name="fila"></param>
@@ -162,8 +162,8 @@ namespace Sigcomt.Scheduler.BulkFile.Core
 
                 int dia = 1;
                 int mes = Convert.ToInt32(onlyName.Substring(0, 2));
-                int año = Convert.ToInt32(onlyName.Substring(2, 4));
-                DateTime fechaFile = new DateTime(año, mes, dia);
+                int aÃ±o = Convert.ToInt32(onlyName.Substring(2, 4));
+                DateTime fechaFile = new DateTime(aÃ±o, mes, dia);
 
                 return fechaFile;
             }
@@ -174,7 +174,7 @@ namespace Sigcomt.Scheduler.BulkFile.Core
                     TipoLog = TipoLogCarga.NombreArchivoInvalido.GetStringValue(),
                     TipoArchivo = TipoArchivo,
                     DetalleLog = "El formato del nombre del archivo a cargar es incorrecto, " +
-                        $"se espera mes y año (mmyyyy) delante del archivo. Archivo: {_nombreArchivo}"
+                        $"se espera mes y aÃ±o (mmyyyy) delante del archivo. Archivo: {_nombreArchivo}"
                 };
 
                 UtilsLocal.LogCargaList.Add(logCarga);
@@ -217,7 +217,7 @@ namespace Sigcomt.Scheduler.BulkFile.Core
 
             foreach (var propCol in PropiedadCol)
             {
-                if(propCol.Value.OmitirPropiedad) continue;
+                if (propCol.Value.OmitirPropiedad) continue;
 
                 if (!string.IsNullOrWhiteSpace(propCol.Value.Valor))
                 {
@@ -230,6 +230,23 @@ namespace Sigcomt.Scheduler.BulkFile.Core
             }
 
             return dr;
+        }
+
+        public void AsignarDatos(DataRow dr, Dictionary<string, PropiedadColumna> propiedadCol)
+        {
+            foreach (var propCol in propiedadCol)
+            {
+                if (propCol.Value.OmitirPropiedad) continue;
+
+                if (!string.IsNullOrWhiteSpace(propCol.Value.Valor))
+                {
+                    dr[propCol.Key] = propCol.Value.Valor;
+                }
+                else
+                {
+                    dr[propCol.Key] = DBNull.Value;
+                }
+            }
         }
 
         public int AgregarCabeceraCarga(CabeceraCarga cabecera)
@@ -362,9 +379,23 @@ namespace Sigcomt.Scheduler.BulkFile.Core
             UtilsLocal.LogCargaList.Add(logCarga);
         }
 
+        public void AgregarLogValidacionDatos(string mensaje)
+        {
+            var logCarga = new LogCarga
+            {
+                TipoLog = TipoLogCarga.ValidacionDatos.GetStringValue(),
+                CargaId = CabeceraCargaId,
+                TipoArchivo = TipoArchivo,
+                DetalleLog = mensaje
+            };
+
+            ErrorCargaList.Add(logCarga);
+            UtilsLocal.LogCargaList.Add(logCarga);
+        }
+
         #endregion
 
-        #region Métodos Privados
+        #region MÃ©todos Privados
 
         /// <summary>
         /// Permite evaluar si el valor de la propiedad se valida o no
