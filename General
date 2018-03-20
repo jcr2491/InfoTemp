@@ -25,5 +25,8 @@ END
 - Dapper (ORM)
 - 18044-4-3 - Validación de reportes Normativos a SBS por SUCAVE
 
-
-	SQL Server 2008 R2, MongoDB, Web API, RabbitMQ, GoJS, Entity Framework, MVC, Quartz 2.2, C#, Ajax, JQuery, SignalR (WebSocket), Razor v2, Net Framework 4.5, Kentico CMS for ASP.Net, Sencha (Ext JS 5), Bootstrap 3, Jquery Datatable, jqGrid, AutoMapper, Log4net, Postsharp, Xamarin (Movil), Java (Spring), Windows Form.
+public static T Clone<T>(this T instance)
+{
+    var json = JsonConvert.SerializeObject(instance);
+    return JsonConvert.DeserializeObject<T>(json);
+}
