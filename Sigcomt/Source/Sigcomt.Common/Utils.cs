@@ -11,7 +11,7 @@ namespace Sigcomt.Common
     {
         private static readonly CultureInfo CultureInfoEs = CultureInfo.CreateSpecificCulture("es");
 
-        #region Métodos Enums
+        #region MÃ©todos Enums
 
         public static string GetStringValue(this Enum value)
         {
@@ -25,7 +25,7 @@ namespace Sigcomt.Common
 
         #endregion
 
-        #region Métodos Fecha
+        #region MÃ©todos Fecha
 
         /// <summary>
         ///  Convierte la cadena yyyy/MM/dd en un datetime
@@ -132,7 +132,7 @@ namespace Sigcomt.Common
         }
 
         /// <summary>
-        /// Obtiene el últmo día del mes
+        /// Obtiene el Ãºltmo dÃ­a del mes
         /// </summary>
         /// <param name="fecha"></param>
         /// <returns></returns>
@@ -238,7 +238,7 @@ namespace Sigcomt.Common
 
         #endregion
 
-        #region Metodos Cadenas y Números
+        #region Metodos Cadenas y NÃºmeros
 
         public static object GetValueColumn(string value)
         {
@@ -343,13 +343,13 @@ namespace Sigcomt.Common
 
         public static bool EsSoloLetras(string valor)
         {
-            string pattern = @"^[a-zA-ZñÑ\s]";
+            string pattern = @"^[a-zA-ZÃ±Ã‘\s]";
             return Regex.IsMatch(valor, pattern);
         }
 
         public static bool EsNumeroYLetras(string valor)
         {
-            string pattern = @"^[a-zA-ZñÑ\s\W\D 0-9]*$";
+            string pattern = @"^[a-zA-ZÃ±Ã‘\s\W\D 0-9]*$";
             return Regex.IsMatch(valor, pattern);
         }
 
@@ -364,7 +364,7 @@ namespace Sigcomt.Common
 
         #endregion
 
-        #region Métodos DataTable
+        #region MÃ©todos DataTable
 
         public static System.Data.DataTable CrearCabeceraDataTable<T>()
         {
@@ -461,5 +461,11 @@ namespace Sigcomt.Common
         }
 
         #endregion
+        
+        public static T Clone<T>(this T instance)
+        {
+            var json = JsonConvert.SerializeObject(instance);
+            return JsonConvert.DeserializeObject<T>(json);
+        }
     }
 }
