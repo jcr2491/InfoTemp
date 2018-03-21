@@ -1,0 +1,66 @@
+private void Form1_Load(object sender, EventArgs e)
+        {
+            TreeNode node = new TreeNode("Todos");
+
+            for (int i = 1; i <= 12; i++)
+            {
+                TreeNode node1 = new TreeNode(i.ToString());
+
+                for (int j = 0; j < 6; j++)
+                {
+                    node1.Nodes.Add($"{i}{j}", $"{i}{j}");
+                }
+
+                node.Nodes.Add(node1);
+            }
+
+            treeView1.Nodes.Add(node);
+            treeView1.ExpandAll();
+        }
+
+        private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            if (e.Action != TreeViewAction.Unknown)
+            {
+                if (e.Node.Nodes.Count > 0)
+                {
+                    CheckAllChildNodes(e.Node, e.Node.Checked);
+                }
+            }
+        }
+
+        private void CheckAllChildNodes(TreeNode treeNode, bool nodeChecked)
+        {
+            foreach (TreeNode node in treeNode.Nodes)
+            {
+                node.Checked = nodeChecked;
+                if (node.Nodes.Count > 0)
+                {
+                    CheckAllChildNodes(node, nodeChecked);
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            List<string> idList = new List<string>();
+            GetChildNodesChecked(treeView1.Nodes[0], idList);
+        }
+
+        private void GetChildNodesChecked(TreeNode treeNode, List<string> idList)
+        {
+            foreach (TreeNode node in treeNode.Nodes)
+            {
+                if (node.Level == 2)
+                {
+                    if (node.Checked)
+                    {
+                        idList.Add(node.Name);
+                    }
+                }
+                else
+                {
+                    GetChildNodesChecked(node, idList);
+                }
+            }
+        }
