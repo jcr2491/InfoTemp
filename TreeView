@@ -1,4 +1,11 @@
-private void Form1_Load(object sender, EventArgs e)
+public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
         {
             TreeNode node = new TreeNode("Todos");
 
@@ -16,6 +23,8 @@ private void Form1_Load(object sender, EventArgs e)
 
             treeView1.Nodes.Add(node);
             treeView1.ExpandAll();
+
+            Constantes.IdList = new List<string> { "1", "2" };
         }
 
         private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
@@ -45,6 +54,14 @@ private void Form1_Load(object sender, EventArgs e)
         {
             List<string> idList = new List<string>();
             GetChildNodesChecked(treeView1.Nodes[0], idList);
+
+            Console.WriteLine("Procesando");
+            Console.Read();
+
+            for (int i = 0; i < 100; i++)
+            {
+                new CargaProductividad().EjecutarCarga(backgroundWorker1, "1");
+            }            
         }
 
         private void GetChildNodesChecked(TreeNode treeNode, List<string> idList)
@@ -64,3 +81,21 @@ private void Form1_Load(object sender, EventArgs e)
                 }
             }
         }
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            progressBar1.Increment(e.ProgressPercentage);
+            listBox1.Items.Add(e.UserState.ToString());
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+
+        }
+    }
+}
