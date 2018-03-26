@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>Proceso de Carga Proyecto Comisiones</title>
+</head>
+
+<body style="background-color: #fff; color: #333; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 10px; line-height: 1;">
+    <div style="background-color: #fff; border: 1px solid transparent; border-color: #ddd; border-radius: 4px; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); margin-bottom: 20px; max-width: 1000px">
+
+        <div style="padding: 15px !important;width: 800px;">
+            <div style="margin-left: -15px !important; margin-right: -15px !important;">
+                <div style="min-height: 1px !important; padding-left: 15px !important; padding-right: 15px !important; position: relative;">
+
+                    <h2>Proceso de Carga Inputs Comisiones</h2>
+                    <p>Hora de ejecución: @Model.HoraEjecucion</p>
+
+                    <h4>Archivos cargados correctamente: @Model.ArchivosCorrecto</h4>
+                    <h4>Archivos cargados incorrectamente: @Model.ArchivosIncorrecto</h4>
+
+                 
+                    <h4>Para mas detalle verifique el archivo en la siguiente ruta:<a href="@Model.Ruta">@Model.Ruta</a> </h4>
+                    <table cellpadding="0" cellspacing="0" style="background-color: transparent; border: 1px solid #ddd; border-collapse: collapse; border-spacing: 0; margin-bottom: 0px !important; max-width: 100%; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Archivo</th>
+                            <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Input</th>
+                             <th style="background-color: #007833; border: 1px solid #ddd; border-color: #0F0F10; color: #fff; line-height: 1; min-height: 1px; padding: 2px; padding-left: 5px; padding-right: 5px; position: relative; text-align: center; vertical-align: bottom; width: 8%;">Estado</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                            @foreach(var archivo in Model.ArchivosEstado)
+                            {
+                            <tr>
+                                <td style="border: 1px solid #ddd; border-top: 1px  solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@archivo.NombreArchivo</td>
+                                <td style="border: 1px solid #ddd; border-top: 1px  solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">@archivo.Input</td>
+                                @if(archivo.Estado==1)
+                                {
+                                <td style="border: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">Procesado</td>
+                                }
+                                else
+                                {
+                                <td style="border: 1px solid #ddd; line-height: 1; padding: 2px; vertical-align: top; text-align: center">Fallido</td>
+                                }
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                        
+             </div>
+            </div>
+
+        </div>
+        <div style="background-color: #f5f5f5; font-size: 10px; border-top: 1px solid  #ddd; box-shadow: 0 1px 2px rgba(0, 0, 0, .05); text-align: center;">
+            Reporte generado por COMISIONES
+        </div>
+    </div>
+</body>
+
+</html>
