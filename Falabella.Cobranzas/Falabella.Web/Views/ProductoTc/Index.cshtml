@@ -1,0 +1,49 @@
+﻿<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-5">
+            <div class="header lighter greenFalabella">
+                <label>
+                    <span class="lbl"> Agregar nuevo código</span>
+                </label>
+            </div>
+            <div class="col-sm-12">
+                <label for="txtCodigo">Código</label>
+                <div class="input-group">
+                    <input class="form-control" id="txtCodigo" type="number"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-sm btn-default" id="btnAgregar" type="button">
+                            <i class="ace-icon fa fa-plus-circle bigger-110"></i>
+                            Agregar
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <table id="dtListar" class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Fecha registro</th>
+                    <th></th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/DataTables/datatables.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/ace/ace.widget-box.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/viewsJs/productoTc.js")"></script>
+
+    <script type="text/javascript">
+        productoTcJs.init({
+            urlLanguage: '@Url.Content("~/Content/js/DataTables/languages/dataTables.es.json")',
+            urlListar: '@Url.Action("Listar", "ProductoTc")',
+            urlEliminar: '@Url.Action("Eliminar", "ProductoTc")',
+            urlAgregar: '@Url.Action("Agregar", "ProductoTc")'
+        });
+    </script>
+}

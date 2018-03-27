@@ -1,0 +1,467 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E661892F-E755-45FC-BE03-F57112E29AF7}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Falabella.Web</RootNamespace>
+    <AssemblyName>Falabella.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Core.Extensions, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CSharp.Portable-Singleton.2.0.0.4\lib\Core.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Core.Singleton, Version=2.0.6074.9804, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CSharp.Portable-Singleton.2.0.0.4\lib\Core.Singleton.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OOXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Providers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.2.0.0\lib\net40\System.Web.Providers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CarteraCastigadaController.cs" />
+    <Compile Include="Controllers\CarteraRefinanciadaController.cs" />
+    <Compile Include="Controllers\ContencionCierreReportController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ContencionReportController.cs" />
+    <Compile Include="Controllers\ProductividadReportController.cs" />
+    <Compile Include="Controllers\ProductoTcController.cs" />
+    <Compile Include="Controllers\RollRatesDiarioReportController.cs" />
+    <Compile Include="Controllers\RollRatesReportController.cs" />
+    <Compile Include="Core\Constantes.cs" />
+    <Compile Include="Core\BaseController.cs" />
+    <Compile Include="Core\HttpGetAction.cs" />
+    <Compile Include="Core\HttpPostAction.cs" />
+    <Compile Include="Core\WebSession.cs" />
+    <Compile Include="Core\WebUtils.cs" />
+    <Compile Include="Filters\WebSessionFilter.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\AuthenticationHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\css\ace-fonts.css" />
+    <Content Include="Content\css\ace-ie.css" />
+    <Content Include="Content\css\ace-part2.css" />
+    <Content Include="Content\css\ace.css" />
+    <Content Include="Content\css\ace.min.css" />
+    <Content Include="Content\css\bootstrap-tagsinput.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\chosen.css" />
+    <Content Include="Content\css\custom.css" />
+    <Content Include="Content\css\dataTables.bootstrap.css" />
+    <Content Include="Content\css\datepicker.css" />
+    <Content Include="Content\css\datepicker.min.css" />
+    <Content Include="Content\css\daterangepicker.css" />
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\fullcalendar.css" />
+    <Content Include="Content\css\images\border.png" />
+    <Content Include="Content\css\images\border1.png" />
+    <Content Include="Content\css\images\border2.png" />
+    <Content Include="Content\css\images\controls.png" />
+    <Content Include="Content\css\images\ie6\borderBottomCenter.png" />
+    <Content Include="Content\css\images\ie6\borderBottomLeft.png" />
+    <Content Include="Content\css\images\ie6\borderBottomRight.png" />
+    <Content Include="Content\css\images\ie6\borderMiddleLeft.png" />
+    <Content Include="Content\css\images\ie6\borderMiddleRight.png" />
+    <Content Include="Content\css\images\ie6\borderTopCenter.png" />
+    <Content Include="Content\css\images\ie6\borderTopLeft.png" />
+    <Content Include="Content\css\images\ie6\borderTopRight.png" />
+    <Content Include="Content\css\images\loading.gif" />
+    <Content Include="Content\css\images\loading_background.png" />
+    <Content Include="Content\css\images\meteorshower.jpg" />
+    <Content Include="Content\css\images\meteorshower2.jpg" />
+    <Content Include="Content\css\images\overlay.png" />
+    <Content Include="Content\css\images\pattern.jpg" />
+    <Content Include="Content\css\images\pattern.png" />
+    <Content Include="Content\css\images\spritemap%402x.png" />
+    <Content Include="Content\css\images\spritemap.png" />
+    <Content Include="Content\css\img\alpha.png" />
+    <Content Include="Content\css\img\chosen-sprite%402x.png" />
+    <Content Include="Content\css\img\chosen-sprite.png" />
+    <Content Include="Content\css\img\fondo.png" />
+    <Content Include="Content\css\img\fondo1.png" />
+    <Content Include="Content\css\img\hue.png" />
+    <Content Include="Content\css\img\saturation.png" />
+    <Content Include="Content\css\img\uploadify-cancel.png" />
+    <Content Include="Content\css\jquery-ui-1.10.4.custom.css" />
+    <Content Include="Content\css\jquery-ui-timepicker-addon.css" />
+    <Content Include="Content\css\jquery-ui.css" />
+    <Content Include="Content\css\jquery-ui.custom.css" />
+    <Content Include="Content\css\jquery-ui.min.css" />
+    <Content Include="Content\css\jquery.dataTables.css" />
+    <Content Include="Content\css\jquery.dataTables.min.css" />
+    <Content Include="Content\css\jquery.dataTables2.css" />
+    <Content Include="Content\css\jquery.gritter.css" />
+    <Content Include="Content\css\jquery.multiselect.css" />
+    <Content Include="Content\css\jquery.multiselect.filter.css" />
+    <Content Include="Content\css\jquery.tagsinput.css" />
+    <Content Include="Content\css\tabContentCustomer.css" />
+    <Content Include="Content\css\ui.jqgrid.css" />
+    <Content Include="Content\css\uploadify.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\avatar2.png" />
+    <Content Include="Content\images\banco-falabella.jpg" />
+    <Content Include="Content\images\banco-falabella.png" />
+    <Content Include="Content\images\favicon.ico" />
+    <Content Include="Content\images\fondo.png" />
+    <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\logosaga.gif" />
+    <Content Include="Content\images\sort_asc.png" />
+    <Content Include="Content\images\sort_asc_disabled.png" />
+    <Content Include="Content\images\sort_both.png" />
+    <Content Include="Content\images\sort_desc.png" />
+    <Content Include="Content\images\sort_desc_disabled.png" />
+    <Content Include="Content\images\upload.png" />
+    <Content Include="Content\js\ace-extra.js" />
+    <Content Include="Content\js\ace\ace.ajax-content.js" />
+    <Content Include="Content\js\ace\ace.auto-container.js" />
+    <Content Include="Content\js\ace\ace.auto-padding.js" />
+    <Content Include="Content\js\ace\ace.js" />
+    <Content Include="Content\js\ace\ace.onpage-help.js" />
+    <Content Include="Content\js\ace\ace.searchbox-autocomplete.js" />
+    <Content Include="Content\js\ace\ace.settings-rtl.js" />
+    <Content Include="Content\js\ace\ace.settings-skin.js" />
+    <Content Include="Content\js\ace\ace.settings.js" />
+    <Content Include="Content\js\ace\ace.sidebar-scroll-1.js" />
+    <Content Include="Content\js\ace\ace.sidebar-scroll-2.js" />
+    <Content Include="Content\js\ace\ace.sidebar.js" />
+    <Content Include="Content\js\ace\ace.submenu-hover.js" />
+    <Content Include="Content\js\ace\ace.touch-drag.js" />
+    <Content Include="Content\js\ace\ace.widget-box.js" />
+    <Content Include="Content\js\ace\ace.widget-on-reload.js" />
+    <Content Include="Content\js\ace\elements.aside.js" />
+    <Content Include="Content\js\ace\elements.colorpicker.js" />
+    <Content Include="Content\js\ace\elements.fileinput.js" />
+    <Content Include="Content\js\ace\elements.onpage-help.js" />
+    <Content Include="Content\js\ace\elements.scroller.js" />
+    <Content Include="Content\js\ace\elements.spinner.js" />
+    <Content Include="Content\js\ace\elements.treeview.js" />
+    <Content Include="Content\js\ace\elements.typeahead.js" />
+    <Content Include="Content\js\ace\elements.wizard.js" />
+    <Content Include="Content\js\ace\elements.wysiwyg.js" />
+    <Content Include="Content\js\bootstrap.js" />
+    <Content Include="Content\js\chosen.jquery.js" />
+    <Content Include="Content\js\DataTables\datatables.css" />
+    <Content Include="Content\js\DataTables\dataTables.editor.js" />
+    <Content Include="Content\js\DataTables\dataTables.editor.min.css" />
+    <Content Include="Content\js\DataTables\dataTables.editor.min.js" />
+    <Content Include="Content\js\DataTables\datatables.js" />
+    <Content Include="Content\js\DataTables\datatables.min.css" />
+    <Content Include="Content\js\DataTables\datatables.min.js" />
+    <Content Include="Content\js\date-time\bootstrap-datepicker.js" />
+    <Content Include="Content\js\date-time\bootstrap-datepicker.min.js" />
+    <Content Include="Content\js\date-time\bootstrap-datetimepicker.js" />
+    <Content Include="Content\js\date-time\bootstrap-timepicker.js" />
+    <Content Include="Content\js\date-time\daterangepicker.js" />
+    <Content Include="Content\js\date-time\languages\bootstrap-datepicker.es.min.js" />
+    <Content Include="Content\js\date-time\moment.js" />
+    <Content Include="Content\js\fuelux\fuelux.spinner.js" />
+    <Content Include="Content\js\fuelux\fuelux.tree.js" />
+    <Content Include="Content\js\fuelux\fuelux.wizard.js" />
+    <Content Include="Content\js\html5shiv.js" />
+    <Content Include="Content\js\jquery-ui-1.10.4.custom.min.js" />
+    <Content Include="Content\js\jquery-ui-timepicker-addon.js" />
+    <Content Include="Content\js\jquery-ui.custom.js" />
+    <Content Include="Content\js\jquery-ui.min.js" />
+    <Content Include="Content\js\jquery.blockUI.js" />
+    <Content Include="Content\js\jquery.gritter.js" />
+    <Content Include="Content\js\jquery.js" />
+    <Content Include="Content\js\jquery.mobile.custom.js" />
+    <Content Include="Content\js\jquery.multiselect.filter.js" />
+    <Content Include="Content\js\jquery.multiselect.js" />
+    <Content Include="Content\js\jquery.validate.min.js" />
+    <Content Include="Content\js\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\js\jquery1x.js" />
+    <Content Include="Content\js\respond.js" />
+    <Content Include="Content\js\ui.datepicker-es.js" />
+    <Content Include="Content\js\viewsJs\contencionCierreReport.js" />
+    <Content Include="Content\js\viewsJs\rollRatesDiarioReport.js" />
+    <Content Include="Content\js\viewsJs\home.js" />
+    <Content Include="Content\js\viewsJs\productoTc.js" />
+    <Content Include="Content\js\viewsJs\productividadReport.js" />
+    <Content Include="Content\js\viewsJs\carteraRefinanciadaReport.js" />
+    <Content Include="Content\js\viewsJs\carteraCastigadaReport.js" />
+    <Content Include="Content\js\viewsJs\rollRatesReport.js" />
+    <Content Include="Content\js\viewsJs\login.js" />
+    <Content Include="Content\js\viewsJs\main.js" />
+    <Content Include="Content\js\viewsJs\contencionReport.js" />
+    <Content Include="Content\js\webApp.js" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\OpenSans-300.woff" />
+    <Content Include="Content\fonts\OpenSans-400.woff" />
+    <Content Include="Content\js\ace\readme" />
+    <Content Include="Content\js\ace\scripts.json" />
+    <Content Include="Content\js\DataTables\languages\dataTables.es.json" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutAccount.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Content\ReportTemplate\Out\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Falabella.Business\Falabella.Business.csproj">
+      <Project>{fde6ab89-f76f-477c-8e44-25e31c1c544a}</Project>
+      <Name>Falabella.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Falabella.CrossCutting\Falabella.CrossCutting.csproj">
+      <Project>{f25b970b-2537-4d0b-8690-73111360d4cb}</Project>
+      <Name>Falabella.CrossCutting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Falabella.Dto\Falabella.Dto.csproj">
+      <Project>{8ff8a4d8-85ee-448c-a82f-fa1ee5c2aaee}</Project>
+      <Name>Falabella.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Falabella.Entity\Falabella.Entity.csproj">
+      <Project>{e8afc73b-5ffe-4c3f-a86b-82b1c33bc778}</Project>
+      <Name>Falabella.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Falabella.Resources\Falabella.Resources.csproj">
+      <Project>{07a39ec7-ed51-462c-a78b-d5e99006e545}</Project>
+      <Name>Falabella.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ContencionReport\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Account\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\RollRatesReport\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\ReportTemplate\In\RollRates.xlsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\CarteraCastigada\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\CarteraRefinanciada\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ProductividadReport\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\ReportTemplate\In\CarteraCastigada.xlsx" />
+    <Content Include="Content\ReportTemplate\In\CarteraRefinanciada.xlsx" />
+    <Content Include="Content\ReportTemplate\In\ProductividadTramoMora.xlsx" />
+    <Content Include="Content\ReportTemplate\In\ContencionCierre.xlsx" />
+    <Content Include="Content\ReportTemplate\In\Contencion_28.xlsx" />
+    <Content Include="Content\ReportTemplate\In\Contencion_30.xlsx" />
+    <Content Include="Content\ReportTemplate\In\Contencion_31.xlsx" />
+    <Content Include="Content\ReportTemplate\In\RollRatesDiario_28.xlsx" />
+    <Content Include="Content\ReportTemplate\In\RollRatesDiario_30.xlsx" />
+    <Content Include="Content\ReportTemplate\In\RollRatesDiario_31.xlsx" />
+    <None Include="Properties\PublishProfiles\Cobranzas.pubxml" />
+    <None Include="Properties\PublishProfiles\ReportCobranzas.pubxml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\ContencionCierreReport\Index.cshtml" />
+    <Content Include="Views\RollRatesDiarioReport\Index.cshtml" />
+    <Content Include="Views\ProductoTc\Index.cshtml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52688</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:52688/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

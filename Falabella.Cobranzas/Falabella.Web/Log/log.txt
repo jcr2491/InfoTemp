@@ -1,0 +1,364 @@
+2017-08-28 15:12:33,019 [8] ERROR  [(null)] - Controlador:ProductoTc  Action:Index  Mensaje:Could not find stored procedure 'Cobranzas.GetProductosTc'.
+2017-08-31 17:12:16,585 [10] ERROR  [(null)] - Controlador:ProductoTc  Action:Eliminar  Mensaje:The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.JsonResult Eliminar(Int32)' in 'Falabella.Web.Controllers.ProductoTcController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Nombre del parámetro: parameters
+2017-08-31 17:12:19,988 [14] ERROR  [(null)] - Controlador:ProductoTc  Action:Eliminar  Mensaje:The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.JsonResult Eliminar(Int32)' in 'Falabella.Web.Controllers.ProductoTcController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Nombre del parámetro: parameters
+2017-08-31 17:12:22,056 [9] ERROR  [(null)] - Controlador:ProductoTc  Action:Eliminar  Mensaje:The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.JsonResult Eliminar(Int32)' in 'Falabella.Web.Controllers.ProductoTcController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Nombre del parámetro: parameters
+2017-08-31 17:12:24,467 [9] ERROR  [(null)] - Controlador:ProductoTc  Action:Eliminar  Mensaje:The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.JsonResult Eliminar(Int32)' in 'Falabella.Web.Controllers.ProductoTcController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Nombre del parámetro: parameters
+2017-09-03 18:09:31,675 [7] ERROR  [(null)] - Mensaje: Referencia a objeto no establecida como instancia de un objeto. Trace:    en Falabella.Web.Controllers.ContencionCierreReportController.AgregarRangos(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 101
+   en Falabella.Web.Controllers.ContencionCierreReportController.GuardarRangos(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 77
+2017-09-03 18:12:44,917 [12] ERROR  [(null)] - Mensaje: No puede establecer el valor de Column 'DiaMoraMax' en null. Utilice DBNull en su lugar. Trace:    en System.Data.DataRow.set_Item(DataColumn column, Object value)
+   en System.Data.DataRow.set_Item(String columnName, Object value)
+   en Falabella.Web.Controllers.ContencionCierreReportController.AgregarRangos(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 107
+   en Falabella.Web.Controllers.ContencionCierreReportController.GuardarRangos(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 77
+2017-09-03 18:14:12,177 [12] ERROR  [(null)] - Mensaje: No puede establecer el valor de Column 'DiaMoraMax' en null. Utilice DBNull en su lugar. Trace:    en System.Data.DataRow.set_Item(DataColumn column, Object value)
+   en System.Data.DataRow.set_Item(String columnName, Object value)
+   en Falabella.Web.Controllers.ContencionCierreReportController.AgregarRangos(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 107
+   en Falabella.Web.Controllers.ContencionCierreReportController.GuardarRangos(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 77
+2017-09-03 18:14:46,067 [12] ERROR  [(null)] - Mensaje: No puede establecer el valor de Column 'DiaMoraMax' en null. Utilice DBNull en su lugar. Trace:    en System.Data.DataRow.set_Item(DataColumn column, Object value)
+   en System.Data.DataRow.set_Item(String columnName, Object value)
+   en Falabella.Web.Controllers.ContencionCierreReportController.AgregarRangos(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 107
+   en Falabella.Web.Controllers.ContencionCierreReportController.GuardarRangos(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 77
+2017-09-03 18:15:08,996 [19] ERROR  [(null)] - Mensaje: No puede establecer el valor de Column 'DiaMoraMax' en null. Utilice DBNull en su lugar. Trace:    en System.Data.DataRow.set_Item(DataColumn column, Object value)
+   en System.Data.DataRow.set_Item(String columnName, Object value)
+   en Falabella.Web.Controllers.ContencionCierreReportController.AgregarRangos(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 107
+   en Falabella.Web.Controllers.ContencionCierreReportController.GuardarRangos(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 77
+2017-09-03 18:21:17,649 [9] ERROR  [(null)] - Mensaje: Could not find stored procedure 'Cobranzas.DeleteRangos'. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   en System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   en System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.DoExecuteNonQuery(DbCommand command)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteNonQuery(DbCommand command)
+   en Falabella.Data.ContencionRepository.DeleteRangos(String fecha)
+   en Falabella.Business.ContencionBL.DeleteRangos(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\ContencionBL.cs:línea 29
+   en Falabella.Web.Controllers.ContencionCierreReportController.AgregarRangos(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 113
+   en Falabella.Web.Controllers.ContencionCierreReportController.GuardarRangos(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 77
+2017-09-05 18:14:12,398 [14] ERROR  [(null)] - Mensaje: Referencia a objeto no establecida como instancia de un objeto. Trace:    en Falabella.CrossCutting.ExcelXlsx.ChangeCell(Int32 rowNumber, Int32 cellNumber, String cellValue) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.CrossCutting\ExcelXlsx.cs:línea 164
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarCuerpoExcel(ExcelXlsx excel, ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 138
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarReporteExcel(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 45
+2017-09-06 07:21:44,779 [8] ERROR  [(null)] - Mensaje: Referencia a objeto no establecida como instancia de un objeto. Trace:    en Falabella.Web.Controllers.ContencionCierreReportController.GenerarHojaDetalle(ExcelXlsx excel, List`1 contencionList) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 186
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarCuerpoExcel(ExcelXlsx excel, ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 122
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarReporteExcel(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 45
+2017-09-07 10:01:53,096 [9] ERROR  [(null)] - Mensaje: Referencia a objeto no establecida como instancia de un objeto. Trace:    en Falabella.CrossCutting.ExcelXlsx.CopyCell(Int32 rowNumber, Int32 sourceCellNum, Int32 destinationFirstCellNum, Int32 destinationLastCellNum) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.CrossCutting\ExcelXlsx.cs:línea 365
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarHojaHistorico(ExcelXlsx excel, ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 280
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarCuerpoExcel(ExcelXlsx excel, ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 121
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarReporteExcel(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 46
+2017-09-07 14:22:01,625 [9] ERROR  [(null)] - Mensaje: La conversión especificada no es válida. Trace:    en System.Data.SqlClient.SqlBuffer.get_Boolean()
+   en System.Data.SqlClient.SqlDataReader.GetBoolean(Int32 i)
+   en Microsoft.Practices.EnterpriseLibrary.Data.DataReaderWrapper.GetBoolean(Int32 i)
+   en Falabella.Data.ContencionRepository.ExisteHistoricoContencionCierre(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\ContencionRepository.cs:línea 130
+   en Falabella.Business.ContencionBL.ExisteHistoricoContencionCierre(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\ContencionBL.cs:línea 39
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarCuerpoExcel(ExcelXlsx excel, ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 156
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarReporteExcel(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 46
+2017-09-07 14:35:44,941 [9] ERROR  [(null)] - Mensaje: La conversión especificada no es válida. Trace:    en System.Data.SqlClient.SqlBuffer.get_Boolean()
+   en System.Data.SqlClient.SqlDataReader.GetBoolean(Int32 i)
+   en Microsoft.Practices.EnterpriseLibrary.Data.DataReaderWrapper.GetBoolean(Int32 i)
+   en Falabella.Data.ContencionRepository.ExisteHistoricoContencionCierre(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\ContencionRepository.cs:línea 130
+   en Falabella.Business.ContencionBL.ExisteHistoricoContencionCierre(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\ContencionBL.cs:línea 39
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarCuerpoExcel(ExcelXlsx excel, ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 156
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarReporteExcel(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 46
+2017-09-07 14:36:55,167 [9] ERROR  [(null)] - Mensaje: La conversión especificada no es válida. Trace:    en System.Data.SqlClient.SqlBuffer.get_Boolean()
+   en System.Data.SqlClient.SqlDataReader.GetBoolean(Int32 i)
+   en Microsoft.Practices.EnterpriseLibrary.Data.DataReaderWrapper.GetBoolean(Int32 i)
+   en Falabella.Data.ContencionRepository.ExisteHistoricoContencionCierre(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\ContencionRepository.cs:línea 130
+   en Falabella.Business.ContencionBL.ExisteHistoricoContencionCierre(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\ContencionBL.cs:línea 39
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarCuerpoExcel(ExcelXlsx excel, ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 156
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarReporteExcel(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 46
+2017-09-08 15:43:01,551 [7] ERROR  [(null)] - Mensaje: El proceso no puede obtener acceso al archivo 'D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Content\ReportTemplate\In\RollRatesDiario.xlsx' porque está siendo utilizado en otro proceso. Trace:    en System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   en System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   en System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access)
+   en Falabella.Web.Controllers.RollRatesDiarioReportController.GenerarReporteExcel(ContencionFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\RollRatesDiarioReportController.cs:línea 31
+2017-09-08 15:43:14,495 [7] ERROR  [(null)] - Mensaje: Could not find stored procedure 'Cobranzas.GetRollRatesDiario'. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.RollRateRepository.GetRollRatesDiario(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\RollRateRepository.cs:línea 53
+   en Falabella.Business.RollRateBL.GetRollRatesDiario(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\RollRateBL.cs:línea 19
+   en Falabella.Web.Controllers.RollRatesDiarioReportController.GenerarCuerpoExcel(ExcelXlsx excel, ContencionFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\RollRatesDiarioReportController.cs:línea 100
+   en Falabella.Web.Controllers.RollRatesDiarioReportController.GenerarReporteExcel(ContencionFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\RollRatesDiarioReportController.cs:línea 35
+2017-09-08 15:44:25,932 [7] ERROR  [(null)] - Mensaje: Could not find stored procedure 'Cobranzas.GetRollRatesDiario'. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.RollRateRepository.GetRollRatesDiario(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\RollRateRepository.cs:línea 53
+   en Falabella.Business.RollRateBL.GetRollRatesDiario(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\RollRateBL.cs:línea 19
+   en Falabella.Web.Controllers.RollRatesDiarioReportController.GenerarCuerpoExcel(ExcelXlsx excel, ContencionFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\RollRatesDiarioReportController.cs:línea 100
+   en Falabella.Web.Controllers.RollRatesDiarioReportController.GenerarReporteExcel(ContencionFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\RollRatesDiarioReportController.cs:línea 35
+2017-09-15 14:37:35,033 [236] ERROR  [(null)] - Mensaje: Cannot resolve the collation conflict between "Latin1_General_CI_AI" and "Modern_Spanish_CI_AS" in the equal to operation. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.RollRateRepository.GetRollRates(ContencionFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\RollRateRepository.cs:línea 32
+   en Falabella.Business.RollRateBL.GetRollRates(ContencionFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\RollRateBL.cs:línea 14
+   en Falabella.Web.Controllers.RollRatesReportController.GenerarReporteExcel(ContencionFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\RollRatesReportController.cs:línea 40
+2017-09-15 14:37:40,714 [236] ERROR  [(null)] - Mensaje: Cannot resolve the collation conflict between "Latin1_General_CI_AI" and "Modern_Spanish_CI_AS" in the equal to operation. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.RollRateRepository.GetRollRates(ContencionFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\RollRateRepository.cs:línea 32
+   en Falabella.Business.RollRateBL.GetRollRates(ContencionFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\RollRateBL.cs:línea 14
+   en Falabella.Web.Controllers.RollRatesReportController.GenerarReporteExcel(ContencionFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\RollRatesReportController.cs:línea 40
+2017-09-15 15:57:47,723 [8] ERROR  [(null)] - Mensaje: No se puede encontrar una parte de la ruta de acceso 'C:\Program Files (x86)\IIS Express\~\Content\ReportTemplate\In\ContencionCierre_30.xlsx'. Trace:    en System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   en System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   en System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access)
+   en Falabella.Web.Controllers.ContencionCierreReportController.GenerarReporteExcel(ContencionCierreDto filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\ContencionCierreReportController.cs:línea 45
+2017-09-22 13:02:00,410 [25] ERROR  [(null)] - Mensaje: Invalid object name 'Cobranzas.Estudio'. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.EstudioRepository.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\EstudioRepository.cs:línea 31
+   en Falabella.Business.EstudioBL.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\EstudioBL.cs:línea 13
+   en Falabella.Web.Controllers.CarteraCastigadaController.GetEstudios(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 32
+2017-09-22 13:02:02,947 [25] ERROR  [(null)] - Mensaje: Invalid object name 'Cobranzas.Estudio'. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.EstudioRepository.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\EstudioRepository.cs:línea 31
+   en Falabella.Business.EstudioBL.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\EstudioBL.cs:línea 13
+   en Falabella.Web.Controllers.CarteraCastigadaController.GetEstudios(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 32
+2017-09-22 13:02:05,327 [25] ERROR  [(null)] - Mensaje: Invalid object name 'Cobranzas.Estudio'. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.EstudioRepository.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\EstudioRepository.cs:línea 31
+   en Falabella.Business.EstudioBL.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\EstudioBL.cs:línea 13
+   en Falabella.Web.Controllers.CarteraCastigadaController.GetEstudios(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 32
+2017-09-22 13:37:51,297 [50] ERROR  [(null)] - Mensaje: Invalid object name 'Cobranzas.EstudioMeta'. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.EstudioRepository.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\EstudioRepository.cs:línea 31
+   en Falabella.Business.EstudioBL.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\EstudioBL.cs:línea 13
+   en Falabella.Web.Controllers.CarteraCastigadaController.GetEstudios(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 32
+2017-09-22 13:37:55,332 [50] ERROR  [(null)] - Mensaje: Invalid object name 'Cobranzas.EstudioMeta'. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.EstudioRepository.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\EstudioRepository.cs:línea 31
+   en Falabella.Business.EstudioBL.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\EstudioBL.cs:línea 13
+   en Falabella.Web.Controllers.CarteraCastigadaController.GetEstudios(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 32
+2017-09-22 13:37:57,770 [55] ERROR  [(null)] - Mensaje: Invalid object name 'Cobranzas.EstudioMeta'. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.EstudioRepository.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\EstudioRepository.cs:línea 31
+   en Falabella.Business.EstudioBL.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\EstudioBL.cs:línea 13
+   en Falabella.Web.Controllers.CarteraCastigadaController.GetEstudios(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 32
+2017-09-22 13:38:00,026 [55] ERROR  [(null)] - Mensaje: Invalid object name 'Cobranzas.EstudioMeta'. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.EstudioRepository.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\EstudioRepository.cs:línea 31
+   en Falabella.Business.EstudioBL.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\EstudioBL.cs:línea 13
+   en Falabella.Web.Controllers.CarteraCastigadaController.GetEstudios(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 32
+2017-09-22 13:39:41,827 [50] ERROR  [(null)] - Mensaje: Invalid object name 'Cobranzas.EstudioMeta'. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.EstudioRepository.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\EstudioRepository.cs:línea 31
+   en Falabella.Business.EstudioBL.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\EstudioBL.cs:línea 13
+   en Falabella.Web.Controllers.CarteraCastigadaController.GetEstudios(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 32
+2017-09-22 13:39:43,780 [55] ERROR  [(null)] - Mensaje: Invalid object name 'Cobranzas.EstudioMeta'. Trace:    en System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   en System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   en System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   en System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   en System.Data.SqlClient.SqlDataReader.get_MetaData()
+   en System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   en System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   en System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   en System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.EstudioRepository.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\EstudioRepository.cs:línea 31
+   en Falabella.Business.EstudioBL.GetEstudios(String fechaMeta) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\EstudioBL.cs:línea 13
+   en Falabella.Web.Controllers.CarteraCastigadaController.GetEstudios(String fecha) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 32
+2017-09-22 14:56:34,367 [55] ERROR  [(null)] - Mensaje: La columna 'Codigo' no pertenece a la tabla . Trace:    en System.Data.DataRow.GetDataColumn(String columnName)
+   en System.Data.DataRow.set_Item(String columnName, Object value)
+   en Falabella.Web.Controllers.CarteraCastigadaController.AgregarMetas(CarteraCastigadaFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 107
+   en Falabella.Web.Controllers.CarteraCastigadaController.GenerarReporteExcel(CarteraCastigadaFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 65
+2017-09-22 15:42:45,156 [57] ERROR  [(null)] - Mensaje: La columna 'Codigo' no pertenece a la tabla . Trace:    en System.Data.DataRow.GetDataColumn(String columnName)
+   en System.Data.DataRow.set_Item(String columnName, Object value)
+   en Falabella.Web.Controllers.CarteraCastigadaController.AgregarMetas(CarteraCastigadaFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 107
+   en Falabella.Web.Controllers.CarteraCastigadaController.GenerarReporteExcel(CarteraCastigadaFilter filter) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\CarteraCastigadaController.cs:línea 65
+2017-10-27 12:20:44,990 [11] ERROR  [(null)] - Mensaje: Error relacionado con la red o específico de la instancia mientras se establecía una conexión con el servidor SQL Server. No se encontró el servidor o éste no estaba accesible. Compruebe que el nombre de la instancia es correcto y que SQL Server está configurado para admitir conexiones remotas. (provider: Named Pipes Provider, error: 40 - No se pudo abrir una conexión con SQL Server) Trace:    en System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling)
+   en System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   en System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   en System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   en System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   en System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   en System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   en System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   en System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   en System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   en System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   en System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   en System.Data.SqlClient.SqlConnection.Open()
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.GetNewOpenConnection()
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.GetWrappedConnection()
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.UsuarioRepository.GetByUsername(String username) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\UsuarioRepository.cs:línea 28
+   en Falabella.Business.UsuarioBL.GetByUsername(String username) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\UsuarioBL.cs:línea 12
+   en Falabella.Web.Controllers.AccountController.Login(LogInDto model, String returnUrl) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\AccountController.cs:línea 37
+2017-10-27 12:21:19,295 [11] ERROR  [(null)] - Mensaje: Error relacionado con la red o específico de la instancia mientras se establecía una conexión con el servidor SQL Server. No se encontró el servidor o éste no estaba accesible. Compruebe que el nombre de la instancia es correcto y que SQL Server está configurado para admitir conexiones remotas. (provider: Named Pipes Provider, error: 40 - No se pudo abrir una conexión con SQL Server) Trace:    en System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling)
+   en System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   en System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   en System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   en System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   en System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   en System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   en System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   en System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   en System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   en System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   en System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   en System.Data.SqlClient.SqlConnection.Open()
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.GetNewOpenConnection()
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.GetWrappedConnection()
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.UsuarioRepository.GetByUsername(String username) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\UsuarioRepository.cs:línea 28
+   en Falabella.Business.UsuarioBL.GetByUsername(String username) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\UsuarioBL.cs:línea 12
+   en Falabella.Web.Controllers.AccountController.Login(LogInDto model, String returnUrl) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\AccountController.cs:línea 37
+2017-10-27 12:21:26,574 [12] ERROR  [(null)] - Mensaje: Error relacionado con la red o específico de la instancia mientras se establecía una conexión con el servidor SQL Server. No se encontró el servidor o éste no estaba accesible. Compruebe que el nombre de la instancia es correcto y que SQL Server está configurado para admitir conexiones remotas. (provider: Named Pipes Provider, error: 40 - No se pudo abrir una conexión con SQL Server) Trace:    en System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   en System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   en System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   en System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   en System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   en System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   en System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   en System.Data.SqlClient.SqlConnection.Open()
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.GetNewOpenConnection()
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.GetWrappedConnection()
+   en Microsoft.Practices.EnterpriseLibrary.Data.Database.ExecuteReader(DbCommand command)
+   en Falabella.Data.UsuarioRepository.GetByUsername(String username) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Data\UsuarioRepository.cs:línea 28
+   en Falabella.Business.UsuarioBL.GetByUsername(String username) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Business\UsuarioBL.cs:línea 12
+   en Falabella.Web.Controllers.AccountController.Login(LogInDto model, String returnUrl) en D:\Proyectos\Proyectos Falabella\Falabella.Cobranzas\Falabella.Cobranzas\Falabella.Web\Controllers\AccountController.cs:línea 37
