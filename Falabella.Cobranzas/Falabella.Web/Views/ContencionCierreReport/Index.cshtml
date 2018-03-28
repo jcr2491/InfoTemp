@@ -1,0 +1,219 @@
+﻿@{
+    ViewBag.Title = "Reportes";
+}
+
+@using Falabella.CrossCutting
+@using Falabella.CrossCutting.Enums
+@model ContencionCierreDto
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/datepicker.min.css")" />
+}
+
+<div class="widget-box widget-color-green2">
+    <div class="widget-header">
+        <h5 class="widget-title">Filtros</h5>
+        <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+                <i class="1 ace-icon fa fa-chevron-up bigger-125"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="form-horizontal" id="formBusqueda">
+                <div class="form-group">
+                    <div class="col-sm-4">
+                        <div class="header lighter greenFalabella">
+                            <label>
+                                <span class="lbl"> Seleccione mes</span>
+                            </label>
+                        </div>
+                        <div class="col-sm-11">
+                            <label for="txtMes">Mes</label>
+                            <div class="input-group">
+                                <input class="form-control date-picker-month" id="txtMes" type="text" data-date-format="dd/mm/yyyy" value="@Model.Fecha" />
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input id="chkIncluirHistorico" name="checkHistorico" type="checkbox" class="ace" />
+                                    <span class="lbl"> Incluir histórico en reporte general</span>
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input id="chkSoloHistorico" name="checkHistorico" type="checkbox" class="ace" />
+                                    <span class="lbl"> Exportar solo histórico</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div id="divConfig" class="panel-group accordion-style1 accordion-style2 header">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a href="#divRango" data-parent="#divConfig" data-toggle="collapse" class="accordion-toggle collapsed">
+                                        <i class="ace-icon fa fa-hand-o-right" data-icon-hide="ace-icon fa fa-hand-o-down" data-icon-show="ace-icon fa fa-hand-o-right"></i>&nbsp;
+                                        Configuración de rangos
+                                    </a>
+                                </div>
+                                <div class="panel-collapse collapse" id="divRango">
+                                    <div class="panel-body">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="pull-left radio">
+                                                        <label>
+                                                            <input name="rdbPais" type="radio" id="rdbPeru" checked="checked" value="@Pais.Peru.GetStringValue()" class="ace" />
+                                                            <span class="lbl"> Perú</span>
+                                                        </label>
+                                                        <label>
+                                                            <input name="rdbPais" type="radio" id="rdbChile" value="@Pais.Chile.GetStringValue()" class="ace" />
+                                                            <span class="lbl"> Chile</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="pull-right checkbox">
+                                                        <label>
+                                                            <input id="chkEditarRangos" name="chkEditarRangos" type="checkbox" class="ace" />
+                                                            <span class="lbl"> Editar rangos</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="hr hr-16 hr-dotted"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label class="control-label"> Rango 1 </label>
+                                                    <div class="input-daterange input-group">
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMin1" min="0" placeholder="Mín" disabled="disabled"/>
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-exchange"></i>
+                                                        </span>
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMax1" min="0" placeholder="Máx" disabled="disabled"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label> Rango 2 </label>
+                                                    <div class="input-daterange input-group">
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMin2" min="0" placeholder="Mín" disabled="disabled"/>
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-exchange"></i>
+                                                        </span>
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMax2" min="0" placeholder="Máx" disabled="disabled"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label class="control-label"> Rango 3 </label>
+                                                    <div class="input-daterange input-group">
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMin3" min="0" placeholder="Mín" disabled="disabled"/>
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-exchange"></i>
+                                                        </span>
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMax3" min="0" placeholder="Máx" disabled="disabled"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label> Rango 4 </label>
+                                                    <div class="input-daterange input-group">
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMin4" min="0" placeholder="Mín" disabled="disabled"/>
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-exchange"></i>
+                                                        </span>
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMax4" min="0" placeholder="Máx" disabled="disabled"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label> Rango 5 </label>
+                                                    <div class="input-daterange input-group">
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMin5" min="0" placeholder="Mín" disabled="disabled"/>
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-exchange"></i>
+                                                        </span>
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMax5" min="0" placeholder="Máx" disabled="disabled"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label> Rango 6 </label>
+                                                    <div class="input-daterange input-group">
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMin6" min="0" placeholder="Mín" disabled="disabled"/>
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-exchange"></i>
+                                                        </span>
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMax6" min="0" placeholder="Máx" disabled="disabled"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label class="control-label"> Rango 7 </label>
+                                                    <div class="input-daterange input-group">
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMin7" min="0" placeholder="Mín" disabled="disabled"/>
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-exchange"></i>
+                                                        </span>
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMax7" min="0" placeholder="Máx" disabled="disabled"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="checkbox">
+                                                        <span class="lbl"> Rango 8 </span>
+                                                        <label>
+                                                            <input name="chkFinal" id="chkFinal" type="checkbox" class="ace" disabled="disabled"/>
+                                                            <span class="lbl"> Sin rango máximo</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="input-daterange input-group">
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMin8" min="0" placeholder="Mín" disabled="disabled"/>
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-exchange"></i>
+                                                        </span>
+                                                        <input type="number" class="input-sm form-control" id="txtRangoMax8" min="0" placeholder="Máx" disabled="disabled"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="wizard-actions">
+                <button id="btnGuardarRangos" type="button" class="btn btn-primary btn-sm" disabled="disabled"><i class="ace-icon fa fa-floppy-o bigger-110"></i> Guardar Rangos</button>
+                <button id="btnExportar" type="button" class="btn btn-success btn-sm"><i class="ace-icon fa fa-file-text bigger-110"></i> Generar Reporte</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript" src="@Url.Content("~/Content/js/fuelux/fuelux.spinner.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/viewsJs/contencionCierreReport.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/date-time/bootstrap-datepicker.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/date-time/languages/bootstrap-datepicker.es.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/ace/ace.widget-box.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/ace/elements.spinner.js")"></script>
+
+    <script type="text/javascript">
+        contencionCierreReportJs.init({
+            urlExportar: '@Url.Action("GenerarReporteExcel", "ContencionCierreReport")',
+            urlGuardarRango: '@Url.Action("GuardarRangos", "ContencionCierreReport")',
+            urlGuardarHistorico: '@Url.Action("GuardarHistorico", "ContencionCierreReport")',
+            rangos: @Html.Raw(Json.Encode(Model.Rangos)),
+            paises: {
+                Peru: @Pais.Peru.GetNumberValue(),
+                Chile: @Pais.Chile.GetNumberValue()
+            }
+        });
+    </script>
+}

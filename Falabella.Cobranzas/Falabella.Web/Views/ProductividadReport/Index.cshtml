@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Reportes";
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/datepicker.min.css")" />
+}
+
+<div class="widget-box widget-color-green2">
+    <div class="widget-header">
+        <h5 class="widget-title">Filtros</h5>
+        <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+                <i class="1 ace-icon fa fa-chevron-up bigger-125"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="form-horizontal" id="formBusqueda">
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <div class="header lighter greenFalabella">
+                            <label>
+                                <span class="lbl"> Seleccione fecha</span>
+                            </label>
+                        </div>
+                        <div class="col-sm-8">
+                            <label for="txtFecha">Fecha</label>
+                            <div class="input-group">
+                                <input class="form-control date-picker" id="txtFecha" type="text" data-date-format="dd/mm/yyyy"/>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="header lighter greenFalabella">
+                            <label>
+                                <span class="lbl"> Seleccione tramo</span>
+                            </label>
+                        </div>
+                        <div class="col-sm-8">
+                            <label for="selTramo">Tramo</label>
+                            <select class="form-control" multiple="multiple" id="selTramo">
+                                <option value="1">Tramo 1 [1-30]</option>
+                                <option value="2">Tramo 2 [31-60]</option>
+                                <option value="3">Tramo 3 [61-90]</option>
+                                <option value="4">Tramo 4 [91-120]</option>
+                                <option value="5">Tramo 5 [121-150]</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="wizard-actions">
+                <button id="btnLimpiar" type="button" class="btn btn-danger btn-sm"><i class="ace-icon fa fa-undo bigger-110"></i> Limpiar</button>
+                <button id="btnExportar" type="button" class="btn btn-success btn-sm"><i class="ace-icon fa fa-file-text bigger-110"></i> Generar Reporte</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Content/js/viewsJs/productividadReport.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/date-time/bootstrap-datepicker.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/date-time/languages/bootstrap-datepicker.es.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/ace/ace.widget-box.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/ace/elements.fileinput.js")"></script>
+
+    <script type="text/javascript">
+        productividadReportJs.init({
+            urlExportar: '@Url.Action("GenerarReporteExcel", "ProductividadReport")'
+        });
+    </script>
+}

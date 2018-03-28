@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FDE6AB89-F76F-477C-8E44-25E31C1C544A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Falabella.Business</RootNamespace>
+    <AssemblyName>Falabella.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Core.Extensions, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CSharp.Portable-Singleton.2.0.0.4\lib\Core.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Core.Singleton, Version=2.0.6074.9804, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CSharp.Portable-Singleton.2.0.0.4\lib\Core.Singleton.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ContencionBL.cs" />
+    <Compile Include="EstudioBL.cs" />
+    <Compile Include="Interfaces\IContencionBL.cs" />
+    <Compile Include="Interfaces\IEstudioBL.cs" />
+    <Compile Include="Interfaces\IMetaRefinanciadoBL.cs" />
+    <Compile Include="Interfaces\IProductoTcBL.cs" />
+    <Compile Include="Interfaces\IReportBL.cs" />
+    <Compile Include="Interfaces\IRollRateBL.cs" />
+    <Compile Include="Interfaces\IUbigeoTramo45BL.cs" />
+    <Compile Include="Interfaces\IUsuarioBL.cs" />
+    <Compile Include="MetaRefinanciadoBL.cs" />
+    <Compile Include="ProductoTcBL.cs" />
+    <Compile Include="ReportBL.cs" />
+    <Compile Include="Interfaces\ICabeceraCargaBL.cs" />
+    <Compile Include="CabeceraCargaBL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RollRateBL.cs" />
+    <Compile Include="UbigeoTramo45BL.cs" />
+    <Compile Include="UsuarioBL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Falabella.CrossCutting\Falabella.CrossCutting.csproj">
+      <Project>{f25b970b-2537-4d0b-8690-73111360d4cb}</Project>
+      <Name>Falabella.CrossCutting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Falabella.Data\Falabella.Data.csproj">
+      <Project>{269c76e4-caf7-4806-a5e7-fd6550bb42a7}</Project>
+      <Name>Falabella.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Falabella.Entity\Falabella.Entity.csproj">
+      <Project>{e8afc73b-5ffe-4c3f-a86b-82b1c33bc778}</Project>
+      <Name>Falabella.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
