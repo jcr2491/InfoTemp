@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Forms;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
+using Sigcomt.Common.ActiveDirectory;
 using Sigcomt.WinForms.BulkCopy.Core;
 
 namespace Sigcomt.WinForms.BulkCopy.Forms
@@ -55,7 +56,19 @@ namespace Sigcomt.WinForms.BulkCopy.Forms
                 return;
             }
 
-            var user = UsuarioBL.GetInstance().GetUsuario(nombreUser, Encriptador.Encriptar(clave));
+            bool existe = !ConfigurationAppSettings.ValidarAd || ActiveDirectory.ExistsUserInDirectory(nombreUser, clave);
+
+            if (!existe)
+            {
+                MetroMessageBox.Show(this, $"\n{Constantes.CredencialesIncorrectas}", Constantes.Error,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                mtxtClave.Text = string.Empty;
+                mtxtClave.Focus();
+                return;
+            }
+
+            var user = UsuarioBL.GetInstance().GetUsuario(nombreUser);
 
             if (user != null)
             {
@@ -67,11 +80,8 @@ namespace Sigcomt.WinForms.BulkCopy.Forms
             }
             else
             {
-                MetroMessageBox.Show(this, $"\n{Constantes.CredencialesIncorrectas}", Constantes.Error,
+                MetroMessageBox.Show(this, $"\n{Constantes.UsuarioNoRegistrado}", Constantes.Error,
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                mtxtClave.Text = string.Empty;
-                mtxtClave.Focus();
             }
         }
 
