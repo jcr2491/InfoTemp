@@ -8,6 +8,7 @@ using MetroFramework.Forms;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
+using Sigcomt.Common.Enums;
 using Sigcomt.WinForms.BulkCopy.ClasesCarga.Automotriz;
 using Sigcomt.WinForms.BulkCopy.ClasesCarga.Base;
 using Sigcomt.WinForms.BulkCopy.ClasesCarga.EjecutivosPromotores;
@@ -19,6 +20,7 @@ using Sigcomt.WinForms.BulkCopy.ClasesCarga.RelacionistaCoordinador;
 using Sigcomt.WinForms.BulkCopy.ClasesCarga.ReporteRI;
 using Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC;
 using Sigcomt.WinForms.BulkCopy.Core;
+using Sigcomt.Common.Enums;
 
 namespace Sigcomt.WinForms.BulkCopy.Forms
 {
@@ -197,30 +199,41 @@ namespace Sigcomt.WinForms.BulkCopy.Forms
                     CargaSagaTottus.CargasArchivos();
                     CargaSodimacMaestro.CargarArchivos();
 
-                    if (CargaMantenimientoIndicador.CargarArchivos())
+                    if (UtilsLocal.PermitirCargaArchivo(TipoArchivo.KPIIndicador.GetStringValue()) &&
+                        UtilsLocal.PermitirCargaArchivo(TipoArchivo.Indicador.GetStringValue()) &&
+                        UtilsLocal.PermitirCargaArchivo(TipoArchivo.HomologacionIndicador.GetStringValue()) &&
+                        UtilsLocal.PermitirCargaArchivo(TipoArchivo.PesoKPI.GetStringValue()) &&
+                        UtilsLocal.PermitirCargaArchivo(TipoArchivo.TarifarioIndicador.GetStringValue()) &&
+                        UtilsLocal.PermitirCargaArchivo(TipoArchivo.EscalaFormatoCCFF.GetStringValue()) &&
+                        UtilsLocal.PermitirCargaArchivo(TipoArchivo.PotenciarKPI.GetStringValue())
+                        )
                     {
-                        //Jefe Comercial
-                        CargaCierrePlanningJefeComercial.CargarArchivo();
-                        //CargaPesoCCFF.CargarArchivo();
+                        if (CargaMantenimientoIndicador.CargarArchivos())
+                        {
+                            //Jefe Comercial
+                            CargaCierrePlanningJefeComercial.CargarArchivo();
+                            //CargaPesoCCFF.CargarArchivo();
 
-                        //Ejecutivo Promotores
-                        CargaEjecutivoPromotor.CargaArchivos();
+                            //Ejecutivo Promotores
+                            CargaEjecutivoPromotor.CargaArchivos();
 
-                        //Relacionista y Coordinador
-                        CargaRelacionistaCoordinador.CargarArchivo();
+                            //Relacionista y Coordinador
+                            CargaRelacionistaCoordinador.CargarArchivo();
 
-                        //Reporte RI
-                        CargaRI.CargasArchivos();
+                            //Reporte RI
+                            CargaRI.CargasArchivos();
 
-                        //Referido
-                        CargaReferidoCCFF.CargarArchivo();
+                            //Referido
+                            CargaReferidoCCFF.CargarArchivo();
 
-                        UtilsLocal.AsignarEstado(Constantes.CargaCompleta);
+                            UtilsLocal.AsignarEstado(Constantes.CargaCompleta);
+                        }
+                        else
+                        {
+                            UtilsLocal.AsignarEstadoError(Constantes.ErrorCargaIndicadores);
+                        }
                     }
-                    else
-                    {
-                        UtilsLocal.AsignarEstadoError(Constantes.ErrorCargaIndicadores);
-                    }
+                    
                 }
                 else
                 {
@@ -231,7 +244,7 @@ namespace Sigcomt.WinForms.BulkCopy.Forms
                 var archivoEstadocarga = UtilsLocal.GetArchivoEstadoCarga();
 
                 //Envio Correo
-                EnvioEmail.EnvioCorreo(errorList, archivoEstadocarga);
+                //EnvioEmail.EnvioCorreo(errorList, archivoEstadocarga);
 
                 UtilsLocal.AsignarEstado(new MensajeEstado
                 {

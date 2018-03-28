@@ -15,7 +15,7 @@ namespace Sigcomt.DataAccess
 {
    public class CargoRepository: Singleton<CargoRepository>, ICargoRepository<Cargo, int>
     {
-        private readonly Database _database = new DatabaseProviderFactory().Create(ConectionStringRepository.ConnectionStringNameSQL);
+        private readonly Database _database = new DatabaseProviderFactory().Create(ConectionStringRepository.ConnectionStringNameSql);
 
         public IList<Cargo> GetAll(PaginationParameter<int> paginationParameter)
         {

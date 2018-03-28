@@ -49,5 +49,10 @@ namespace Sigcomt.Business.Logic
         {
             return CargaArchivoRepository.GetInstance().GetArchivosEstado(fecha);
         }
+
+        public List<TipoComisionArchivo> GetTipoComisionArchivo()
+        {
+            return CargaArchivoRepository.GetInstance().GetTipoComisionArchivo();
+        }
     }
 }

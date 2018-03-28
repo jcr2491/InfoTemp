@@ -225,6 +225,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\BancoFalabella.png" />
+    <Content Include="Log\Log.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Template\Plantilla-Email.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

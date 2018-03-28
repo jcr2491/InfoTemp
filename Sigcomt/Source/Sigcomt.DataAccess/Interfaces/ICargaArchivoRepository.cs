@@ -15,5 +15,6 @@ namespace Sigcomt.DataAccess.Interfaces
         List<DetalleLogCarga> GetLogCarga(DateTime fecha);
         List<TablaColumna> GetColumnasTabla(string tabla);
         List<Archivo> GetArchivosEstado(DateTime fecha);
+        List<TipoComisionArchivo> GetTipoComisionArchivo();
     }
 }

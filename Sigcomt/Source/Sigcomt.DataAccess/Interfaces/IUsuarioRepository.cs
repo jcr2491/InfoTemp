@@ -1,11 +1,9 @@
-﻿using Sigcomt.DataAccess.Core;
+﻿using Sigcomt.Business.Entity;
 
 namespace Sigcomt.DataAccess.Interfaces
 {
-    public interface IUsuarioRepository<T, Q> : IRepository<T, Q> 
-        where T : class
+    public interface IUsuarioRepository
     {
-        bool Exists(T entity);
-        T GetByUsername(string username);
+        Usuario GetUsuario(string username, string clave);
     }
 }

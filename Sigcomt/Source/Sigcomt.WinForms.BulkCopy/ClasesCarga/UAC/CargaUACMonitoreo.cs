@@ -92,6 +92,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC
                     }
 
                     cargaBase.RegistrarCarga(dt, "Monitoreo");
+                    CargaArchivoBL.GetInstance().AddEmpleadoId("Monitoreo", "Empleado", "CodigoEmpleado");
                 }
             }
             catch (Exception ex)

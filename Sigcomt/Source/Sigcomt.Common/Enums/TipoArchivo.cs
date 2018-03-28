@@ -71,36 +71,40 @@
         //PlanillaMaestroRapicash = 68,
         ReferidoCCFF = 69,
         RIParticipacion = 70,
-        RITiempoEspera = 71,
-        
+        //RITiempoEspera = 71,
+
         //SodimacGanadoresRapicash = 73,
-        RISeguroTP=74,
-        RISeguroP1=75,
-        RISeguroP2=76,
-        PuntajeKPI =78,
-        Bono=79,
-        MantenimientoAutomotriz=80,
-        RITarjetaAdicional=81,
+        RISeguroTP = 74,
+        RISeguroP1 = 75,
+        RISeguroP2 = 76,
+        PuntajeKPI = 78,
+        Bono = 79,
+        MantenimientoAutomotriz = 80,
+        RITarjetaAdicional = 81,
         //RIDerivacionCajaAtencionesCajaReporte = 82,
-        
+
         //Matenimiento Indicador de CCFF
-        KPIIndicador=83,
-        Indicador=84,
-        HomologacionIndicador=85,
-        PesoKPI=86,
-        TarifarioIndicador=87,
-        EscalaFormatoCCFF=88,
-        PotenciarKPI=89,
+        KPIIndicador = 83,
+        Indicador = 84,
+        HomologacionIndicador = 85,
+        PesoKPI = 86,
+        TarifarioIndicador = 87,
+        EscalaFormatoCCFF = 88,
+        PotenciarKPI = 89,
 
         //Homologaciones
-        HomologacionEmpleado=90,
-        HomologacionCCFF=91,
+        HomologacionEmpleado = 90,
+        HomologacionCCFF = 91,
 
-       //Maestro Rapicash
-        MaestroSagaTottus=92,
-        MaestroSodimacMaestro=93
-
-
-
+        //Maestro Rapicash
+        MaestroSagaTottus = 92,
+        MaestroSodimacMaestro = 93,
+        Ejecutivo = 94,
+        Promotor = 95,
+        RelacionistaCoodinador=96,
+        CargoComision = 97,
+        MetaEmpleadoAutomotriz = 98,
+        MetaEmpleadoCCFFAutomotriz = 99,
+        GestionIndividualKPIUAC = 100
     }
 }

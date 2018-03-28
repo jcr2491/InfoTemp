@@ -12,7 +12,7 @@ namespace Sigcomt.DataAccess
     {
         #region Attributos
 
-        private readonly Database _database = new DatabaseProviderFactory().Create(ConectionStringRepository.ConnectionStringNameSQL);
+        private readonly Database _database = new DatabaseProviderFactory().Create(ConectionStringRepository.ConnectionStringNameSql);
 
         #endregion
 

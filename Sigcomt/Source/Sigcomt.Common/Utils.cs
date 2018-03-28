@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Data;
 using System.Globalization;
@@ -11,7 +12,7 @@ namespace Sigcomt.Common
     {
         private static readonly CultureInfo CultureInfoEs = CultureInfo.CreateSpecificCulture("es");
 
-        #region MÃ©todos Enums
+        #region Métodos Enums
 
         public static string GetStringValue(this Enum value)
         {
@@ -25,7 +26,7 @@ namespace Sigcomt.Common
 
         #endregion
 
-        #region MÃ©todos Fecha
+        #region Métodos Fecha
 
         /// <summary>
         ///  Convierte la cadena yyyy/MM/dd en un datetime
@@ -132,7 +133,7 @@ namespace Sigcomt.Common
         }
 
         /// <summary>
-        /// Obtiene el Ãºltmo dÃ­a del mes
+        /// Obtiene el últmo día del mes
         /// </summary>
         /// <param name="fecha"></param>
         /// <returns></returns>
@@ -238,7 +239,7 @@ namespace Sigcomt.Common
 
         #endregion
 
-        #region Metodos Cadenas y NÃºmeros
+        #region Metodos Cadenas y Números
 
         public static object GetValueColumn(string value)
         {
@@ -343,13 +344,13 @@ namespace Sigcomt.Common
 
         public static bool EsSoloLetras(string valor)
         {
-            string pattern = @"^[a-zA-ZÃ±Ã‘\s]";
+            string pattern = @"^[a-zA-ZñÑ\s]";
             return Regex.IsMatch(valor, pattern);
         }
 
         public static bool EsNumeroYLetras(string valor)
         {
-            string pattern = @"^[a-zA-ZÃ±Ã‘\s\W\D 0-9]*$";
+            string pattern = @"^[a-zA-ZñÑ\s\W\D 0-9]*$";
             return Regex.IsMatch(valor, pattern);
         }
 
@@ -364,7 +365,7 @@ namespace Sigcomt.Common
 
         #endregion
 
-        #region MÃ©todos DataTable
+        #region Métodos DataTable
 
         public static System.Data.DataTable CrearCabeceraDataTable<T>()
         {
@@ -380,6 +381,49 @@ namespace Sigcomt.Common
 
             return dataTable;
         }
+        
+        public static T ConvertedEntity<T>(this IDataReader dr) where T : new()
+        {
+            // Create a new type of the entity I want
+            Type t = typeof(T);
+            T returnObject = new T();
+            for (int i = 0; i < dr.FieldCount; i++)
+            {
+                string colName = dr.GetName(i);
+
+                // Look for the object's property with the columns name, ignore case
+                PropertyInfo pInfo = t.GetProperty(colName.ToLower(),
+                    BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+                // did we find the property ?
+                if (pInfo != null)
+                {
+                    object val = dr[colName];
+                    // is this a Nullable<> type
+                    bool isNullable = (Nullable.GetUnderlyingType(pInfo.PropertyType) != null);
+                    if (isNullable)
+                    {
+                        val = val is DBNull
+                            ? null
+                            : Convert.ChangeType(val, Nullable.GetUnderlyingType(pInfo.PropertyType));
+                    }
+                    else
+                    {
+                        // Convert the db type into the type of the property in our entity
+                        val = Convert.ChangeType(val, pInfo.PropertyType);
+                    }
+                    // Set the value of the property with the value from the db
+                    pInfo.SetValue(returnObject, val, null);
+                }
+            }
+
+            // return the entity object with values
+            return returnObject;
+        }
+
+        #endregion
+
+        #region Métodos Generales
 
         public static Type TipoColumna(string tipo)
         {
@@ -415,57 +459,18 @@ namespace Sigcomt.Common
             return type;
         }
 
-        public static T ConvertedEntity<T>(this IDataReader dr) where T : new()
-        {
-            // Create a new type of the entity I want
-            Type t = typeof(T);
-            T returnObject = new T();
-            for (int i = 0; i < dr.FieldCount; i++)
-            {
-                string colName = dr.GetName(i);
-
-                // Look for the object's property with the columns name, ignore case
-                PropertyInfo pInfo = t.GetProperty(colName.ToLower(),
-                    BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-
-                // did we find the property ?
-                if (pInfo != null)
-                {
-                    object val = dr[colName];
-                    // is this a Nullable<> type
-                    bool isNullable = (Nullable.GetUnderlyingType(pInfo.PropertyType) != null);
-                    if (isNullable)
-                    {
-                        if (val is DBNull)
-                        {
-                            val = null;
-                        }
-                        else
-                        {
-                            // Convert the db type into the T we have in our Nullable<T> type
-                            val = Convert.ChangeType(val, Nullable.GetUnderlyingType(pInfo.PropertyType));
-                        }
-                    }
-                    else
-                    {
-                        // Convert the db type into the type of the property in our entity
-                        val = Convert.ChangeType(val, pInfo.PropertyType);
-                    }
-                    // Set the value of the property with the value from the db
-                    pInfo.SetValue(returnObject, val, null);
-                }
-            }
-
-            // return the entity object with values
-            return returnObject;
-        }
-
-        #endregion
-        
+        /// <summary>
+        /// Permite crear una copia del objeto.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="instance"></param>
+        /// <returns></returns>
         public static T Clone<T>(this T instance)
         {
             var json = JsonConvert.SerializeObject(instance);
             return JsonConvert.DeserializeObject<T>(json);
         }
+
+        #endregion
     }
 }

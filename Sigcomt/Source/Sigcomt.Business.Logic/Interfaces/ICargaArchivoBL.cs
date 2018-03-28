@@ -15,5 +15,6 @@ namespace Sigcomt.Business.Logic.Interfaces
         List<DetalleLogCarga> GetLogCarga(DateTime fecha);
         List<TablaColumna> GetColumnasTabla(string tabla);
         List<Archivo> GetArchivosEstado(DateTime fecha);
+        List<TipoComisionArchivo> GetTipoComisionArchivo();
     }
 }

@@ -12,78 +12,78 @@ namespace Sigcomt.WebApi.Controllers
 {
     public class AccountController: BaseController
     {
-        [HttpPost]
-        public JsonResponse Login(LoginDTO loginDTO)
-        {
-            var jsonResponse = new JsonResponse { Success = true };
+        //[HttpPost]
+        //public JsonResponse Login(LoginDTO loginDTO)
+        //{
+        //    var jsonResponse = new JsonResponse { Success = true };
 
-            try
-            {
-                if (loginDTO.ValidacionAD)
-                {
-                    UsuarioAD usuarioAD = new UsuarioAD();
-                    if (usuarioAD.AutenticarEnDominio(loginDTO.Username, loginDTO.Password))
-                    {
-                        var usuario = UsuarioBL.GetInstance().GetByUsername(loginDTO.Username);
-                        if (usuario != null)
-                        {
-                            var usuarioLoginDTO = MapperHelper.Map<Usuario, UsuarioLoginDTO>(usuario);
-                            jsonResponse.Data = usuarioLoginDTO;
+        //    try
+        //    {
+        //        if (loginDTO.ValidacionAD)
+        //        {
+        //            UsuarioAD usuarioAD = new UsuarioAD();
+        //            if (usuarioAD.AutenticarEnDominio(loginDTO.Username, loginDTO.Password))
+        //            {
+        //                var usuario = UsuarioBL.GetInstance().GetUsuario(loginDTO.Username);
+        //                if (usuario != null)
+        //                {
+        //                    var usuarioLoginDTO = MapperHelper.Map<Usuario, UsuarioLoginDTO>(usuario);
+        //                    jsonResponse.Data = usuarioLoginDTO;
 
-                            LogBL.GetInstance().Add(new Log
-                            {
-                                Accion = Mensajes.Login,
-                                Controlador = Mensajes.AccountController,
-                                Identificador = usuarioLoginDTO.Id,
-                                Mensaje = Mensajes.AccesoAlSistema,
-                                Usuario = usuarioLoginDTO.Username,
-                                Objeto = JsonConvert.SerializeObject(usuarioLoginDTO)
-                            });
-                        }
-                        else
-                        {
-                            jsonResponse.Warning = true;
-                            jsonResponse.Message = Mensajes.UsuarioNoExiste;
-                        }
-                    }else
-                    {
-                        jsonResponse.Warning = true;
-                        jsonResponse.Message = Mensajes.CredencialesDominioIncorrectas;
-                    }
-                }
-                else
-                {
-                    var usuario = UsuarioBL.GetInstance().GetByUsername(loginDTO.Username);
-                    if (usuario != null)
-                    {
-                        var usuarioLoginDTO = MapperHelper.Map<Usuario, UsuarioLoginDTO>(usuario);
-                        jsonResponse.Data = usuarioLoginDTO;
+        //                    LogBL.GetInstance().Add(new Log
+        //                    {
+        //                        Accion = Mensajes.Login,
+        //                        Controlador = Mensajes.AccountController,
+        //                        Identificador = usuarioLoginDTO.Id,
+        //                        Mensaje = Mensajes.AccesoAlSistema,
+        //                        Usuario = usuarioLoginDTO.Username,
+        //                        Objeto = JsonConvert.SerializeObject(usuarioLoginDTO)
+        //                    });
+        //                }
+        //                else
+        //                {
+        //                    jsonResponse.Warning = true;
+        //                    jsonResponse.Message = Mensajes.UsuarioNoExiste;
+        //                }
+        //            }else
+        //            {
+        //                jsonResponse.Warning = true;
+        //                jsonResponse.Message = Mensajes.CredencialesDominioIncorrectas;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            var usuario = UsuarioBL.GetInstance().GetByUsername(loginDTO.Username);
+        //            if (usuario != null)
+        //            {
+        //                var usuarioLoginDTO = MapperHelper.Map<Usuario, UsuarioLoginDTO>(usuario);
+        //                jsonResponse.Data = usuarioLoginDTO;
 
-                        LogBL.GetInstance().Add(new Log
-                        {
-                            Accion = Mensajes.Login,
-                            Controlador = Mensajes.AccountController,
-                            Identificador = usuarioLoginDTO.Id,
-                            Mensaje = Mensajes.AccesoAlSistema,
-                            Usuario = usuarioLoginDTO.Username,
-                            Objeto = JsonConvert.SerializeObject(usuarioLoginDTO)
-                        });
-                    }
-                    else
-                    {
-                        jsonResponse.Warning = true;
-                        jsonResponse.Message = Mensajes.UsuarioNoExiste;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogError(ex);
-                jsonResponse.Success = false;
-                jsonResponse.Message = Mensajes.IntenteloMasTarde;
-            }
+        //                LogBL.GetInstance().Add(new Log
+        //                {
+        //                    Accion = Mensajes.Login,
+        //                    Controlador = Mensajes.AccountController,
+        //                    Identificador = usuarioLoginDTO.Id,
+        //                    Mensaje = Mensajes.AccesoAlSistema,
+        //                    Usuario = usuarioLoginDTO.Username,
+        //                    Objeto = JsonConvert.SerializeObject(usuarioLoginDTO)
+        //                });
+        //            }
+        //            else
+        //            {
+        //                jsonResponse.Warning = true;
+        //                jsonResponse.Message = Mensajes.UsuarioNoExiste;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogError(ex);
+        //        jsonResponse.Success = false;
+        //        jsonResponse.Message = Mensajes.IntenteloMasTarde;
+        //    }
 
-            return jsonResponse;
-        }
+        //    return jsonResponse;
+        //}
     }
 }

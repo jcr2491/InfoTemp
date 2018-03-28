@@ -1,10 +1,9 @@
-﻿using Sigcomt.Business.Logic.Core;
+﻿using Sigcomt.Business.Entity;
 
 namespace Sigcomt.Business.Logic.Interfaces
 {
-    public interface IUsuarioBL<T, Q> : ILogic<T, Q> where T : class
+    public interface IUsuarioBL
     {
-        bool Exists(T entity);
-        T GetByUsername(string username);
+        Usuario GetUsuario(string username, string clave);
     }
 }

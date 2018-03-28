@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using Core.Singleton;
+using Dapper;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using Sigcomt.Business.Entity;
 using Sigcomt.DataAccess.Core;
@@ -14,7 +16,8 @@ namespace Sigcomt.DataAccess
     {
         #region Attributos
 
-        private readonly Database _database = new DatabaseProviderFactory().Create(ConectionStringRepository.ConnectionStringNameSQL);
+        private readonly Database _database = new DatabaseProviderFactory().Create(ConectionStringRepository.ConnectionStringNameSql);
+        private readonly IDbConnection _database2 = new SqlConnection(ConectionStringRepository.ConnectionStringSql);
 
         #endregion
 
@@ -161,13 +164,22 @@ namespace Sigcomt.DataAccess
                     {
                         list.Add(new Archivo
                         {
-                            NombreArchivo = lector.IsDBNull(lector.GetOrdinal("Nombre")) ? default(string) : lector.GetString(lector.GetOrdinal("Nombre")),
+                            NombreArchivo = lector.IsDBNull(lector.GetOrdinal("Archivo")) ? default(string) : lector.GetString(lector.GetOrdinal("Archivo")),
                             TipoArchivo = lector.IsDBNull(lector.GetOrdinal("TipoArchivo")) ? default(string) : lector.GetString(lector.GetOrdinal("TipoArchivo")),
                             Estado = lector.IsDBNull(lector.GetOrdinal("EstadoCarga")) ? default(int) : lector.GetInt32(lector.GetOrdinal("EstadoCarga")),
+                            Input= lector.IsDBNull(lector.GetOrdinal("Input")) ? default(string) : lector.GetString(lector.GetOrdinal("Input"))
                         });
                     }
                 }
             }
+            return list;
+        }
+
+        public List<TipoComisionArchivo> GetTipoComisionArchivo()
+        {
+            var list = _database2.Query<TipoComisionArchivo>($"{ConectionStringRepository.EsquemaName}.GetTipoComisionArchivo", null,
+                commandType: CommandType.StoredProcedure).ToList();
+
             return list;
         }
 

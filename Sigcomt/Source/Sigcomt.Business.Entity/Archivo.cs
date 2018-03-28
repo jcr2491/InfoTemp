@@ -11,5 +11,6 @@ namespace Sigcomt.Business.Entity
         public string TipoArchivo { get; set; }
         public string NombreArchivo { get; set; }
         public int Estado { get; set; }
+        public string Input { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace Sigcomt.Common.Enums
         RapicashTT = 13, 
         RapicashM = 14,
         RapicashSD = 15,
-        BaseCarga = 16,
+        BaseCarga = 0,
         Mantenimiento = 17
     }
 }

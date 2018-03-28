@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sigcomt.DataAccess</RootNamespace>
     <AssemblyName>Sigcomt.DataAccess</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,6 +37,10 @@
     </Reference>
     <Reference Include="Core.Singleton, Version=2.0.6074.9804, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CSharp.Portable-Singleton.2.0.0.4\lib\Core.Singleton.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -69,14 +74,12 @@
     <Compile Include="Interfaces\IEmpleadoRepository.cs" />
     <Compile Include="Interfaces\IExcelRepository.cs" />
     <Compile Include="Interfaces\ILogRepository.cs" />
-    <Compile Include="Interfaces\ILoteRepository.cs" />
     <Compile Include="Interfaces\IMPonderacionRepository.cs" />
     <Compile Include="Interfaces\IParametroRepository.cs" />
     <Compile Include="Interfaces\IRolRepository.cs" />
     <Compile Include="Interfaces\IItemTablaRepository.cs" />
     <Compile Include="Interfaces\IUsuarioRepository.cs" />
     <Compile Include="LogRepository.cs" />
-    <Compile Include="LoteRepository.cs" />
     <Compile Include="ParametroRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RolRepository.cs" />

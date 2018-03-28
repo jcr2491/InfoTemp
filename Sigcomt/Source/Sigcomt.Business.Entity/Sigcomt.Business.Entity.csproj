@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sigcomt.Business.Entity</RootNamespace>
     <AssemblyName>Sigcomt.Business.Entity</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -128,6 +129,7 @@
     <Compile Include="RITECajero.cs" />
     <Compile Include="RITECCFF.cs" />
     <Compile Include="RITEPlataforma.cs" />
+    <Compile Include="TipoComisionArchivo.cs" />
     <Compile Include="TotalCuentas2Abono.cs" />
     <Compile Include="UACMonitoreo.cs" />
     <Compile Include="Usuario.cs" />

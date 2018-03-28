@@ -78,7 +78,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Maestro
                             excel.GetCellToString(row,
                                 cargaBase.PropiedadCol.First(p => p.Key == "KpiId").Value.PosicionColumna), string.Empty);
 
-                        if (kpiId != string.Empty && Char.IsNumber(kpiId, 0))
+                        if (kpiId != string.Empty)
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
