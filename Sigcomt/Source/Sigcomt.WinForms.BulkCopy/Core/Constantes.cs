@@ -1,4 +1,4 @@
-﻿using Sigcomt.Business.Entity;
+using Sigcomt.Business.Entity;
 
 namespace Sigcomt.WinForms.BulkCopy.Core
 {
@@ -12,7 +12,8 @@ namespace Sigcomt.WinForms.BulkCopy.Core
         public static Usuario Usuario = null;
         public static string UsuarioRequerido = "Usuario es requerido";
         public static string ClaveRequerida = "Clave es requerida";
-        public static string CredencialesIncorrectas = "Las credenciales especificadas son incorrectas o el usuario no está registrado";
+        public static string CredencialesIncorrectas = "Las credenciales especificadas son incorrectas";
+        public static string UsuarioNoRegistrado = "Usuario no esta registrado en el sistema";
         public static string SeleccioneElemento = "Seleccione al menos un elemento";
         public static string TituloCargaTerminada = "Proceso de carga culminada";
         public static string PorcentajeCompletado = "{0}% Completado";
