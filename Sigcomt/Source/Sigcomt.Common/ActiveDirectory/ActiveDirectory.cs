@@ -1,4 +1,3 @@
-﻿using System.Configuration;
 using System.DirectoryServices;
 
 namespace Sigcomt.Common.ActiveDirectory
@@ -7,32 +6,20 @@ namespace Sigcomt.Common.ActiveDirectory
     {
         public static bool ExistsUserInDirectory(string username, string password)
         {
-            var domains = ConfigurationManager.AppSettings["Domains"].Split(',');
-            string connectionString = ConfigurationManager.ConnectionStrings["ADWVP"].ConnectionString;
-            bool exists = false;
-
-            DirectoryEntry entry = GetDirectoryEntry(connectionString);
+            DirectoryEntry entry = GetDirectoryEntry(ConfigurationAppSettings.ConnectionAd);
             entry.Password = password;
+            entry.Username = username;
 
-            foreach (string domain in domains)
+            DirectorySearcher search = new DirectorySearcher
             {
-                entry.Username = $"{username}@{domain}";
-                DirectorySearcher search = new DirectorySearcher
-                {
-                    SearchRoot = entry,
-                    Filter = "(&(objectClass=user) (sAMAccountName=" + username + "))",
-                    SearchScope = SearchScope.Subtree
-                };
+                SearchRoot = entry,
+                Filter = "(&(objectClass=user) (sAMAccountName=" + username.Split('@')[0] + "))",
+                SearchScope = SearchScope.Subtree
+            };
 
-                SearchResult result = FindOne(search);
+            SearchResult result = FindOne(search);
 
-                if (result != null)
-                {
-                    exists = true;
-                    break;
-                }
-            }
-            return exists;
+            return result != null;
         }
 
         public static DirectoryEntry GetDirectoryEntry(string connectionString)
