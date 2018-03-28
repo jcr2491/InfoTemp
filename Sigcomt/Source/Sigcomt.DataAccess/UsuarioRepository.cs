@@ -1,4 +1,4 @@
-﻿using Sigcomt.Business.Entity;
+using Sigcomt.Business.Entity;
 using Sigcomt.DataAccess.Core;
 using Sigcomt.DataAccess.Interfaces;
 using System.Data;
@@ -19,14 +19,10 @@ namespace Sigcomt.DataAccess
 
         #region Métodos Públicos
 
-        public Usuario GetUsuario(string username, string clave)
+        public Usuario GetUsuario(string username)
         {
             var user = _database.Query<Usuario>($"{ConectionStringRepository.EsquemaName}.GetUsuario",
-                new
-                {
-                    UserName = username,
-                    Clave = clave
-                }, commandType: CommandType.StoredProcedure).SingleOrDefault();
+                new {UserName = username}, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
             return user;
         }
