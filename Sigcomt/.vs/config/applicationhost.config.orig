@@ -172,7 +172,12 @@
             </site>
             <site name="Sigcomt.WebApi" id="3">
                 <application path="/" applicationPool="Clr4IntegratedAppPool">
+<<<<<<< HEAD
                     <virtualDirectory path="/" physicalPath="E:\SIGCOMT\Comisiones\Falabella.ReporteComisiones\Sigcomt\Source\Sigcomt.WebApi" />
+=======
+                    <virtualDirectory path="/" physicalPath="D:\SIGCOMT\FALABELLA\_COMISIONES\Falabella.ReporteComisiones\Sigcomt\Source\Sigcomt.WebApi" />
+>>>>>>> a456f4fc1ed6bad7d443d0effd1b9935554d20eb
+
                    
                 </application>
                 <bindings>
@@ -181,7 +186,11 @@
             </site>
             <site name="Sigcomt.Web(1)" id="4">
                 <application path="/" applicationPool="Clr4IntegratedAppPool">
-                    <virtualDirectory path="/" physicalPath="D:\Proyectos Junior\Falabella\Falabella.ReporteComisiones\Sigcomt\Source\Sigcomt.Web" />
+<<<<<<< HEAD
+                    <virtualDirectory path="/" physicalPath="E:\SIGCOMT\Comisiones\Falabella.ReporteComisiones\Sigcomt\Source\Sigcomt.Web" />
+=======
+                    <virtualDirectory path="/" physicalPath="D:\SIGCOMT\FALABELLA\_COMISIONES\Falabella.ReporteComisiones\Sigcomt\Source\Sigcomt.Web" />
+>>>>>>> a456f4fc1ed6bad7d443d0effd1b9935554d20eb
 
                 </application>
                 <bindings>
