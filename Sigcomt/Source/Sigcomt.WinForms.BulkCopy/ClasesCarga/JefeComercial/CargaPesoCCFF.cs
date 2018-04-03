@@ -93,8 +93,6 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.JefeComercial
                     }
 
                     cargaBase.RegistrarCarga(dt, "PesoCCFF");
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("MetaTiendaRapicash", "Empleado", "EmpleadoId");
                 }
             }
             catch (Exception ex)

@@ -72,7 +72,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.ReporteRI.LAmpliacionesdeLínea
                             excel.GetCellToString(row,
                                 cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna), string.Empty);
 
-                        if (!string.IsNullOrEmpty(ccff) && Char.IsNumber(ccff, 0))
+                        if (!string.IsNullOrEmpty(ccff))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);

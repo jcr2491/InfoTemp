@@ -75,7 +75,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Rapicash
                                 cargaBase.PropiedadCol.First(p => p.Key == "TipoComisionId").Value.PosicionColumna),
                             string.Empty);
 
-                        if (!string.IsNullOrWhiteSpace(tipoComisionId) && char.IsNumber(tipoComisionId, 0))
+                        if (!string.IsNullOrWhiteSpace(tipoComisionId))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);

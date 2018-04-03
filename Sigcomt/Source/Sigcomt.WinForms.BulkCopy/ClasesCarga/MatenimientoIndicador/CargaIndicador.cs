@@ -36,15 +36,14 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.MatenimientoIndicador
                 foreach (var fileName in filesNames)
                 {
                     DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
-                   DateTime fechaModificacion = File.GetLastWriteTime(fileName);
-                    
+                    DateTime fechaModificacion = File.GetLastWriteTime(fileName);
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
                     if (cabecera != null && cabecera.FechaModificacionArchivo == fechaModificacion) continue;
 
                     GenericExcel excel = cargaBase.GetHojaExcel(fileName);
 
-                  int cabeceraId=  cargaBase.AgregarCabeceraCarga(new CabeceraCarga
+                    cargaBase.AgregarCabeceraCarga(new CabeceraCarga
                     {
                         TipoArchivo = tipoArchivo,
                         FechaCargaIni = DateTime.Now,
@@ -75,7 +74,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.MatenimientoIndicador
                                 cargaBase.PropiedadCol.First(p => p.Key == "IndicadorId").Value.PosicionColumna),
                             string.Empty);
 
-                        if (!string.IsNullOrWhiteSpace(indicadorId) && Char.IsNumber(indicadorId, 0))
+                        if (!string.IsNullOrWhiteSpace(indicadorId) )
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);
@@ -103,11 +102,10 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.MatenimientoIndicador
                     }
 
                     cargaBase.RegistrarCarga(dt, "Indicador");
-                    if (UtilsLocal.LogCargaList.Where(p => p.TipoLog != "4" && p.CargaId == cabeceraId).Count()>0)
+                    if (UtilsLocal.LogCargaList.Any(p => p.TipoLog != "4" && p.CargaId == cargaBase.CabeceraCargaId))
                     {
                         result = false;
                     }
-                 
                 }
             }
             catch (Exception ex)

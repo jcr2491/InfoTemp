@@ -54,5 +54,15 @@ namespace Sigcomt.Business.Logic
         {
             return CargaArchivoRepository.GetInstance().GetTipoComisionArchivo();
         }
+
+        public List<HomologacionEmpleado> GetHomologacionEmpleado(DateTime fecha)
+        {
+            return CargaArchivoRepository.GetInstance().GetHomologacionEmpleado(fecha);
+        }
+
+        public bool AddReporte(string nombreReport, DateTime fecha, int userId)
+        {
+            return CargaArchivoRepository.GetInstance().AddReporte(nombreReport, fecha, userId);
+        }
     }
 }

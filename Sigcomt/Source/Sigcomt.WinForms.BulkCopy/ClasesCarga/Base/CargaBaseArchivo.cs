@@ -4,7 +4,7 @@
     {
         public static bool CargaArchivos()
         {
-            if (CargaEmpleadoCCFF.CargarArchivo() && CargaRICCFF.CargarArchivo())
+            if (CargaEmpleado.CargarArchivo() && CargaRICCFF.CargarArchivo())
             {
                 CargaHomologacionEmpleado.CargarArchivo();
                 CargaHomologacionCCFF.CargarArchivo();

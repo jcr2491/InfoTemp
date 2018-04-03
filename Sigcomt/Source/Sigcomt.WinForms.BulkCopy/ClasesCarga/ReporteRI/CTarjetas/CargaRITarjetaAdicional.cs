@@ -77,7 +77,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.ReporteRI.CTarjetas
                             excel.GetCellToString(row,
                                 cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna), string.Empty);
 
-                        if (!string.IsNullOrEmpty(id) && char.IsNumber(id, 0))
+                        if (!string.IsNullOrEmpty(id))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);

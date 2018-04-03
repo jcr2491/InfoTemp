@@ -1,4 +1,7 @@
-﻿using Sigcomt.WinForms.BulkCopy.ClasesCarga.Maestro;
+﻿using Sigcomt.Common;
+using Sigcomt.Common.Enums;
+using Sigcomt.WinForms.BulkCopy.ClasesCarga.Maestro;
+using Sigcomt.WinForms.BulkCopy.Core;
 
 namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC
 {
@@ -16,6 +19,8 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC
                 CargaUACMonitoreo.CargarArchivo();
                 CargaDiasAusencia.CargarArchivo();
             }
+
+            UtilsLocal.GenerarReporte("ReporteUAC", TipoComision.UAC.GetNumberValue());
         }
 
         #endregion

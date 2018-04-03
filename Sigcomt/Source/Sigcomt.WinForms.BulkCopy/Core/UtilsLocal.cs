@@ -8,6 +8,7 @@ using NPOI.SS.Util;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;
+using Sigcomt.Common.Enums;
 
 namespace Sigcomt.WinForms.BulkCopy.Core
 {
@@ -18,6 +19,7 @@ namespace Sigcomt.WinForms.BulkCopy.Core
         public static List<string> TipoArchivoList;
         public static List<TipoComisionArchivo> TipoComisionArchivoList;
         public static Dictionary<string, Func<string, bool>> MetodoTipoDatoList;
+        public static List<HomologacionEmpleado> HomologacionEmpleadoList;
         public static DateTime Fecha;
         public static DateTime FechaCarga;
         public static BackgroundWorker Worker;
@@ -217,6 +219,67 @@ namespace Sigcomt.WinForms.BulkCopy.Core
         {
             var archivo = TipoComisionArchivoList.FirstOrDefault(p => p.TipoArchivoId == tipoArchivo);
             return archivo != null ? archivo.TipoArchivoNombre : string.Empty;
+        }
+
+        /// <summary>
+        /// Retorna el nombre del tipo de comisión
+        /// </summary>
+        /// <param name="tipoComision"></param>
+        /// <returns></returns>
+        public static string GetNombreTipoComision(int tipoComision)
+        {
+            var comision = TipoComisionArchivoList.FirstOrDefault(p => p.TipoComisionId == tipoComision);
+            return comision != null ? comision.TipoComisionNombre : string.Empty;
+        }
+
+        /// <summary>
+        /// Permite generar el reporte
+        /// </summary>
+        /// <param name="nombreReporte">Nombre del reporte a invocar</param>
+        /// <param name="tipoComision">Nombre del tipo de comisión a la que se generará el reporte</param>
+        public static void GenerarReporte(string nombreReporte, int tipoComision)
+        {
+            AsignarEstado(Constantes.InicioReporte);
+            string nombreTipoComision = GetNombreTipoComision(tipoComision);
+
+            try
+            {
+                bool estado = CargaArchivoBL.GetInstance().AddReporte(nombreReporte, FechaCarga, Constantes.Usuario.Id);
+
+                if (estado)
+                {
+                    var logCarga = new LogCarga
+                    {
+                        TipoLog = TipoLogCarga.ReporteOk.GetStringValue(),
+                        DetalleLog = string.Format(Constantes.FinCorrectoReporte, nombreTipoComision)
+                    };
+
+                    LogCargaList.Add(logCarga);
+                    AsignarEstado(logCarga.DetalleLog);
+                }
+                else
+                {
+                    var logCarga = new LogCarga
+                    {
+                        TipoLog = TipoLogCarga.ReporteError.GetStringValue(),
+                        DetalleLog = string.Format(Constantes.FinErrorReporte, nombreTipoComision)
+                    };
+
+                    LogCargaList.Add(logCarga);
+                    AsignarEstadoError(logCarga.DetalleLog);
+                }
+            }
+            catch (Exception ex)
+            {
+                var logCarga = new LogCarga
+                {
+                    TipoLog = TipoLogCarga.ReporteError.GetStringValue(),
+                    DetalleLog = string.Format(Constantes.ErrorReporte, nombreTipoComision, ex.Message)
+                };
+
+                LogCargaList.Add(logCarga);
+                AsignarEstadoError(logCarga.DetalleLog);
+            }
         }
 
         public static string GetMessageError(bool fileError, string[] campos, int numLinea, string messageException)

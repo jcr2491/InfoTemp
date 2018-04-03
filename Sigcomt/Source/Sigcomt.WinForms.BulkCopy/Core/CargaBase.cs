@@ -311,7 +311,7 @@ namespace Sigcomt.WinForms.BulkCopy.Core
 
                 UtilsLocal.LogCargaList.Add(logCarga);
                 _errorAgregado = true;
-                throw new Exception(ex.Message, ex);
+                throw new Exception(logCarga.DetalleLog, ex);
             }
         }
 
@@ -411,10 +411,34 @@ namespace Sigcomt.WinForms.BulkCopy.Core
         }
 
         /// <summary>
-        ///  el avance de carga
+        /// Permite validar y asignar el codigo de empleado en la tabla homologación
         /// </summary>
+        /// <param name="colNombre">Columna donde esta el nombre del emplado</param>
+        /// <param name="colCodigo">Columna donde se almacena el código del empleado</param>
+        /// <param name="numFila">Número de la fila que se esta validando</param>
+        /// <returns></returns>
+        public bool ValidarCodigoEmpleado(string colNombre, string colCodigo, int numFila)
+        {
+            bool isValid = true;
+            string nombre = PropiedadCol[colNombre].Valor;
+            var propCol = PropiedadCol.First(p => p.Key == colCodigo);
+            var empleado = UtilsLocal.HomologacionEmpleadoList.FirstOrDefault(p =>
+                string.Equals(p.Empleado, nombre, StringComparison.OrdinalIgnoreCase));
 
-        
+            if (empleado != null)
+            {
+                propCol.Value.Valor = empleado.Codigo;
+            }
+            else
+            {
+                AgregarLogValidacionDatos(propCol, numFila + 1,
+                    $"No se encontró código para el empleado: \"{nombre}\" en el archivo homologación Empleado");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
         #endregion
 
         #region Métodos Privados

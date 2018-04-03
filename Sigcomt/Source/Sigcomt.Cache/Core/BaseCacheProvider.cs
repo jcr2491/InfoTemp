@@ -4,10 +4,10 @@
     {
         #region ICacheProvider
 
-        void ICacheProvider.AddItem<T>(T value, string key)
-        {
-            AddItem(key, value);
-        }
+        //void ICacheProvider.AddItem<T>(T value, string key)
+        //{
+        //    AddItem(key, value);
+        //}
 
         T ICacheProvider.GetItem<T>(string key)
         {
@@ -45,7 +45,7 @@
 
         #region Abstracts
 
-        protected abstract void AddItem(string key, object value);
+        //protected abstract void AddItem(string key, object value);
 
         protected abstract object GetItem(string key);
 

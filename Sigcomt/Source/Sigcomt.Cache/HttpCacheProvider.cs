@@ -8,16 +8,16 @@ namespace Sigcomt.Cache
 {
     public class HttpCacheProvider : BaseCacheProvider
     {
-        protected override void AddItem(string key, object value)
-        {
-            HttpContext.Current.Cache.Insert(
-                key,
-                value,
-                null,
-                DateTime.UtcNow.AddMinutes(CacheConfigurator.Minutes),
-                System.Web.Caching.Cache.NoSlidingExpiration
-            );
-        }
+        //protected override void AddItem(string key, object value)
+        //{
+        //    HttpContext.Current.Cache.Insert(
+        //        key,
+        //        value,
+        //        null,
+        //        DateTime.UtcNow.AddMinutes(CacheConfigurator.Minutes),
+        //        System.Web.Caching.Cache.NoSlidingExpiration
+        //    );
+        //}
 
         protected override object GetItem(string key)
         {

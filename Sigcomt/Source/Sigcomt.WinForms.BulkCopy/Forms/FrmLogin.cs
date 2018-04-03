@@ -13,8 +13,8 @@ namespace Sigcomt.WinForms.BulkCopy.Forms
     {
         public FrmLogin()
         {
-            InitializeComponent();
-            mtxtUsuario.Focus();
+                InitializeComponent();
+                mtxtUsuario.Focus();
         }
 
         #region Eventos

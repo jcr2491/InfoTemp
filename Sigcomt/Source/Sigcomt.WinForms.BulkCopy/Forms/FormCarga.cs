@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Forms;
-using MetroFramework;
+﻿using MetroFramework;
 using MetroFramework.Forms;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
@@ -20,7 +15,11 @@ using Sigcomt.WinForms.BulkCopy.ClasesCarga.RelacionistaCoordinador;
 using Sigcomt.WinForms.BulkCopy.ClasesCarga.ReporteRI;
 using Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC;
 using Sigcomt.WinForms.BulkCopy.Core;
-using Sigcomt.Common.Enums;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Sigcomt.WinForms.BulkCopy.Forms
 {
@@ -28,7 +27,7 @@ namespace Sigcomt.WinForms.BulkCopy.Forms
     {
         private int _totalArchivos;
         private int _numLinea;
-
+        
         public FormCarga()
         {
             InitializeComponent();
@@ -74,6 +73,15 @@ namespace Sigcomt.WinForms.BulkCopy.Forms
             mprgbAvance.Value = e.ProgressPercentage;
             lblPorcentaje.Text = string.Format(Constantes.PorcentajeCompletado, e.ProgressPercentage);
             lblPorcentaje.Refresh();
+        }
+
+        private void FormCarga_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MetroMessageBox.Show(this, Constantes.SalirSistema, Constantes.Confirmacion, MessageBoxButtons.YesNo,
+                  MessageBoxIcon.Information) == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
         }
 
         private void FormCarga_FormClosed(object sender, FormClosedEventArgs e)
@@ -139,6 +147,7 @@ namespace Sigcomt.WinForms.BulkCopy.Forms
                 lblPorcentaje.Visible = true;
                 lblCarga.Visible = true;
 
+                CargarDatosAdicionales();
                 CargarArchivos();
             }
             else
@@ -150,42 +159,65 @@ namespace Sigcomt.WinForms.BulkCopy.Forms
 
         private void CargarDatosIniciales()
         {
-            UtilsLocal.ExcelList = ExcelBL.GetInstance().GetExcel();
-            UtilsLocal.LogCargaList = new List<LogCarga>();
-            UtilsLocal.TipoComisionArchivoList = CargaArchivoBL.GetInstance().GetTipoComisionArchivo();
-            UtilsLocal.MetodoTipoDatoList = new Dictionary<string, Func<string, bool>>
+            try
             {
-                {Common.Enums.TipoDato.Entero.GetStringValue(), Utils.EsEntero},
-                {Common.Enums.TipoDato.Letras.GetStringValue(), Utils.EsSoloLetras},
-                {Common.Enums.TipoDato.NumeroYLetras.GetStringValue(), Utils.EsNumeroYLetras},
-                {Common.Enums.TipoDato.Fecha.GetStringValue(), Utils.EsFecha},
-                {Common.Enums.TipoDato.Decimal.GetStringValue(), Utils.EsDecimal},
-                {Common.Enums.TipoDato._default.GetStringValue(), Utils.EsDefault}//TODO: refactorizar
-            };
-
-            lblNombreUsuario.Text = Constantes.Usuario.NombreCompleto;
-            var tipoComisionList = UtilsLocal.TipoComisionArchivoList.GroupBy(p => p.TipoComisionId,
-                (key, group) => new { Id = key, Nombre = group.First().TipoComisionNombre });
-
-            TreeNode node = new TreeNode(Constantes.Todos);
-
-            foreach (var comision in tipoComisionList)
-            {
-                TreeNode nodeComision = new TreeNode(comision.Nombre);
-
-                var tipoArchivoList = UtilsLocal.TipoComisionArchivoList.Where(p => p.TipoComisionId == comision.Id);
-
-                foreach (var archivo in tipoArchivoList)
+                UtilsLocal.ExcelList = ExcelBL.GetInstance().GetExcel();
+                UtilsLocal.LogCargaList = new List<LogCarga>();
+                UtilsLocal.TipoComisionArchivoList = CargaArchivoBL.GetInstance().GetTipoComisionArchivo();
+                UtilsLocal.MetodoTipoDatoList = new Dictionary<string, Func<string, bool>>
                 {
-                    nodeComision.Nodes.Add(archivo.TipoArchivoId, archivo.TipoArchivoNombre);
+                    {TipoDato.Entero.GetStringValue(), Utils.EsEntero},
+                    {TipoDato.Letras.GetStringValue(), Utils.EsSoloLetras},
+                    {TipoDato.NumeroYLetras.GetStringValue(), Utils.EsNumeroYLetras},
+                    {TipoDato.Fecha.GetStringValue(), Utils.EsFecha},
+                    {TipoDato.Decimal.GetStringValue(), Utils.EsDecimal},
+                    {TipoDato._default.GetStringValue(), Utils.EsDefault} //TODO: refactorizar
+                };
+
+                lblNombreUsuario.Text = Constantes.Usuario.NombreCompleto;
+                var tipoComisionList = UtilsLocal.TipoComisionArchivoList.GroupBy(p => p.TipoComisionId,
+                    (key, group) => new { Id = key, Nombre = group.First().TipoComisionNombre });
+
+                TreeNode node = new TreeNode(Constantes.Todos);
+
+                foreach (var comision in tipoComisionList)
+                {
+                    TreeNode nodeComision = new TreeNode(comision.Nombre);
+
+                    var tipoArchivoList = UtilsLocal.TipoComisionArchivoList.Where(p => p.TipoComisionId == comision.Id);
+
+                    foreach (var archivo in tipoArchivoList)
+                    {
+                        nodeComision.Nodes.Add(archivo.TipoArchivoId, archivo.TipoArchivoNombre);
+                    }
+
+                    node.Nodes.Add(nodeComision);
                 }
 
-                node.Nodes.Add(nodeComision);
+                treeArchivos.Nodes.Add(node);
+                treeArchivos.ExpandAll();
+                treeArchivos.TopNode = node;
             }
+            catch (Exception ex)
+            {
+                MetroMessageBox.Show(this, ex.Message, Constantes.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-            treeArchivos.Nodes.Add(node);
-            treeArchivos.ExpandAll();
-            treeArchivos.TopNode = node;
+        private void CargarDatosAdicionales()
+        {
+            try
+            {
+                if (UtilsLocal.HomologacionEmpleadoList == null)
+                {
+                    UtilsLocal.HomologacionEmpleadoList =
+                        CargaArchivoBL.GetInstance().GetHomologacionEmpleado(UtilsLocal.FechaCarga);
+                }
+            }
+            catch (Exception ex)
+            {
+                MetroMessageBox.Show(this, ex.Message, Constantes.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void CargarArchivos()
@@ -233,7 +265,6 @@ namespace Sigcomt.WinForms.BulkCopy.Forms
                             UtilsLocal.AsignarEstadoError(Constantes.ErrorCargaIndicadores);
                         }
                     }
-                    
                 }
                 else
                 {
@@ -243,8 +274,7 @@ namespace Sigcomt.WinForms.BulkCopy.Forms
                 var errorList = UtilsLocal.RegistrarLogCarga();
                 var archivoEstadocarga = UtilsLocal.GetArchivoEstadoCarga();
 
-                //Envio Correo
-                //EnvioEmail.EnvioCorreo(errorList, archivoEstadocarga);
+                EnvioEmail.EnvioCorreo(errorList, archivoEstadocarga);
 
                 UtilsLocal.AsignarEstado(new MensajeEstado
                 {

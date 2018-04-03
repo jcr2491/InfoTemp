@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using log4net;
 using Sigcomt.Business.Entity;
@@ -64,6 +63,8 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC
                     while (!cargaBase.EsFilaVacia(excel, row))
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
+                        isValid = isValid && cargaBase.ValidarCodigoEmpleado("Empleado", "CodigoEmpleado", rowNum);
+
                         if (!isValid)
                         {
                             rowNum++;
@@ -71,28 +72,17 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC
                             continue;
                         }
 
-                        string empleado = Utils.GetValueColumn(
-                            excel.GetStringCellValue(row,
-                                cargaBase.PropiedadCol.First(p => p.Key == "Empleado").Value.PosicionColumna),
-                            string.Empty);
+                        cont++;
+                        DataRow dr = cargaBase.AsignarDatos(dt);
+                        dr["Secuencia"] = cont;
 
-                        if (!string.IsNullOrWhiteSpace(empleado))
-                        {
-                            cont++;
-                            DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["Secuencia"] = cont;
-
-                            dt.Rows.Add(dr);
-                        }
+                        dt.Rows.Add(dr);
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
                     cargaBase.RegistrarCarga(dt, "Productividad");
-
-                    //Se coloca el Id del empleado a los registros
-                    CargaArchivoBL.GetInstance().AddEmpleadoId("Productividad", "Empleado", "CodigoEmpleado");
 
                     //Se coloca el Id del grupo a los registros
                     CargaArchivoBL.GetInstance().AddGrupoId("Productividad");

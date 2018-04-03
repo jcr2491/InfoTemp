@@ -92,7 +92,7 @@
             this.mtxtClave.MaxLength = 32767;
             this.mtxtClave.Name = "mtxtClave";
             this.mtxtClave.PasswordChar = '●';
-            this.mtxtClave.PromptText = "Clave";
+            this.mtxtClave.WaterMark = "Clave";
             this.mtxtClave.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.mtxtClave.SelectedText = "";
             this.mtxtClave.SelectionLength = 0;
@@ -111,7 +111,6 @@
             // mtxtUsuario
             // 
             this.mtxtUsuario.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.mtxtUsuario.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             // 
             // 
             // 
@@ -131,7 +130,7 @@
             this.mtxtUsuario.MaxLength = 32767;
             this.mtxtUsuario.Name = "mtxtUsuario";
             this.mtxtUsuario.PasswordChar = '\0';
-            this.mtxtUsuario.PromptText = "Usuario";
+            this.mtxtUsuario.WaterMark = "Usuario";
             this.mtxtUsuario.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.mtxtUsuario.SelectedText = "";
             this.mtxtUsuario.SelectionLength = 0;

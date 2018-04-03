@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using log4net;
 using Sigcomt.Business.Entity;
@@ -35,7 +34,6 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC
                 {
                     DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
-                    
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
                     if (cabecera != null)
@@ -60,13 +58,13 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string grupo = string.Empty;
-                    string supervisor = string.Empty;
                     int cont = 0;
 
                     while (!cargaBase.EsFilaVacia(excel, row))
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
+                        isValid = isValid && cargaBase.ValidarCodigoEmpleado("Empleado", "CodigoEmpleado", rowNum);
+
                         if (!isValid)
                         {
                             rowNum++;
@@ -74,28 +72,16 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC
                             continue;
                         }
 
-                        grupo = Utils.GetValueColumn(
-                            excel.GetStringCellValue(row,
-                                cargaBase.PropiedadCol.First(p => p.Key == "Grupo").Value.PosicionColumna), grupo);
-
-                        if (!(supervisor.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase) ||
-                              grupo.StartsWith("Total", StringComparison.InvariantCultureIgnoreCase)))
-                        {
-                            cont++;
-                            DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["Secuencia"] = cont;
-                            dt.Rows.Add(dr);
-                        }
+                        cont++;
+                        DataRow dr = cargaBase.AsignarDatos(dt);
+                        dr["Secuencia"] = cont;
+                        dt.Rows.Add(dr);
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
-                        grupo = string.Empty;
                     }
 
                     cargaBase.RegistrarCarga(dt, "SLAUAC");
-
-                    //Se coloca el Id del empleado a los registros
-                    CargaArchivoBL.GetInstance().AddEmpleadoId("SLAUAC", "Empleado", "CodigoEmpleado");
 
                     //Se coloca el Id del grupo a los registros
                     CargaArchivoBL.GetInstance().AddGrupoId("SLAUAC");

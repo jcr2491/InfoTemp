@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using log4net;
 using Sigcomt.Business.Entity;
@@ -35,10 +34,13 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Base
                 {
                     DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
-                    
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
-                    if (cabecera != null && cabecera.FechaModificacionArchivo == fechaModificacion) continue;
+                    if (cabecera != null)
+                    {
+                        if (fechaModificacion.GetDateTimeToString() ==
+                            cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
+                    }
 
                     GenericExcel excel = cargaBase.GetHojaExcel(fileName);
 
@@ -61,6 +63,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Base
                     while (!cargaBase.EsFilaVacia(excel, row))
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
+
                         if (!isValid)
                         {
                             rowNum++;
@@ -68,25 +71,21 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Base
                             continue;
                         }
 
-                        string codigo = Utils.GetValueColumn(
-                            excel.GetCellToString(row,
-                                cargaBase.PropiedadCol.First(p => p.Key == "Codigo").Value.PosicionColumna),
-                            string.Empty);
+                        cont++;
+                        DataRow dr = cargaBase.AsignarDatos(dt);
+                        dr["Secuencia"] = cont;
 
-                        if (!string.IsNullOrWhiteSpace(codigo) && Char.IsNumber(codigo, 0))
-                        {
-                            cont++;
-                            DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["Secuencia"] = cont;
-
-                            dt.Rows.Add(dr);
-                        }
+                        dt.Rows.Add(dr);
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
                     cargaBase.RegistrarCarga(dt, "HomologacionEmpleado");
+
+                    //Cargamos la data registrada ya que es data inicial para las demas cargas
+                    UtilsLocal.HomologacionEmpleadoList =
+                        CargaArchivoBL.GetInstance().GetHomologacionEmpleado(UtilsLocal.FechaCarga);
                 }
             }
             catch (Exception ex)

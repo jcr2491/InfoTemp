@@ -9,7 +9,7 @@
         /// <typeparam name="T">Type of cached item</typeparam>
         /// <param name="value">Item to be cached</param>
         /// <param name="key">Name of item</param>
-        void AddItem<T>(T value, string key) where T : class;
+        //void AddItem<T>(T value, string key) where T : class;
 
         /// <summary>
         /// Remove item from cache

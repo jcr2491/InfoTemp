@@ -4,6 +4,6 @@ namespace Sigcomt.Cache.Core
 {
     public abstract class CacheConfigurator
     {
-        public static int Minutes = ConfigurationAppSettings.TimeOutCache();
+        //public static int Minutes = ConfigurationAppSettings.TimeOutCache();
     }
 }

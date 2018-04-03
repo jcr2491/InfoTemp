@@ -6,20 +6,20 @@
     <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net"/>
   </configSections>
   <connectionStrings>
-    <!--<add name="ConnectionStringSQL" connectionString="Data Source=JUNIORCASTRO;Initial Catalog=Comisiones;Integrated Security=True; Connect Timeout=200;" providerName="System.Data.SqlClient"/>-->
-    <!--<add name="ConnectionStringSQL" connectionString="Data Source=.;Initial Catalog=Comisiones;uid=sa;pwd=sigcomt; Connect Timeout=200;" providerName="System.Data.SqlClient"/>-->
-    <add name="ConnectionStringSQL" connectionString="Data Source=LP11\MSSQLSERVER2;Initial Catalog=Comisiones;uid=sa;pwd=sigcomt; Connect Timeout=200;" providerName="System.Data.SqlClient" />
-    <add name="ConnectionActiveDirectory" connectionString="LDAP://sigcomt.com" />
+    <add name="ConnectionStringSQL" connectionString="Data Source=JUNIORCASTRO;Initial Catalog=Comisiones;Integrated Security=True; Connect Timeout=200;" providerName="System.Data.SqlClient"/>
+    <!--<add name="ConnectionStringSQL" connectionString="Data Source=LP12;Initial Catalog=ComisionesQA;uid=sa;pwd=sigcomt; Connect Timeout=200;" providerName="System.Data.SqlClient" />-->
   </connectionStrings>
   <appSettings>
     <add key="EmailPattern" value="sigone@sigcomt.com"/>
-    <add key="Correo" value="jcastro@sigcomt.com;jfernandez@sigcomt.com"/>
+    <add key="Correo" value="jcastro@sigcomt.com"/>
     <add key="CorreoCC" value=""/>
     <add key="Subject" value="COMISIONES"/>
     <add key="RutaArchivoIn" value="Archivo\In\"/>
     <add key="RutaArchivoOut" value="Archivo\Out\"/>
     <add key="RutaArchivoCopy" value="D:\Pruebas comisiones\LogCarga_"/>
     <add key="NombreArchivo" value="LogCarga.xlsx"/>
+    <add key="DominiosAD" value="sigcomt.com,bancofalabella.com.pe,falabella.com,falabella.com.pe,falabella.cl" />
+    <!--<add key="DominiosAD" value="sigcomt.com" />-->
     <add key="ValidarAD" value="0" /><!--0 => No se valida con AD, 1 => Se valida con AD-->
   </appSettings>
   <log4net>

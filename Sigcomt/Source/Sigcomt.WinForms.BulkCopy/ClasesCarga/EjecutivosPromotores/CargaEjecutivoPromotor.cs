@@ -4,8 +4,9 @@
     {
         public static void CargaArchivos()
         {
-                CargaPromotor.CargarArchivo();
-                CargaEjecutivo.CargarArchivo();
+            CargaPromotor.CargarArchivo();
+            CargaEjecutivo.CargarArchivo();
+            CargaCajero.CargarArchivo();
         }
     }
 }
