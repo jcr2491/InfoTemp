@@ -13,6 +13,7 @@ namespace Sigcomt.WinForms.BulkCopy.Core
     public class EnvioEmail
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         #region Metodos Publicos
 
         public static bool EnvioCorreo(List<DetalleLogCarga> errorList, List<Archivo> archivoCarga)
@@ -74,7 +75,8 @@ namespace Sigcomt.WinForms.BulkCopy.Core
         {
             try
             {
-                string htmlTemplatePrograma = "Template/Plantilla-Email.html";
+                string pathApp = AppDomain.CurrentDomain.BaseDirectory;
+                string htmlTemplatePrograma = pathApp + "Template/Plantilla-Email.html";
                 Email.FromDefault()
                     .To(ConfigurationManager.AppSettings["Correo"])
                     .CarbonCopy(ConfigurationManager.AppSettings["CorreoCC"])
@@ -82,11 +84,14 @@ namespace Sigcomt.WinForms.BulkCopy.Core
                     //.UseSsl()
                     .UsingTemplateFromFile(htmlTemplatePrograma, data)
                     .Send();
-                Console.WriteLine("Se envió el correo satisfactoriamente");
+                Console.WriteLine();
+                UtilsLocal.AsignarEstadoCorrecto("Se envió el correo satisfactoriamente");
+
                 return true;
             }
             catch (Exception exception)
             {
+                UtilsLocal.AsignarEstadoError(exception.Message);
                 Logger.Info(exception); 
             }
             return false;

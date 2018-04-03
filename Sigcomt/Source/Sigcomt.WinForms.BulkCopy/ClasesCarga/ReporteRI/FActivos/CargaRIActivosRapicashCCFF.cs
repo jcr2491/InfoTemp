@@ -75,7 +75,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.ReporteRI.FActivos
                          var ccffId = Utils.GetValueColumn(excel.GetCellToString(row,
                              cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna), string.Empty);
                      
-                            if (!string.IsNullOrWhiteSpace(ccffId) && char.IsNumber(ccffId,0))
+                            if (!string.IsNullOrWhiteSpace(ccffId))
                             {
                                 cont++;
                                 DataRow dr = cargaBase.AsignarDatos(dt);

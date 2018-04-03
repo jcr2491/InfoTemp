@@ -16,5 +16,7 @@ namespace Sigcomt.DataAccess.Interfaces
         List<TablaColumna> GetColumnasTabla(string tabla);
         List<Archivo> GetArchivosEstado(DateTime fecha);
         List<TipoComisionArchivo> GetTipoComisionArchivo();
+        List<HomologacionEmpleado> GetHomologacionEmpleado(DateTime fecha);
+        bool AddReporte(string nombreReport, DateTime fecha, int userId);
     }
 }

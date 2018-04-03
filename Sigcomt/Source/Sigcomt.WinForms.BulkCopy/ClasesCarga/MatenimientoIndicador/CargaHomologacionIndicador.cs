@@ -75,7 +75,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.MatenimientoIndicador
                                 cargaBase.PropiedadCol.First(p => p.Key == "IndicadorId").Value.PosicionColumna),
                             string.Empty);
 
-                        if (!string.IsNullOrWhiteSpace(indicadorId) && Char.IsNumber(indicadorId, 0))
+                        if (!string.IsNullOrWhiteSpace(indicadorId))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);

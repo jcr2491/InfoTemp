@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using log4net;
 using Sigcomt.Business.Entity;
@@ -55,7 +54,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC
 
                     UtilsLocal.AsignarEstado(string.Format(Constantes.ProcesandoArchivo, fileName, cargaBase.HojaBd.NombreHoja));
                     var fileBase = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                    var excel = new GenericExcel(fileBase, 0);
+                    var excel = cargaBase.GetHojaExcel(fileName);
                     DataTable dt = cargaBase.CrearCabeceraDataTable();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;

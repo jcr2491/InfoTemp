@@ -50,25 +50,15 @@
   <ItemGroup>
     <Compile Include="CabeceraCargaBL.cs" />
     <Compile Include="CargaArchivoBL.cs" />
-    <Compile Include="CargoBL.cs" />
     <Compile Include="Core\ILogic.cs" />
     <Compile Include="Core\IReadOnlyLogic.cs" />
     <Compile Include="Core\IWriteOnlyLogic.cs" />
-    <Compile Include="ParametrosBL.cs" />
     <Compile Include="ExcelBL.cs" />
     <Compile Include="Interfaces\ICabeceraCargaBL.cs" />
     <Compile Include="Interfaces\ICargaArchivoBL.cs" />
-    <Compile Include="Interfaces\ICargoBL.cs" />
-    <Compile Include="Interfaces\IParametrosBL.cs" />
     <Compile Include="Interfaces\IExcelBL.cs" />
-    <Compile Include="Interfaces\IItemTablaBL.cs" />
-    <Compile Include="Interfaces\ILogBL.cs" />
-    <Compile Include="Interfaces\IRolBL.cs" />
     <Compile Include="Interfaces\IUsuarioBL.cs" />
-    <Compile Include="ItemTablaBL.cs" />
-    <Compile Include="LogBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RolBL.cs" />
     <Compile Include="UsuarioBL.cs" />
   </ItemGroup>
   <ItemGroup>

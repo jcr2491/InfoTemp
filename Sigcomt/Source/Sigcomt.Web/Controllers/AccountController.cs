@@ -30,33 +30,33 @@ namespace Sigcomt.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(AccountModel accountModel)
-        {
-            try
-            {
-                var jsonResponse = new JsonResponse { Success = false };
-                accountModel.ValidacionAD = ConfigurationAppSettings.ValidacionAD();
-                jsonResponse = InvokeHelper.MakeRequest(ConstantesWeb.WS_Account_Login, accountModel, ConstantesWeb.METHODPOST);
+        //public ActionResult Login(AccountModel accountModel)
+        //{
+        //    try
+        //    {
+        //        var jsonResponse = new JsonResponse { Success = false };
+        //        accountModel.ValidacionAD = ConfigurationAppSettings.ValidacionAD();
+        //        jsonResponse = InvokeHelper.MakeRequest(ConstantesWeb.WS_Account_Login, accountModel, ConstantesWeb.METHODPOST);
 
-                if (jsonResponse.Success && !jsonResponse.Warning)
-                {
-                    var usuarioModel = (UsuarioModel)JsonConvert.DeserializeObject(jsonResponse.Data.ToString(), (new UsuarioModel()).GetType());
-                    GenerarTickectAutenticacion(usuarioModel);
+        //        if (jsonResponse.Success && !jsonResponse.Warning)
+        //        {
+        //            var usuarioModel = (UsuarioModel)JsonConvert.DeserializeObject(jsonResponse.Data.ToString(), (new UsuarioModel()).GetType());
+        //            GenerarTickectAutenticacion(usuarioModel);
 
-                    return RedirectToAction(ConstantesWeb.HomeAction, ConstantesWeb.HomeController);
-                }
-                else if (jsonResponse.Warning)
-                {
-                    ViewBag.MessageError = jsonResponse.Message;
-                }                
-            }
-            catch (Exception exception)
-            {
-                logger.Error(string.Format("Mensaje: {0} Trace: {1}", exception.Message, exception.StackTrace));
-                ViewBag.MessageError = exception.Message;
-            }
-            return View(accountModel);
-        }
+        //            return RedirectToAction(ConstantesWeb.HomeAction, ConstantesWeb.HomeController);
+        //        }
+        //        else if (jsonResponse.Warning)
+        //        {
+        //            ViewBag.MessageError = jsonResponse.Message;
+        //        }                
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        logger.Error(string.Format("Mensaje: {0} Trace: {1}", exception.Message, exception.StackTrace));
+        //        ViewBag.MessageError = exception.Message;
+        //    }
+        //    return View(accountModel);
+        //}
 
         public ActionResult LogOut()
         {
@@ -92,16 +92,16 @@ namespace Sigcomt.Web.Controllers
 
         #region Metodos Privados
 
-        private void GenerarTickectAutenticacion(UsuarioModel usuarioModel)
-        {
-            usuarioModel.TimeZoneId = ConfigurationAppSettings.TimeZoneId();
-            usuarioModel.TimeZoneGMT = ConfigurationAppSettings.TimeZoneGMT();
+        //private void GenerarTickectAutenticacion(UsuarioModel usuarioModel)
+        //{
+        //    usuarioModel.TimeZoneId = ConfigurationAppSettings.TimeZoneId();
+        //    usuarioModel.TimeZoneGMT = ConfigurationAppSettings.TimeZoneGMT();
 
-            AuthenticationHelper.CreateAuthenticationTicket(usuarioModel.Username, usuarioModel.TimeZoneId);
+        //    AuthenticationHelper.CreateAuthenticationTicket(usuarioModel.Username, usuarioModel.TimeZoneId);
 
-            WebSession.Usuario = usuarioModel;
-            WebSession.Formularios = GetFormulario().Where(p=> p.RolId == usuarioModel.RolId);
-        }
+        //    WebSession.Usuario = usuarioModel;
+        //    WebSession.Formularios = GetFormulario().Where(p=> p.RolId == usuarioModel.RolId);
+        //}
 
         private void LimpiarAutenticacion()
         {

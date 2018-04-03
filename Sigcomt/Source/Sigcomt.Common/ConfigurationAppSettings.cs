@@ -6,6 +6,6 @@ namespace Sigcomt.Common
     {
         public static string ConnectionAd => ConfigurationManager.ConnectionStrings["ConnectionActiveDirectory"].ConnectionString;
 
-        public static bool ValidarAd => ConfigurationManager.AppSettings.Get("ValidacionAD") == "1";
+        public static bool ValidarAd => ConfigurationManager.AppSettings.Get("ValidarAD") == "1";
     }
 }

@@ -37,14 +37,17 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Maestro
                 {
                     DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
-                    
+
 
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
                     if (cabecera != null)
                     {
                         if (fechaModificacion.GetDateTimeToString() ==
-                            cabecera.FechaModificacionArchivo.GetDateTimeToString()) continue;
+                            cabecera.FechaModificacionArchivo.GetDateTimeToString())
+                        {
+                            continue;
+                        }
                     }
 
                     GenericExcel excel = cargaBase.GetHojaExcel(fileName);

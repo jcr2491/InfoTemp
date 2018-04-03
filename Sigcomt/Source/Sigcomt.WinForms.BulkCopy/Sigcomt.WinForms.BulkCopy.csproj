@@ -49,13 +49,16 @@
       <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MetroFramework">
+    <Reference Include="MetroFramework, Version=1.3.5.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\MetroFramework.dll</HintPath>
     </Reference>
-    <Reference Include="MetroFramework.Design">
+    <Reference Include="MetroFramework.Design, Version=1.3.5.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\MetroFramework.Design.dll</HintPath>
     </Reference>
-    <Reference Include="MetroFramework.Fonts">
+    <Reference Include="MetroFramework.Fonts, Version=1.3.5.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\MetroFramework.Fonts.dll</HintPath>
     </Reference>
     <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
@@ -94,10 +97,11 @@
     <Compile Include="ClasesCarga\Automotriz\CargaMetaEmpleadoAutomotriz.cs" />
     <Compile Include="ClasesCarga\Automotriz\CargaMetaEmpleadoCCFFAutomotriz.cs" />
     <Compile Include="ClasesCarga\Base\CargaBaseArchivo.cs" />
-    <Compile Include="ClasesCarga\Base\CargaEmpleadoCCFF.cs" />
+    <Compile Include="ClasesCarga\Base\CargaEmpleado.cs" />
     <Compile Include="ClasesCarga\Base\CargaHomologacionCCFF.cs" />
     <Compile Include="ClasesCarga\Base\CargaHomologacionEmpleado.cs" />
     <Compile Include="ClasesCarga\Base\CargaRICCFF.cs" />
+    <Compile Include="ClasesCarga\EjecutivosPromotores\CargaCajero.cs" />
     <Compile Include="ClasesCarga\EjecutivosPromotores\CargaEjecutivo.cs" />
     <Compile Include="ClasesCarga\EjecutivosPromotores\CargaEjecutivoPromotor.cs" />
     <Compile Include="ClasesCarga\EjecutivosPromotores\CargaPromotor.cs" />

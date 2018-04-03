@@ -57,6 +57,7 @@
             // mbtnCargar
             // 
             this.mbtnCargar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.mbtnCargar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.mbtnCargar.Location = new System.Drawing.Point(692, 68);
             this.mbtnCargar.Name = "mbtnCargar";
             this.mbtnCargar.Size = new System.Drawing.Size(111, 31);
@@ -184,6 +185,7 @@
             this.Resizable = false;
             this.Style = MetroFramework.MetroColorStyle.Green;
             this.Text = "Carga de Archivos - Reporte Comisiones";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCarga_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormCarga_FormClosed);
             this.Load += new System.EventHandler(this.FormCarga_Load);
             this.ResumeLayout(false);

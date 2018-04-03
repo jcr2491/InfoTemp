@@ -79,7 +79,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Rapicash
                             string.Empty);
 
 
-                        if (!string.IsNullOrWhiteSpace(sucursalId) && char.IsNumber(sucursalId, 0))
+                        if (!string.IsNullOrWhiteSpace(sucursalId))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);

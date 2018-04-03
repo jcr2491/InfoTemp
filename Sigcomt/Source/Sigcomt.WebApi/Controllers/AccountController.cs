@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Sigcomt.ActiveDirectory;
+///using Sigcomt.ActiveDirectory;
 using Sigcomt.Business.Entity;
 using Sigcomt.Business.Logic;
 using Sigcomt.Common;

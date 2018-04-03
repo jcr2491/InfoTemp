@@ -2,6 +2,7 @@ namespace Sigcomt.Common.Enums
 {
     public enum TipoComision
     {
+        BaseCarga = 0,
         UAC = 1,
         Automotriz = 2,
         FFVV = 3,//NO SE UTILIZA
@@ -17,7 +18,6 @@ namespace Sigcomt.Common.Enums
         RapicashTT = 13, 
         RapicashM = 14,
         RapicashSD = 15,
-        BaseCarga = 0,
         Mantenimiento = 17
     }
 }

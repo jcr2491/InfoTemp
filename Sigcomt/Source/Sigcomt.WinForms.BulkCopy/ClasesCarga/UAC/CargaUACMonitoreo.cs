@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using log4net;
 using Sigcomt.Business.Entity;
@@ -35,7 +34,6 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC
                 {
                     DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
-                    
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
                     if (cabecera != null)
@@ -60,12 +58,13 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     var row = excel.Sheet.GetRow(rowNum);
-
                     int cont = 0;
 
                     while (!cargaBase.EsFilaVacia(excel, row))
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
+                        isValid = isValid && cargaBase.ValidarCodigoEmpleado("Empleado", "CodigoEmpleado", rowNum);
+
                         if (!isValid)
                         {
                             rowNum++;
@@ -73,26 +72,16 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.UAC
                             continue;
                         }
 
-                        string empleado = Utils.GetValueColumn(
-                            excel.GetStringCellValue(row,
-                                cargaBase.PropiedadCol.First(p => p.Key == "Empleado").Value.PosicionColumna),
-                            string.Empty);
-
-                        if (empleado != string.Empty)
-                        {
-                            cont++;
-                            DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["Secuencia"] = cont;
-                            dt.Rows.Add(dr);
-
-                        }
+                        cont++;
+                        DataRow dr = cargaBase.AsignarDatos(dt);
+                        dr["Secuencia"] = cont;
+                        dt.Rows.Add(dr);
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
                     }
 
                     cargaBase.RegistrarCarga(dt, "Monitoreo");
-                    CargaArchivoBL.GetInstance().AddEmpleadoId("Monitoreo", "Empleado", "CodigoEmpleado");
                 }
             }
             catch (Exception ex)

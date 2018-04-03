@@ -79,7 +79,7 @@
     <Compile Include="SodimacMetaRepicash.cs" />
     <Compile Include="RISeguroCCFF.cs" />
     <Compile Include="CierrePlanningJefeComercial.cs" />
-    <Compile Include="EmpleadoCCFF.cs" />
+    <Compile Include="HomologacionEmpleado.cs" />
     <Compile Include="RICalidadCICCFF.cs" />
     <Compile Include="CmrRatificada.cs" />
     <Compile Include="DataAutomotriz.cs" />
@@ -92,7 +92,6 @@
     <Compile Include="DetalleSagaRapicash.cs" />
     <Compile Include="DetalleSodimacRapicash.cs" />
     <Compile Include="DiasAusencia.cs" />
-    <Compile Include="Empleado.cs" />
     <Compile Include="EquipoConsolidadoMes.cs" />
     <Compile Include="Excel.cs" />
     <Compile Include="ExcelHoja.cs" />

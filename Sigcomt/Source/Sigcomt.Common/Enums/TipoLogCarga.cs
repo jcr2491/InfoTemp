@@ -10,6 +10,8 @@
         NombreArchivoInvalido = 6,
         ErrorGeneral = 7,
         HojaExcelNoExiste = 8,
-        NoExisteDirectorio = 9
+        NoExisteDirectorio = 9,
+        ReporteOk = 10,
+        ReporteError = 11
     }
 }

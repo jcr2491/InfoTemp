@@ -75,7 +75,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.ReporteRI.EPasivos
                         string id = excel.GetCellToString(row,
                             cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna);
 
-                        if (id != string.Empty && char.IsNumber(id, 0))
+                        if (id != string.Empty)
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);

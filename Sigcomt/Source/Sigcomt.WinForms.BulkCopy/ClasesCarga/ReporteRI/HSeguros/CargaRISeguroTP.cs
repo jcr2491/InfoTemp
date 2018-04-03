@@ -77,7 +77,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.ReporteRI.HSeguros
                                 cargaBase.PropiedadCol.First(p => p.Key == "CCFFId").Value.PosicionColumna),
                             string.Empty);
 
-                        if (!string.IsNullOrWhiteSpace(id) && Char.IsNumber(id, 0))
+                        if (!string.IsNullOrWhiteSpace(id))
                         {
                             cont++;
                             DataRow dr = cargaBase.AsignarDatos(dt);

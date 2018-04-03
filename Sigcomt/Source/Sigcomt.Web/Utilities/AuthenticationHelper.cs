@@ -9,32 +9,32 @@ namespace Sigcomt.Web.Utilities
     {
         private const bool CreatePersistentCookie = true;
 
-        public static void CreateAuthenticationTicket(string username)
-        {
-            CreateAuthenticationTicket(username, string.Empty);
-        }
+        //////public static void CreateAuthenticationTicket(string username)
+        //////{
+        //////    CreateAuthenticationTicket(username, string.Empty);
+        //////}
 
-        public static void CreateAuthenticationTicket(string username, string timeZoneId)
-        {
-            var dateTimeZone = string.IsNullOrEmpty(timeZoneId) ? DateTime.Now : DateTime.UtcNow.ToTimeZoneTime(timeZoneId);
+        //public static void CreateAuthenticationTicket(string username, string timeZoneId)
+        //{
+        //    var dateTimeZone = string.IsNullOrEmpty(timeZoneId) ? DateTime.Now : DateTime.UtcNow.ToTimeZoneTime(timeZoneId);
 
-            FormsAuthentication.SetAuthCookie(username, CreatePersistentCookie);
+        //    FormsAuthentication.SetAuthCookie(username, CreatePersistentCookie);
 
-            var ticketAuthentication = new FormsAuthenticationTicket(
-                1,
-                username,
-                dateTimeZone,
-                dateTimeZone.AddMinutes(ConfigurationAppSettings.TimeOutSession()),
-                CreatePersistentCookie,
-                username,
-                FormsAuthentication.FormsCookiePath
-            );
+        //    var ticketAuthentication = new FormsAuthenticationTicket(
+        //        1,
+        //        username,
+        //        dateTimeZone,
+        //        dateTimeZone.AddMinutes(ConfigurationAppSettings.TimeOutSession()),
+        //        CreatePersistentCookie,
+        //        username,
+        //        FormsAuthentication.FormsCookiePath
+        //    );
 
-            var encryptTicket = FormsAuthentication.Encrypt(ticketAuthentication);
-            var formsAuthenticationCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptTicket);
+        //    var encryptTicket = FormsAuthentication.Encrypt(ticketAuthentication);
+        //    var formsAuthenticationCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptTicket);
 
-            HttpContext.Current.Response.Cookies.Add(formsAuthenticationCookie);
-        }
+        //    HttpContext.Current.Response.Cookies.Add(formsAuthenticationCookie);
+        //}
 
         public static void SignOut()
         {

@@ -21,7 +21,6 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.ReporteRI.JDerivacióndeCanalesE
 
         public static void CargarArchivo()
         {
-
             string tipoArchivo = TipoArchivo.RIDerivacionCajaAtencionesCaja.GetStringValue();
             if (!UtilsLocal.PermitirCargaArchivo(tipoArchivo)) return;
            

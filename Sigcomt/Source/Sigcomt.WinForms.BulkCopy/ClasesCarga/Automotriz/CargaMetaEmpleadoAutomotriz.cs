@@ -36,7 +36,6 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Automotriz
                 {
                     DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
-                    
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
                     if (cabecera != null)

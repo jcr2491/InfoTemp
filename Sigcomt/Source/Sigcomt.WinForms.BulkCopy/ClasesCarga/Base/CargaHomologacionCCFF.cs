@@ -35,8 +35,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Base
                 foreach (var fileName in filesNames)
                 {
                     DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
-                    DateTime fechaModificacion = File.GetLastWriteTime(fileName);
-                    
+                    DateTime fechaModificacion = File.GetLastWriteTime(fileName);                    
 
                     var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
                     if (cabecera != null)

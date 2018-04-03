@@ -30,13 +30,13 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Automotriz
             {
                 cargaBase.ValidarExisteDirectorio();
                 var filesNames = cargaBase.GetNombreArchivos();
+
                 foreach (var fileName in filesNames)
                 {
                     DateTime fechaFile = cargaBase.GetFechaArchivo(fileName);
                     DateTime fechaModificacion = File.GetLastWriteTime(fileName);
-                    
 
-                      var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
+                    var cabecera = CabeceraCargaBL.GetInstance().GetCabeceraCargaProcesado(tipoArchivo, fechaFile);
                     if (cabecera != null)
                     {
                         if (fechaModificacion.GetDateTimeToString() ==
@@ -57,50 +57,38 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Automotriz
                         EstadoCarga = EstadoCarga.Iniciado.GetNumberValue()
                     });
 
-                    UtilsLocal.AsignarEstado(string.Format(Constantes.ProcesandoArchivo, fileName, cargaBase.HojaBd.NombreHoja));
+                    UtilsLocal.AsignarEstado(string.Format(Constantes.ProcesandoArchivo, fileName,
+                        cargaBase.HojaBd.NombreHoja));
                     DataTable dt = cargaBase.CrearCabeceraDataTable();
-
-                    //DataTable dt = Utils.CrearCabeceraDataTable<DataAutomotriz>();
 
                     int rowNum = cargaBase.HojaBd.FilaIni - 1;
                     int cont = 0;
                     var row = excel.Sheet.GetRow(rowNum);
-                    string empleado = string.Empty;
 
                     while (!cargaBase.EsFilaVacia(excel, row))
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
+                        bool isValidAsis = true;
+                        isValid = isValid && cargaBase.ValidarCodigoEmpleado("Promotor", "Promotor", rowNum);
+                        isValidAsis = isValidAsis && cargaBase.ValidarCodigoEmpleado("Asistente", "Asistente", rowNum);
 
-                        if (!isValid)
+                        if (!isValid || !isValidAsis)
                         {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
                             continue;
                         }
 
-                        empleado = Utils.GetValueColumn(
-                            excel.GetCellToString(row,
-                                cargaBase.PropiedadCol.First(p => p.Key == "Cliente").Value.PosicionColumna),
-                            empleado);
-
-                        if (!string.IsNullOrWhiteSpace(empleado))
-                        {
-                            cont++;
-                            DataRow dr = cargaBase.AsignarDatos(dt);
-                            dr["Secuencia"] = cont;
-                            dt.Rows.Add(dr);
-                        }
+                        cont++;
+                        DataRow dr = cargaBase.AsignarDatos(dt);
+                        dr["Secuencia"] = cont;
+                        dt.Rows.Add(dr);
 
                         rowNum++;
                         row = excel.Sheet.GetRow(rowNum);
-                        empleado = string.Empty;
                     }
 
                     cargaBase.RegistrarCarga(dt, "DataAutomotriz");
-                    //Se coloca el Id del empleado a los registros
-                    //CargaArchivoBL.GetInstance().AddEmpleadoId("DataAutomotriz", "Empleado", "CodigoEmpleado");
-                    CargaArchivoBL.GetInstance().AddEmpleadoId("DataAutomotriz", "Promotor", "PromotorId");
-                    CargaArchivoBL.GetInstance().AddEmpleadoId("DataAutomotriz", "Asistente", "AsistenteId");
                 }
             }
             catch (Exception ex)

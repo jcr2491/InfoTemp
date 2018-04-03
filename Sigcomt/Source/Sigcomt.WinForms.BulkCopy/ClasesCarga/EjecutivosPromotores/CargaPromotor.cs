@@ -78,22 +78,22 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.EjecutivosPromotores
 
                         foreach (var kpi in kpiList)
                         {
-                            var propResulato = cargaBase.PropiedadCol.First(p => p.Value.PosicionColumna == kpi.Value);
+                            var propLogro = cargaBase.PropiedadCol.First(p => p.Value.PosicionColumna == kpi.Value);
                             var propMeta = cargaBase.PropiedadCol.First(p => p.Value.PosicionColumna == kpi.Value + 1);
-                            var proplogro = cargaBase.PropiedadCol.First(p => p.Value.PosicionColumna == kpi.Value + 2);
+                            var propResultado = cargaBase.PropiedadCol.First(p => p.Value.PosicionColumna == kpi.Value + 2);
 
-                            if (string.IsNullOrEmpty(propResulato.Value.Valor) &&
+                            if (string.IsNullOrEmpty(propLogro.Value.Valor) &&
                                 string.IsNullOrEmpty(propMeta.Value.Valor) &&
-                                string.IsNullOrEmpty(propResulato.Value.Valor))
+                                string.IsNullOrEmpty(propResultado.Value.Valor))
                             {
                                 continue;
                             }
 
                             bool continuar = true;
 
-                            if (string.IsNullOrEmpty(propResulato.Value.Valor))
+                            if (string.IsNullOrEmpty(propLogro.Value.Valor))
                             {
-                                cargaBase.AgregarLogValidacionDatos(propResulato, rowNum + 1, "Falta ingresar valor");
+                                cargaBase.AgregarLogValidacionDatos(propLogro, rowNum + 1, "Falta ingresar valor");
                                 continuar = false;
                             }
 
@@ -103,18 +103,18 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.EjecutivosPromotores
                                 continuar = false;
                             }
 
-                            if (string.IsNullOrEmpty(proplogro.Value.Valor))
+                            if (string.IsNullOrEmpty(propResultado.Value.Valor))
                             {
-                                cargaBase.AgregarLogValidacionDatos(proplogro, rowNum + 1,  "Falta ingresar valor");
+                                cargaBase.AgregarLogValidacionDatos(propResultado, rowNum + 1,  "Falta ingresar valor");
                                 continuar = false;
                             }
 
                             if (!continuar) continue;
 
                             cont++;
-                            cargaBase.PropiedadCol["Resultado"].Valor = propResulato.Value.Valor;
+                            cargaBase.PropiedadCol["Logro"].Valor = propLogro.Value.Valor;
                             cargaBase.PropiedadCol["Meta"].Valor = propMeta.Value.Valor;
-                            cargaBase.PropiedadCol["Logro"].Valor = proplogro.Value.Valor;
+                            cargaBase.PropiedadCol["Resultado"].Valor = propResultado.Value.Valor;
 
                             DataRow dr = cargaBase.AsignarDatos(dt);
                             dr["Secuencia"] = cont;
@@ -151,7 +151,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.EjecutivosPromotores
             var propLogro = cargaBase.PropiedadCol["Logro"];
             var propMeta = cargaBase.PropiedadCol["Meta"];
             var propResultado = cargaBase.PropiedadCol["Resultado"];
-            int numCol = propResultado.PosicionColumna;
+            int numCol = propLogro.PosicionColumna;
             var kpiList = new List<KeyValuePair<int, int>>();
             char separador = '_';
             string valor = excel.GetCellToString(row, numCol);
@@ -163,9 +163,9 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.EjecutivosPromotores
 
                 if (propLogro.PosicionColumna != numCol)
                 {
-                    cargaBase.AgregarPropiedadCol($"{kpi[1]} - Resultado", AddPropiedadCol(propResultado, numCol));
+                    cargaBase.AgregarPropiedadCol($"{kpi[1]} - Logro", AddPropiedadCol(propLogro, numCol));
                     cargaBase.AgregarPropiedadCol($"{kpi[1]} - Meta", AddPropiedadCol(propMeta, numCol + 1));
-                    cargaBase.AgregarPropiedadCol($"{kpi[1]} - Logro", AddPropiedadCol(propLogro, numCol + 2));
+                    cargaBase.AgregarPropiedadCol($"{kpi[1]} - Resultado", AddPropiedadCol(propResultado, numCol + 2));
                 }
 
                 numCol += 3;
