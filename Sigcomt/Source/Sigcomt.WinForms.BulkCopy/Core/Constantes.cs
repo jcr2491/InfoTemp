@@ -30,6 +30,8 @@ namespace Sigcomt.WinForms.BulkCopy.Core
         public static string FinCorrectoReporte = "Se terminó correctamente la generación del reporte \"{0}\"";
         public static string FinErrorReporte = "Se terminó con errores la generación del reporte \"{0}\"";
         public static string ErrorReporte = "Error al generar el reporte \"{0}\". {1}";
+        public static string ErrorEnviarCorreo = "Error al enviar correo de log de carga";
+        public static string CorreoEnviadoSatisfactoriamente = "Se envió el correo satisfactoriamente";
         public static string CargaTerminada =
             "Se terminó la ejecución de la carga de archivos. Se envió por correo el detalle de la carga.";
         public static string ErrorCargaIndicadores =

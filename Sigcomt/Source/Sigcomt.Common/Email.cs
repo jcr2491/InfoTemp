@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 
 namespace Sigcomt.Common
@@ -100,7 +101,7 @@ namespace Sigcomt.Common
 
         public static Email FromDefault()
         {
-            return new Email { Message = new MailMessage() };
+            return new Email();
         }
 
         public Email HighPriority()

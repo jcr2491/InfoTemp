@@ -43,6 +43,7 @@
     <Compile Include="AmpliacionesCCFF.cs" />
     <Compile Include="Archivo.cs" />
     <Compile Include="Bono.cs" />
+    <Compile Include="Configuracion.cs" />
     <Compile Include="DetalleLogCarga.cs" />
     <Compile Include="DetalleTottusRapicash.cs" />
     <Compile Include="LogCarga.cs" />

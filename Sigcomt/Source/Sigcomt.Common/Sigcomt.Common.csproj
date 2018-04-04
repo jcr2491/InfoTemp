@@ -91,6 +91,7 @@
     <Compile Include="ConfigurationAppSettings.cs" />
     <Compile Include="DataEmail.cs" />
     <Compile Include="Encriptador.cs" />
+    <Compile Include="Enums\TipoConfiguracion.cs" />
     <Compile Include="Enums\TipoLogCarga.cs" />
     <Compile Include="ResponseInput.cs" />
     <Compile Include="ResponseTipoComision.cs" />

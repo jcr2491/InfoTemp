@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using Sigcomt.Business.Entity;
 using Sigcomt.Common;
 using log4net;
 using System.Reflection;
+using Sigcomt.Business.Logic;
+using Sigcomt.Common.Enums;
 
 namespace Sigcomt.WinForms.BulkCopy.Core
 {
@@ -48,7 +52,7 @@ namespace Sigcomt.WinForms.BulkCopy.Core
 
                 if (errorList.Count > 0)
                 {
-                    bool estadoEnvio = SendWithTemplateModel(new DataEmail
+                    bool estadoEnvio = EnviarCorreoTemplate(new DataEmail
                     {
                         HoraEjecucion = Convert.ToDateTime(DateTime.Now).ToShortTimeString(),
                         ArchivosCorrecto = archivosCorrecto,
@@ -59,45 +63,63 @@ namespace Sigcomt.WinForms.BulkCopy.Core
 
                     if (!estadoEnvio)
                     {
-                        Console.WriteLine("Error al enviar correo");
+                        UtilsLocal.AsignarEstadoError(Constantes.ErrorEnviarCorreo);
                         success = false;
                     }
                 }
             }
-            else
-            {
-                Console.WriteLine("No hay archivos para procesa");
-            }
             return success;
         }
 
-        static bool SendWithTemplateModel(DataEmail data)
+        #endregion
+
+        #region Metodo Privado
+
+        private static bool EnviarCorreoTemplate(DataEmail data)
         {
             try
             {
                 string pathApp = AppDomain.CurrentDomain.BaseDirectory;
                 string htmlTemplatePrograma = pathApp + "Template/Plantilla-Email.html";
                 Email.FromDefault()
+                    .UsingClient(GetClient())
                     .To(ConfigurationManager.AppSettings["Correo"])
                     .CarbonCopy(ConfigurationManager.AppSettings["CorreoCC"])
                     .Subject(ConfigurationManager.AppSettings["Subject"])
-                    //.UseSsl()
                     .UsingTemplateFromFile(htmlTemplatePrograma, data)
                     .Send();
-                Console.WriteLine();
-                UtilsLocal.AsignarEstadoCorrecto("Se envió el correo satisfactoriamente");
+
+                UtilsLocal.AsignarEstadoCorrecto(Constantes.CorreoEnviadoSatisfactoriamente);
 
                 return true;
             }
             catch (Exception exception)
             {
                 UtilsLocal.AsignarEstadoError(exception.Message);
-                Logger.Info(exception); 
+                Logger.Info(exception);
             }
             return false;
         }
 
-        public static bool GenerarCuerpoReporte(GenericExcel excel, List<DetalleLogCarga> listLog)
+        /// <summary>
+        /// Se obtiene la configuracion del correo de la base de datos y se crea un objeto SmtpClient.
+        /// </summary>
+        /// <returns></returns>
+        private static SmtpClient GetClient()
+        {
+            var conf = ConfiguracionBL.GetInstance().GetConfiguracion(TipoConfiguracion.Email.GetStringValue());
+
+            var client = new SmtpClient
+            {
+                Host = conf.Host,
+                Port = conf.Puerto,
+                Credentials = new NetworkCredential(conf.Usuario, Encriptador.Desencriptar(conf.Clave))
+            };
+
+            return client;
+        }
+
+        private static bool GenerarCuerpoReporte(GenericExcel excel, List<DetalleLogCarga> listLog)
         {
             bool success = true;
             int numRow = 1;
@@ -125,10 +147,6 @@ namespace Sigcomt.WinForms.BulkCopy.Core
             return success;
         }
 
-        #endregion
-
-        #region Metodo Privado
-
         private static string TipoLogCarga(string tipo)
         {
             string respuesta;
@@ -151,6 +169,18 @@ namespace Sigcomt.WinForms.BulkCopy.Core
                     break;
                 case "6":
                     respuesta = "Nombre Archivo Invalido";
+                    break;
+                case "8":
+                    respuesta = "Hoja del excel no existe";
+                    break;
+                case "9":
+                    respuesta = "No existe directorio del archivo";
+                    break;
+                case "10":
+                    respuesta = "Reporte generado correctamente";
+                    break;
+                case "11":
+                    respuesta = "Error al generar reporte";
                     break;
                 default:
                     respuesta = "Error en general";

@@ -114,6 +114,7 @@
     <Compile Include="ClasesCarga\Maestro\CargaMantenimientoRapicash.cs" />
     <Compile Include="ClasesCarga\Maestro\CargaPuntajeKPI.cs" />
     <Compile Include="ClasesCarga\Maestro\CargaUACGrupoSupervisor.cs" />
+    <Compile Include="ClasesCarga\MatenimientoIndicador\CargaCargoJefeEmpleado.cs" />
     <Compile Include="ClasesCarga\MatenimientoIndicador\CargaEscalaFormatoCCFF.cs" />
     <Compile Include="ClasesCarga\MatenimientoIndicador\CargaHomologacionIndicador.cs" />
     <Compile Include="ClasesCarga\MatenimientoIndicador\CargaIndicador.cs" />

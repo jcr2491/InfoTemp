@@ -69,6 +69,7 @@
         MetaEmpleadoAutomotriz = 65,
         MetaEmpleadoCCFFAutomotriz = 66,
         GestionIndividualKPIUAC = 67,
-        Cajero = 68
+        Cajero = 68,
+        CargoJefeEmpleado = 69
     }
 }

@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="CabeceraCargaRepository.cs" />
     <Compile Include="CargaArchivoRepository.cs" />
+    <Compile Include="ConfiguracionRepository.cs" />
     <Compile Include="Core\ConectionStringRepository.cs" />
     <Compile Include="Core\IReadOnlyRepository.cs" />
     <Compile Include="Core\IRepository.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="ExcelRepository.cs" />
     <Compile Include="Interfaces\ICabeceraCargaRepository.cs" />
     <Compile Include="Interfaces\ICargaArchivoRepository.cs" />
+    <Compile Include="Interfaces\IConfiguracionRepository.cs" />
     <Compile Include="Interfaces\IEmpleadoRepository.cs" />
     <Compile Include="Interfaces\IExcelRepository.cs" />
     <Compile Include="Interfaces\IMPonderacionRepository.cs" />

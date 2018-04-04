@@ -69,8 +69,8 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Automotriz
                     {
                         bool isValid = cargaBase.ValidarDatos(excel, row);
                         bool isValidAsis = true;
-                        isValid = isValid && cargaBase.ValidarCodigoEmpleado("Promotor", "Promotor", rowNum);
-                        isValidAsis = isValidAsis && cargaBase.ValidarCodigoEmpleado("Asistente", "Asistente", rowNum);
+                        isValid = isValid && cargaBase.ValidarCodigoEmpleado("Promotor", "PromotorId", rowNum);
+                        isValidAsis = isValidAsis && cargaBase.ValidarCodigoEmpleado("Asistente", "AsistenteId", rowNum);
 
                         if (!isValid || !isValidAsis)
                         {
