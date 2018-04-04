@@ -72,7 +72,7 @@ namespace Sigcomt.WinForms.BulkCopy.ClasesCarga.Automotriz
                         isValid = isValid && cargaBase.ValidarCodigoEmpleado("Promotor", "PromotorId", rowNum);
                         isValidAsis = isValidAsis && cargaBase.ValidarCodigoEmpleado("Asistente", "AsistenteId", rowNum);
 
-                        if (!isValid || !isValidAsis)
+                        if (!isValid)
                         {
                             rowNum++;
                             row = excel.Sheet.GetRow(rowNum);
