@@ -1,0 +1,40 @@
+using System.Net;
+using System.Text;
+using Newtonsoft.Json;
+
+namespace InvocarServicio.Core
+{
+    public class ExtendedWebClient
+    {
+        public static void Post(string relativeOrAbsoluteUrl, object request)
+        {
+            using (var client = new WebClient())
+            {
+                client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                client.Headers[HttpRequestHeader.Accept] = "application/json";
+
+                string json = request != null ? JsonConvert.SerializeObject(request) : string.Empty;
+                byte[] data = Encoding.UTF8.GetBytes(json);
+
+                client.UploadData(relativeOrAbsoluteUrl, "POST", data);
+            }
+        }
+
+        public static TResponse Post<TResponse>(string relativeOrAbsoluteUrl, object request)
+        {
+            using (var client = new WebClient())
+            {
+                client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                client.Headers[HttpRequestHeader.Accept] = "application/json";
+
+                string json = request != null ? JsonConvert.SerializeObject(request) : string.Empty;
+                byte[] data = Encoding.UTF8.GetBytes(json);
+
+                byte[] result = client.UploadData(relativeOrAbsoluteUrl, "POST", data);
+                string resultContent = Encoding.UTF8.GetString(result, 0, result.Length);
+
+                return JsonConvert.DeserializeObject<TResponse>(resultContent);
+            }
+        }
+    }
+}
