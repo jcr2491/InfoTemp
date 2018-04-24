@@ -1,6 +1,8 @@
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
+using System.Collections.Specialized;
+using System.Linq;
 
 namespace InvocarServicio.Core
 {
@@ -8,7 +10,7 @@ namespace InvocarServicio.Core
     {
         public static void Post(string relativeOrAbsoluteUrl, object request)
         {
-            using (var client = new WebClient())
+            using (WebClient client = new WebClient())
             {
                 client.Headers[HttpRequestHeader.ContentType] = "application/json";
                 client.Headers[HttpRequestHeader.Accept] = "application/json";
@@ -22,7 +24,7 @@ namespace InvocarServicio.Core
 
         public static TResponse Post<TResponse>(string relativeOrAbsoluteUrl, object request)
         {
-            using (var client = new WebClient())
+            using (WebClient client = new WebClient())
             {
                 client.Headers[HttpRequestHeader.ContentType] = "application/json";
                 client.Headers[HttpRequestHeader.Accept] = "application/json";
@@ -31,6 +33,29 @@ namespace InvocarServicio.Core
                 byte[] data = Encoding.UTF8.GetBytes(json);
 
                 byte[] result = client.UploadData(relativeOrAbsoluteUrl, "POST", data);
+                string resultContent = Encoding.UTF8.GetString(result, 0, result.Length);
+
+                return JsonConvert.DeserializeObject<TResponse>(resultContent);
+            }
+        }
+
+        public static TResponse PostToUrl<TResponse>(string relativeOrAbsoluteUrl, object request)
+        {
+            NameValueCollection data = new NameValueCollection();
+
+            if (request != null)
+            {
+                request.GetType().GetProperties()
+                    .ToList()
+                    .ForEach(p => data.Add(p.Name, p.GetValue(request, null).ToString()));
+            }
+
+            using (WebClient client = new WebClient())
+            {
+                client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                client.Headers[HttpRequestHeader.Accept] = "application/json";
+
+                byte[] result = client.UploadValues(relativeOrAbsoluteUrl, "POST", data);
                 string resultContent = Encoding.UTF8.GetString(result, 0, result.Length);
 
                 return JsonConvert.DeserializeObject<TResponse>(resultContent);
